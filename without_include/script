@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "% g++ -fPIC -shared class.cpp -o class.so"
+g++ -fPIC -shared class.cpp -o class.so
+echo "% g++ main.cpp -ldl -o prog"
+g++ interface.cpp main.cpp -ldl -o prog
+echo "% ./prog"
+./prog
