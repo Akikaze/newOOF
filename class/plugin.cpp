@@ -1,5 +1,10 @@
 #include "plugin.hpp"
 
+///
+/// \fn Plugin::Plugin( const std::string & address )
+/// \brief Constructor
+/// \param address Address of plugin's folder
+///
 Plugin::Plugin
 (
 	const std::string & address
@@ -8,8 +13,12 @@ Plugin::Plugin
 	address_ = address ;
 	pointer_ = NULL ;
 	
+	name_ = "NULL" ;
+	description_ = "NULL" ;
+	
 	char * error ;
 	
+	// open the shared library
 	handle_ = dlopen( find_library( address ).c_str(), RTLD_LAZY ) ;
 	if ( ( error = dlerror() ) != NULL )
 	{
@@ -18,7 +27,8 @@ Plugin::Plugin
 	else
 	{
 		bool fail = false ;
-				
+		
+		// find the create function
 		create_ = ( Interface * ( * )() ) dlsym ( handle_, "create" ) ;
 		if ( ( error = dlerror() ) != NULL )
 		{
@@ -26,6 +36,7 @@ Plugin::Plugin
 			std::cout << error << std::endl ;
 		}
 		
+		// find the destroy function
 		destroy_ = ( void ( * )( Interface * ) ) dlsym( handle_, "destroy" ) ;
 		if ( ( error = dlerror() ) != NULL )
 		{
@@ -35,24 +46,42 @@ Plugin::Plugin
 		
 		if( fail != true )
 		{
+			// create the pointer to the plugin
 			pointer_ = ( Interface * ) create_() ;
 			
-			// get name + get description
+			// find plugin's information
+			name_ = pointer_->get_name() ;
+			description_ = pointer_->get_description() ;
 		}
 	}
 }
 
+///
+/// \fn Plugin::~Plugin()
+/// \brief Destructor
+/// 
 Plugin::~Plugin
 ()
 {
 	if( pointer_ != NULL )
 	{
+		// release the object thanks to the destroy function
 		destroy_( pointer_ ) ;
 	}
 	
-	dlclose( handle_ ) ;
+	if( handle_ )
+	{
+		// end the read of the shared library
+		dlclose( handle_ ) ;
+	}
 }
 
+///
+/// \fn std::string Plugin::find_library( const std::string & address )
+/// \brief find the library path thanks to the folder's address
+/// \param address of plugin's folder
+/// \return address of the library
+///
 std::string
 Plugin::find_library
 (
@@ -64,12 +93,15 @@ const
 	std::string library ;
 	std::string::const_reverse_iterator crit = address.crbegin() ;
 	
+	// try to find the last / in order to get only shared library's folder's name
 	while( crit != address.crend() && *crit != '/' )
 	{
 		++last_slash ;
 		++crit ;
 	}
 	last_slash = address.length() - last_slash ;
+	
+	// create the path to the library by adding the folder's name and .so
 	library = address + "/" + address.substr( last_slash, address.length() - last_slash ) + ".so" ;
 	
 	return library ;

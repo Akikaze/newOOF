@@ -6,10 +6,10 @@
 class B
 : public Interface
 {
-	public:
+	public :
+		
 		B() ;
 		virtual ~B() ;
-		
 		virtual void display() ;
 } ;
 

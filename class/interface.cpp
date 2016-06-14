@@ -1,7 +1,5 @@
 #include "interface.hpp"
 
-#include <iostream>
-
 Interface::Interface
 ()
 {

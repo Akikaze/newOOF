@@ -1,7 +1,5 @@
 #include "a.hpp"
 
-#include <iostream>
-
 extern "C"
 Interface *
 create
@@ -23,7 +21,8 @@ destroy
 A::A
 ()
 {
-	
+	name_ = "A" ;
+	description_ = "Example of plugin" ;
 }
 
 A::~A

@@ -9,6 +9,15 @@ echo "% cd ../../"
 cd ../../
 echo ""
 
-echo "----- PART 2: program -----"
+echo "----- PART 2: library b -----"
+echo "% cd ./libraries/b"
+cd ./libraries/b
+echo "% g++ -Wall -Werror -fPIC -shared ../../interface.cpp b.cpp -o b.so"
+g++ -Wall -Werror -std=c++11 -fPIC -shared ../../interface.cpp b.cpp -o b.so
+echo "% cd ../../"
+cd ../../
+echo ""
+
+echo "----- PART 3: program -----"
 echo "% g++ -Wall -Werror -std=c++11 main.cpp -ldl -o prog"
 g++ -Wall -Werror -std=c++11 interface.cpp plugin.cpp main.cpp -ldl -o prog
