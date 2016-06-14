@@ -1,6 +1,10 @@
 #include <dlfcn.h>
+
 #include <iostream>
+
 #include "interface.hpp"
+
+using namespace std ;
 
 int
 main
@@ -8,7 +12,7 @@ main
 	int argc,
 	char ** argv
 )
-{
+{		
 	char * error ;
 	void* handle = dlopen( "./class.so", RTLD_LAZY ) ;
 	if ( ( error = dlerror() ) != NULL )
@@ -31,9 +35,7 @@ main
 		std::cout << error << std::endl ;
 	}
 	
-	std::cout << "before" << std::endl ;
-	Interface * interface = ( Interface * ) create() ;
-	std::cout << "after" << std::endl ;
-	interface->printX() ;
-	destroy( interface ) ;
+	Interface * object = ( Interface * ) create() ;
+	object->DoSomething() ;
+	destroy( object ) ;
 }

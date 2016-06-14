@@ -26,10 +26,15 @@ Class::Class
 	x = 7 ;
 }
 
+Class::~Class
+()
+{
+	
+}
+
 void
-Class::printX
+Class::DoSomething
 ()
 {
 	std::cout << x << std::endl ;
 }
-

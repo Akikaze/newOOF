@@ -8,12 +8,13 @@ class Class
 {
 	public:
 		Class() ;
+		virtual ~Class() ;
 		
-		virtual void printX() ;
+		/* use virtual otherwise linker will try to perform static linkage */
+		virtual void DoSomething() ;
 		
 	private:
 		int x ;
 } ;
 
 #endif
-

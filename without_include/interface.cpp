@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-extern "C"
+/*extern "C"
 Interface *
 create
 ()
@@ -18,7 +18,7 @@ destroy
 )
 {
 	delete object ;
-}
+}*/
 
 Interface::Interface
 ()
@@ -26,8 +26,14 @@ Interface::Interface
 	x = 9 ;
 }
 
+Interface::~Interface
+()
+{
+	
+}
+
 void
-Interface::printX
+Interface::DoSomething
 ()
 {
 	std::cout << x << std::endl ;
