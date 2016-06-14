@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <dlfcn.h>
 
 #include <iostream>
@@ -14,14 +15,14 @@ main
 )
 {		
 	char * error ;
-	void* handle = dlopen( "./class.so", RTLD_LAZY ) ;
+	void * handle = dlopen( "./class.so", RTLD_LAZY ) ;
 	if ( ( error = dlerror() ) != NULL )
 	{
 		std::cout << error << std::endl ;
 	}
 	
-	Interface * ( *create )() ;
-	void ( *destroy )( Interface * ) ;
+	Interface * ( * create )() ;
+	void ( * destroy )( Interface * ) ;
 	
 	create = ( Interface * ( * )() ) dlsym ( handle, "create" ) ;
 	if ( ( error = dlerror() ) != NULL )
@@ -38,4 +39,6 @@ main
 	Interface * object = ( Interface * ) create() ;
 	object->DoSomething() ;
 	destroy( object ) ;
+	
+	dlclose( handle ) ;
 }

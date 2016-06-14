@@ -4,5 +4,3 @@ echo "% g++ -fPIC -shared interface.cpp class.cpp -o class.so"
 g++ -fPIC -shared interface.cpp class.cpp -o class.so
 echo "% g++ main.cpp -ldl -o prog"
 g++ main.cpp -ldl -o prog
-echo "% ./prog"
-./prog

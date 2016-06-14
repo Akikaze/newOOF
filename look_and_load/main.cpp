@@ -35,35 +35,6 @@ main
 	}
 	
 	unload_libraries( directories, libraries ) ;
-	
-	
-	/*
-	char * error ;
-	void* handle = dlopen( "./libraries/b/b.so", RTLD_LAZY ) ;
-	if ( ( error = dlerror() ) != NULL )
-	{
-		std::cout << error << std::endl ;
-	}
-	
-	Interface * ( *create )() ;
-	void ( *destroy )( Interface * ) ;
-	
-	create = ( Interface * ( * )() ) dlsym ( handle, "create" ) ;
-	if ( ( error = dlerror() ) != NULL )
-	{
-		std::cout << error << std::endl ;
-	}
-	
-	destroy = ( void ( * )( Interface * ) ) dlsym( handle, "destroy" ) ;
-	if ( ( error = dlerror() ) != NULL )
-	{
-		std::cout << error << std::endl ;
-	}
-	
-	Interface * object = ( Interface * ) create() ;
-	object->display() ;
-	destroy( object ) ;
-	*/
 }
 
 std::vector< std::string >
@@ -129,7 +100,7 @@ load_libraries
 		}
 		else
 		{
-			Interface * ( *create )() ;
+			Interface * ( * create )() ;
 			
 			create = ( Interface * ( * )() ) dlsym ( handle, "create" ) ;
 			if ( ( error = dlerror() ) != NULL )
@@ -166,7 +137,7 @@ unload_libraries
 		}
 		else
 		{
-			void ( *destroy )( Interface * ) ;
+			void ( * destroy )( Interface * ) ;
 			
 			destroy = ( void ( * )( Interface * ) ) dlsym( handle, "destroy" ) ;
 			if ( ( error = dlerror() ) != NULL )
