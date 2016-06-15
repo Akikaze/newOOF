@@ -40,7 +40,7 @@ PluginList::PluginList
 		this->push_back( new Plugin( *cit ) ) ;
 	}
 	
-	sort( this->begin(), this->end() ) ;
+	std::sort( this->begin(), this->end(), PluginComparator() ) ;
 }
 
 // --- DESTRUCTORS ---
@@ -80,7 +80,7 @@ const
 ///
 /// \fn std::vector< std::string > extract_name() const
 /// \brief Extract the name of each plugin
-/// \return A vector which contains the name of each plugin stored in the PluginList
+/// \return Vector which contains the name of each plugin stored in the PluginList
 ///
 std::vector< std::string >
 PluginList::extract_name
@@ -96,4 +96,25 @@ const
 	}
 	
 	return list_name ;
+}
+
+///
+/// \fn std::vector< unsigned short > extract_rank() const
+/// \brief Extract the rank of each plugin
+/// \return Vector which contains the rank of each plugin stored in the PluginList
+///
+std::vector< unsigned short >
+PluginList::extract_rank
+()
+const
+{
+	std::vector< unsigned short > list_rank ;
+	
+	for( PluginList::const_iterator cit = this->cbegin() ;
+		 cit != this->cend() ; ++cit )
+	{
+		list_rank.push_back( ( *cit )->get_rank() ) ;
+	}
+	
+	return list_rank ;
 }

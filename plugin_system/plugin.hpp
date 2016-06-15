@@ -77,8 +77,12 @@ class Plugin
 		
 		// --- METHODS ---
 		///
-		/// \brief find the library path thanks to the folder's address
-		/// \param address of plugin's folder
+		/// \brief Unload a plugin
+		///
+		void unload_plugin( Interface * object ) ;
+
+		///
+		/// \brief Find the library path thanks to the folder's address
 		///
 		std::string find_library( const std::string & ) const ;
 		
@@ -88,10 +92,7 @@ class Plugin
 		std::string address_ ;
 		Interface * pointer_ ;
 		unsigned short rank_ ;
-		// attribute for plugin's construction and destruction
-		void * handle_ ;
-		Interface * ( * create_ )() ;
-		void ( * destroy_ )( Interface * ) ;
+		void * lib_descriptor_ ;
 } ;
 
 #endif // PLUGIN_HPP

@@ -2,20 +2,10 @@
 
 extern "C"
 Interface *
-create
+load
 ()
 {
 	return new B ;
-}
-
-extern "C"
-void
-destroy
-(
-	Interface * object
-)
-{
-	delete object ;
 }
 
 B::B

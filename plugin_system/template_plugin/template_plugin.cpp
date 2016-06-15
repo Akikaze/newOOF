@@ -2,20 +2,10 @@
 
 extern "C"
 Interface *
-create
+load
 ()
 {
 	return new template_plugin ;
-}
-
-extern "C"
-void
-destroy
-(
-	Interface * object
-)
-{
-	delete object ;
 }
 
 template_plugin::template_plugin

@@ -36,6 +36,11 @@ class PluginList
 		///
 		std::vector< std::string > extract_name() const ;
 		
+		///
+		/// \brief Extract the name of rank plugin
+		///
+		std::vector< unsigned short > extract_rank() const ;
+		
 	private :
 		
 		// --- CONSTRUCTORS ---
@@ -46,6 +51,16 @@ class PluginList
 		
 		// --- ATTRIBUTES ---
 		std::string address_ ;
+		
+		// --- COMPARATOR ---
+		///
+		/// \brief Functor for the comparison of plugin in PluginList
+		///
+		struct PluginComparator {
+			bool operator()(const Plugin * l, const Plugin * r) {
+				return ( *l < *r ) ;
+			}
+		} ;
 } ;
 
 #endif // PLUGIN_LIST_HPP
