@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <dirent.h>
+#include <string.h>
 #include <vector>
 
 #include "plugin.hpp"

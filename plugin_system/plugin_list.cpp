@@ -1,6 +1,5 @@
 #include "plugin_list.hpp"
 
-
 // --- CONSTRUCTORS ---
 
 ///
@@ -20,15 +19,13 @@ PluginList::PluginList
 	
 	if( directory != NULL )
 	{
-		int i = 0 ;
 		while( ( ent = readdir( directory ) ) != NULL )
 		{
-			if( i >= 2 )
+			if( strcmp( ent->d_name, "." ) != 0 &&
+				strcmp( ent->d_name, ".." ) != 0  )
 			{
 				list_directories.push_back( address_ + "/" + ent->d_name ) ;
 			}
-			
-			++i ;
 		}
 		closedir( directory ) ;
 	}
