@@ -9,6 +9,6 @@ main
 	char ** argv
 )
 {
-	PluginList pl( "./libraries" ) ;
+	PluginList pl( "./plugins" ) ;
 	pl.display_name() ;
 }
