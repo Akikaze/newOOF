@@ -3,22 +3,23 @@
 
 #include <iostream>
 
+template < typename T >
 class Coord
 {
 	public :
 		
 		// --- CONSTRUCTORS ---
-		Coord( const double x = 0.0,
-			   const double y = 0.0,
-			   const double z = 0.0 ) ;
-		Coord( const double * ) ;
+		Coord( const T x = 0,
+			   const T y = 0,
+			   const T z = 0 ) ;
+		Coord( const T * ) ;
 		Coord( const Coord & ) ;		
 		
 		// --- DESTRUCTORS ---
 		~Coord() ;
 		
 		// --- GETTERS / SETTERS ---
-		inline double * get_coord()
+		inline T * get_coord()
 			{ return coord_ ; }
 		
 		// --- OPERATORS ---
@@ -61,27 +62,30 @@ class Coord
 		// - compound assignment operators -
 		Coord & operator += ( const Coord & ) ;
 		Coord & operator -= ( const Coord & ) ;
-		Coord & operator *= ( const double & ) ;
-		Coord & operator /= ( const double & ) ;
+		Coord & operator *= ( const T & ) ;
+		Coord & operator /= ( const T & ) ;
 		
 		// - member and pointer operators -
-		inline 		 double * operator * ()
+		inline 		 T * operator * ()
 			{ return coord_ ; }
-		inline const double * operator * () const
+		inline const T * operator * () const
 			{ return coord_ ; }
-		inline 		 double & operator [] ( int i )
+		inline 		 T & operator [] ( int i )
 			{ return coord_[ i ] ; }
-		inline const double & operator [] ( int i ) const
+		inline const T & operator [] ( int i ) const
 			{ return coord_[ i ] ; }
-		
-		// - stream operators -
-		friend std::ostream & operator << ( std::ostream &, const Coord & ) ;
+			
+		// - cast operators -
+		operator const Coord< double >() const ;
 		
 		// --- METHODS ---
 		
-		double dot( const Coord & ) const ;
+		Coord component_division( const Coord< double > & ) const ;
+		Coord component_multiplication( const Coord & ) const ;
 		Coord cross( const Coord & ) const ;
-		double norm2() const ; 
+		T dot( const Coord & ) const ;
+		Coord< double > invert() const ;
+		T norm2() const ; 
 		
 		// --- ATTRIBUTES ---
 		
@@ -94,9 +98,238 @@ class Coord
 	private :
 		
 		// --- ATTRIBUTES ---
-		double coord_[ 3 ] ;
-		
+		T coord_[ 3 ] ;
 	
 } ;
+
+// --- CONSTRUCTORS ---
+
+template < typename T >
+Coord< T >::Coord
+(
+	const T x,
+	const T y,
+	const T z
+)
+{
+	coord_[ 0 ] = x ;
+	coord_[ 1 ] = y ;
+	coord_[ 2 ] = z ;
+}
+
+template < typename T >
+Coord< T >::Coord
+(
+	const T * t
+)
+: Coord( t[ 0 ], t[ 1 ], t[ 2 ] )
+{
+}
+
+template < typename T >
+Coord< T >::Coord
+(
+	const Coord & c
+)
+// : Coord( c[ 0 ], c[ 1 ], c[ 2 ] )
+{
+	std::cout << "copy constructor" << std::endl ;
+	coord_[ 0 ] = c[ 0 ] ;
+	coord_[ 1 ] = c[ 1 ] ;
+	coord_[ 2 ] = c[ 2 ] ;
+}
+
+// --- DESTRUCTORS ---
+
+template < typename T >
+Coord< T >::~Coord
+()
+{
+}
+
+// --- OPERATORS ---
+
+template < typename T >
+Coord< T > &
+Coord< T >::operator +=
+(
+	const Coord & c
+)
+{
+	coord_[ 0 ] += c[ 0 ] ;
+	coord_[ 1 ] += c[ 1 ] ;
+	coord_[ 2 ] += c[ 2 ] ;
+	
+	return *this ;
+}
+
+template < typename T >
+Coord< T > &
+Coord< T >::operator -=
+(
+	const Coord & c
+)
+{
+	coord_[ 0 ] -= c[ 0 ] ;
+	coord_[ 1 ] -= c[ 1 ] ;
+	coord_[ 2 ] -= c[ 2 ] ;
+	
+	return *this ;
+}
+
+template < typename T >
+Coord< T > &
+Coord< T >::operator *=
+(
+	const T & t
+)
+{
+	coord_[ 0 ] *= t ;
+	coord_[ 1 ] *= t ;
+	coord_[ 2 ] *= t ;
+	
+	return *this ;
+}
+
+template < typename T >
+Coord< T > &
+Coord< T >::operator /=
+(
+	const T & t
+)
+{
+	coord_[ 0 ] /= t ;
+	coord_[ 1 ] /= t ;
+	coord_[ 2 ] /= t ;
+	
+	return *this ;
+}
+
+template < typename T >
+Coord< T >::operator const Coord< double >
+()
+const
+{	
+	Coord< double > tmp ;
+	
+	if( sizeof( *this ) != sizeof( Coord< double > ) )
+	{
+		tmp[ 0 ] = double( coord_[ 0 ] ) ;
+		tmp[ 1 ] = double( coord_[ 1 ] ) ;
+		tmp[ 2 ] = double( coord_[ 2 ] ) ;
+	}
+	else
+	{
+		tmp = *this ;
+	}
+	
+	return tmp ;
+}
+
+// - stream operators -
+template < typename T >
+std::ostream &
+operator <<
+(
+	std::ostream & o,
+	const Coord< T > & c
+)
+{
+	return o << "( " << c[ 0 ] << " ; " << c[ 1 ] << " ; " << c[ 2 ] << " )" ;
+}
+
+// --- METHODS ---
+
+template < typename T >
+Coord< T >
+Coord< T >::component_division
+(
+	const Coord< double > & c
+)
+const
+{
+	Coord tmp ;
+	
+	tmp[ 0 ] = coord_[ 0 ] / c[ 0 ] ;
+	tmp[ 1 ] = coord_[ 1 ] / c[ 1 ] ;
+	tmp[ 2 ] = coord_[ 2 ] / c[ 2 ] ;
+	
+	return tmp ;
+}
+
+template < typename T >
+Coord< T >
+Coord< T >::component_multiplication
+(
+	const Coord & c
+)
+const
+{
+	Coord tmp ;
+	
+	tmp[ 0 ] = coord_[ 0 ] * c[ 0 ] ;
+	tmp[ 1 ] = coord_[ 1 ] * c[ 1 ] ;
+	tmp[ 2 ] = coord_[ 2 ] * c[ 2 ] ;
+	
+	return tmp ;
+}
+
+template < typename T >
+Coord< T >
+Coord< T >::cross
+(
+	const Coord & c
+)
+const
+{
+	Coord tmp ;
+	
+	tmp[ 0 ] = coord_[ 1 ] * c[ 2 ] - coord_[ 2 ] * c[ 1 ] ;
+	tmp[ 1 ] = coord_[ 2 ] * c[ 0 ] - coord_[ 0 ] * c[ 2 ] ;
+	tmp[ 2 ] = coord_[ 0 ] * c[ 1 ] - coord_[ 1 ] * c[ 0 ] ;
+		
+	return tmp ;
+}
+
+template < typename T >
+T
+Coord< T >::dot
+(
+	const Coord & c
+)
+const
+{
+	return coord_[ 0 ] * c[ 0 ] + coord_[ 1 ] * c[ 1 ] + coord_[ 2 ] * c[ 2 ] ;
+}
+
+template < typename T >
+Coord< double >
+Coord< T >::invert
+()
+const
+{
+	Coord< double > tmp ;
+	
+	tmp[ 0 ] = 1 / double( coord_[ 0 ] ) ;
+	tmp[ 1 ] = 1 / double( coord_[ 1 ] ) ;
+	tmp[ 2 ] = 1 / double( coord_[ 2 ] ) ;
+	
+	return tmp ;
+}
+
+template < typename T >
+T
+Coord< T >::norm2
+()
+const
+{
+	dot( *this ) ;
+}
+
+// Typedefs
+typedef Coord< double > Coord_D ;
+typedef Coord< int > Coord_I ;
+
+
 
 #endif // COORD_HPP

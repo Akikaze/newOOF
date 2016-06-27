@@ -7,12 +7,11 @@ main
 	char ** argv
 )
 {	
-	Coord c1( 2, 2, 2 ) ;
-	Coord c2( 4, 2, 1 ) ; 
+	Coord_D c1( 3, 3, 3 ) ;
+	Coord_I c2( 2, 2, 2 ) ;
 	
-	std::cout << c1.norm2() << std::endl ;
-	std::cout << c1.dot( c2 ) << std::endl ;
-	std::cout << c1.cross( c2 ) << std::endl ;
+	std::cout << c1.component_multiplication( c2.invert() ) << std::endl ;
+	std::cout << c1.component_division( c2 ) << std::endl ;
 	
 	return 0 ;
 }
