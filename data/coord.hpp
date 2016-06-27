@@ -76,7 +76,7 @@ class Coord
 			{ return coord_[ i ] ; }
 			
 		// - cast operators -
-		operator const Coord< double >() const ;
+		template < typename U > operator const Coord< U >() const ;
 		
 		// --- METHODS ---
 		
@@ -206,17 +206,18 @@ Coord< T >::operator /=
 }
 
 template < typename T >
-Coord< T >::operator const Coord< double >
+template < typename U >
+Coord< T >::operator const Coord< U >
 ()
 const
 {	
-	Coord< double > tmp ;
+	Coord< U > tmp ;
 	
-	if( sizeof( *this ) != sizeof( Coord< double > ) )
+	if( sizeof( *this ) != sizeof( Coord< U > ) )
 	{
-		tmp[ 0 ] = double( coord_[ 0 ] ) ;
-		tmp[ 1 ] = double( coord_[ 1 ] ) ;
-		tmp[ 2 ] = double( coord_[ 2 ] ) ;
+		tmp[ 0 ] = U( coord_[ 0 ] ) ;
+		tmp[ 1 ] = U( coord_[ 1 ] ) ;
+		tmp[ 2 ] = U( coord_[ 2 ] ) ;
 	}
 	else
 	{
