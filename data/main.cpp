@@ -7,17 +7,12 @@ main
 	char ** argv
 )
 {	
-	TEST_A * a = new TEST_A() ;
-	TEST_B * b = new TEST_B() ;
+	Coord c1( 2, 2, 2 ) ;
+	Coord c2( 4, 2, 1 ) ; 
 	
-	std::cout << a << std::endl ;
-	std::cout << b << std::endl ;
-	
-	std::cout << TEST_A::_list_ << std::endl ;
-	std::cout << TEST_B::_list_ << std::endl ;
-	
-	delete a ;
-	delete b ;
+	std::cout << c1.norm2() << std::endl ;
+	std::cout << c1.dot( c2 ) << std::endl ;
+	std::cout << c1.cross( c2 ) << std::endl ;
 	
 	return 0 ;
 }

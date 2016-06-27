@@ -8,7 +8,7 @@ class CommandParser
 : public OOFOBJECT< CommandParser >
 {
 	public :
-		
+		void parse( std::string ) ;
 	
 	protected :
 		
@@ -18,6 +18,8 @@ class CommandParser
 	
 } ;
 
+/*
+template<>
 class CommandParser< void >
 : public OOFOBJECT< CommandParser< void > >
 {
@@ -31,3 +33,4 @@ class CommandParser< void >
 		
 	
 } ;
+*/

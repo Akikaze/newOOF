@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+#include "coord.hpp"
+
+/*
 #include "test.hpp"
 
 template < typename T >
@@ -25,5 +28,6 @@ operator<<
 	os << "---------" ;
 	return os ;
 }
+*/
 
 #endif
