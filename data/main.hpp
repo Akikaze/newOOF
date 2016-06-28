@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "pixel_set.hpp"
+#include "pixel_selection.hpp"
 
 template < typename T >
 std::ostream &
