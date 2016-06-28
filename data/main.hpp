@@ -3,20 +3,17 @@
 
 #include <iostream>
 
-#include "coord.hpp"
-
-/*
-#include "test.hpp"
+#include "pixel_set.hpp"
 
 template < typename T >
 std::ostream &
 operator<<
 (
 	std::ostream & os,
-	const std::vector< T * > & list
+	const std::vector< T > & list
 )
 {
-	typename std::vector< T * >::const_iterator cit ;
+	typename std::vector< T >::const_iterator cit ;
 	
 	os << "---------" << std::endl ;
 	
@@ -28,6 +25,5 @@ operator<<
 	os << "---------" ;
 	return os ;
 }
-*/
 
 #endif

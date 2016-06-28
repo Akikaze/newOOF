@@ -131,12 +131,8 @@ Coord< T >::Coord
 (
 	const Coord & c
 )
-// : Coord( c[ 0 ], c[ 1 ], c[ 2 ] )
+: Coord( c[ 0 ], c[ 1 ], c[ 2 ] )
 {
-	std::cout << "copy constructor" << std::endl ;
-	coord_[ 0 ] = c[ 0 ] ;
-	coord_[ 1 ] = c[ 1 ] ;
-	coord_[ 2 ] = c[ 2 ] ;
 }
 
 // --- DESTRUCTORS ---
