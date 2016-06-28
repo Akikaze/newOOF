@@ -12,5 +12,5 @@ Microstructure::Microstructure
 , size_pixel_( size_pixel )
 , size_real_( size_real )
 {
-	pixel_dimension_ = size_real_ / size_pixel_ ;
+	pixel_dimension_ = size_real_.component_division( size_pixel_ ) ;
 }
