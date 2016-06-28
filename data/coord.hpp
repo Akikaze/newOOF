@@ -1,17 +1,19 @@
 #ifndef COORD_HPP
 #define COORD_HPP
 
+#include <array>
 #include <iostream>
 
 template < typename T >
 class Coord
+: public std::array< T, 3 >
 {
 	public :
 		
 		// --- CONSTRUCTORS ---
-		Coord( const T x = 0,
-			   const T y = 0,
-			   const T z = 0 ) ;
+		Coord( const T & x = 0,
+			   const T & y = 0,
+			   const T & z = 0 ) ;
 		Coord( const T * ) ;
 		Coord( const Coord & ) ;		
 		
@@ -20,35 +22,35 @@ class Coord
 		
 		// --- GETTERS / SETTERS ---
 		inline T * get_coord()
-			{ return coord_ ; }
+			{ return ( *this ) ; }
 		
 		// --- OPERATORS ---
 		
 		// - arithmetic operators -
 		inline Coord operator + ( const Coord & c ) const
-			{ return Coord( coord_[ 0 ] + c[ 0 ], coord_[ 1 ] + c[ 1 ], coord_[ 2 ] + c[ 2 ] ) ; }
+			{ return Coord( ( *this )[ 0 ] + c[ 0 ], ( *this )[ 1 ] + c[ 1 ], ( *this )[ 2 ] + c[ 2 ] ) ; }
 		
 		inline Coord operator - ( const Coord & c ) const
-			{ return Coord( coord_[ 0 ] - c[ 0 ], coord_[ 1 ] - c[ 1 ], coord_[ 2 ] - c[ 2 ] ) ; }
+			{ return Coord( ( *this )[ 0 ] - c[ 0 ], ( *this )[ 1 ] - c[ 1 ], ( *this )[ 2 ] - c[ 2 ] ) ; }
 		
 		inline Coord operator * ( const double & d ) const
-			{ return Coord( coord_[ 0 ] * d, coord_[ 1 ] * d, coord_[ 2 ] * d ) ; }
+			{ return Coord( ( *this )[ 0 ] * d, ( *this )[ 1 ] * d, ( *this )[ 2 ] * d ) ; }
 		
 		inline Coord operator / ( const double & d) const
-			{ return Coord( coord_[ 0 ] / d, coord_[ 1 ] / d, coord_[ 2 ] / d ) ; }
+			{ return Coord( ( *this )[ 0 ] / d, ( *this )[ 1 ] / d, ( *this )[ 2 ] / d ) ; }
 		
 		inline Coord operator - () const
 			{ return ( *this ) * -1.0 ; }
 			
 		// - comparison operators -
 		inline bool operator < ( const Coord & c ) const
-			{ return ( coord_[ 0 ] < c[ 0 ] || coord_[ 1 ] < c[ 1 ] || coord_[ 2 ] < c[ 2 ] ) ; }
+			{ return ( ( *this )[ 0 ] < c[ 0 ] || ( *this )[ 1 ] < c[ 1 ] || ( *this )[ 2 ] < c[ 2 ] ) ; }
 		
 		inline bool operator > ( const Coord & c ) const
-			{ return ( coord_[ 0 ] > c[ 0 ] || coord_[ 1 ] > c[ 1 ] || coord_[ 2 ] > c[ 2 ] ) ; }
+			{ return ( ( *this )[ 0 ] > c[ 0 ] || ( *this )[ 1 ] > c[ 1 ] || ( *this )[ 2 ] > c[ 2 ] ) ; }
 			
 		inline bool operator == ( const Coord & c ) const
-			{ return ( coord_[ 0 ] == c[ 0 ] && coord_[ 1 ] == c[ 1 ] && coord_[ 2 ] == c[ 2 ] ) ; }
+			{ return ( ( *this )[ 0 ] == c[ 0 ] && ( *this )[ 1 ] == c[ 1 ] && ( *this )[ 2 ] == c[ 2 ] ) ; }
 			
 		inline bool operator != ( const Coord & c ) const
 			{ return !( this->operator == ( c ) ) ; }
@@ -64,16 +66,6 @@ class Coord
 		Coord & operator -= ( const Coord & ) ;
 		Coord & operator *= ( const T & ) ;
 		Coord & operator /= ( const T & ) ;
-		
-		// - member and pointer operators -
-		inline 		 T * operator * ()
-			{ return coord_ ; }
-		inline const T * operator * () const
-			{ return coord_ ; }
-		inline 		 T & operator [] ( int i )
-			{ return coord_[ i ] ; }
-		inline const T & operator [] ( int i ) const
-			{ return coord_[ i ] ; }
 			
 		// - cast operators -
 		template < typename U > operator const Coord< U >() const ;
@@ -96,9 +88,6 @@ class Coord
 		
 		
 	private :
-		
-		// --- ATTRIBUTES ---
-		T coord_[ 3 ] ;
 	
 } ;
 
@@ -107,14 +96,14 @@ class Coord
 template < typename T >
 Coord< T >::Coord
 (
-	const T x,
-	const T y,
-	const T z
+	const T & x,
+	const T & y,
+	const T & z
 )
 {
-	coord_[ 0 ] = x ;
-	coord_[ 1 ] = y ;
-	coord_[ 2 ] = z ;
+	( *this )[ 0 ] = x ;
+	( *this )[ 1 ] = y ;
+	( *this )[ 2 ] = z ;
 }
 
 template < typename T >
@@ -152,9 +141,9 @@ Coord< T >::operator +=
 	const Coord & c
 )
 {
-	coord_[ 0 ] += c[ 0 ] ;
-	coord_[ 1 ] += c[ 1 ] ;
-	coord_[ 2 ] += c[ 2 ] ;
+	( *this )[ 0 ] += c[ 0 ] ;
+	( *this )[ 1 ] += c[ 1 ] ;
+	( *this )[ 2 ] += c[ 2 ] ;
 	
 	return *this ;
 }
@@ -166,9 +155,9 @@ Coord< T >::operator -=
 	const Coord & c
 )
 {
-	coord_[ 0 ] -= c[ 0 ] ;
-	coord_[ 1 ] -= c[ 1 ] ;
-	coord_[ 2 ] -= c[ 2 ] ;
+	( *this )[ 0 ] -= c[ 0 ] ;
+	( *this )[ 1 ] -= c[ 1 ] ;
+	( *this )[ 2 ] -= c[ 2 ] ;
 	
 	return *this ;
 }
@@ -180,9 +169,9 @@ Coord< T >::operator *=
 	const T & t
 )
 {
-	coord_[ 0 ] *= t ;
-	coord_[ 1 ] *= t ;
-	coord_[ 2 ] *= t ;
+	( *this )[ 0 ] *= t ;
+	( *this )[ 1 ] *= t ;
+	( *this )[ 2 ] *= t ;
 	
 	return *this ;
 }
@@ -194,9 +183,9 @@ Coord< T >::operator /=
 	const T & t
 )
 {
-	coord_[ 0 ] /= t ;
-	coord_[ 1 ] /= t ;
-	coord_[ 2 ] /= t ;
+	( *this )[ 0 ] /= t ;
+	( *this )[ 1 ] /= t ;
+	( *this )[ 2 ] /= t ;
 	
 	return *this ;
 }
@@ -211,9 +200,9 @@ const
 	
 	if( sizeof( *this ) != sizeof( Coord< U > ) )
 	{
-		tmp[ 0 ] = U( coord_[ 0 ] ) ;
-		tmp[ 1 ] = U( coord_[ 1 ] ) ;
-		tmp[ 2 ] = U( coord_[ 2 ] ) ;
+		tmp[ 0 ] = U( ( *this )[ 0 ] ) ;
+		tmp[ 1 ] = U( ( *this )[ 1 ] ) ;
+		tmp[ 2 ] = U( ( *this )[ 2 ] ) ;
 	}
 	else
 	{
@@ -247,9 +236,9 @@ const
 {
 	Coord tmp ;
 	
-	tmp[ 0 ] = coord_[ 0 ] / c[ 0 ] ;
-	tmp[ 1 ] = coord_[ 1 ] / c[ 1 ] ;
-	tmp[ 2 ] = coord_[ 2 ] / c[ 2 ] ;
+	tmp[ 0 ] = ( *this )[ 0 ] / c[ 0 ] ;
+	tmp[ 1 ] = ( *this )[ 1 ] / c[ 1 ] ;
+	tmp[ 2 ] = ( *this )[ 2 ] / c[ 2 ] ;
 	
 	return tmp ;
 }
@@ -264,9 +253,9 @@ const
 {
 	Coord tmp ;
 	
-	tmp[ 0 ] = coord_[ 0 ] * c[ 0 ] ;
-	tmp[ 1 ] = coord_[ 1 ] * c[ 1 ] ;
-	tmp[ 2 ] = coord_[ 2 ] * c[ 2 ] ;
+	tmp[ 0 ] = ( *this )[ 0 ] * c[ 0 ] ;
+	tmp[ 1 ] = ( *this )[ 1 ] * c[ 1 ] ;
+	tmp[ 2 ] = ( *this )[ 2 ] * c[ 2 ] ;
 	
 	return tmp ;
 }
@@ -281,9 +270,9 @@ const
 {
 	Coord tmp ;
 	
-	tmp[ 0 ] = coord_[ 1 ] * c[ 2 ] - coord_[ 2 ] * c[ 1 ] ;
-	tmp[ 1 ] = coord_[ 2 ] * c[ 0 ] - coord_[ 0 ] * c[ 2 ] ;
-	tmp[ 2 ] = coord_[ 0 ] * c[ 1 ] - coord_[ 1 ] * c[ 0 ] ;
+	tmp[ 0 ] = ( *this )[ 1 ] * c[ 2 ] - ( *this )[ 2 ] * c[ 1 ] ;
+	tmp[ 1 ] = ( *this )[ 2 ] * c[ 0 ] - ( *this )[ 0 ] * c[ 2 ] ;
+	tmp[ 2 ] = ( *this )[ 0 ] * c[ 1 ] - ( *this )[ 1 ] * c[ 0 ] ;
 		
 	return tmp ;
 }
@@ -296,7 +285,7 @@ Coord< T >::dot
 )
 const
 {
-	return coord_[ 0 ] * c[ 0 ] + coord_[ 1 ] * c[ 1 ] + coord_[ 2 ] * c[ 2 ] ;
+	return ( *this )[ 0 ] * c[ 0 ] + ( *this )[ 1 ] * c[ 1 ] + ( *this )[ 2 ] * c[ 2 ] ;
 }
 
 template < typename T >
@@ -307,9 +296,9 @@ const
 {
 	Coord< double > tmp ;
 	
-	tmp[ 0 ] = 1 / double( coord_[ 0 ] ) ;
-	tmp[ 1 ] = 1 / double( coord_[ 1 ] ) ;
-	tmp[ 2 ] = 1 / double( coord_[ 2 ] ) ;
+	tmp[ 0 ] = 1 / double( ( *this )[ 0 ] ) ;
+	tmp[ 1 ] = 1 / double( ( *this )[ 1 ] ) ;
+	tmp[ 2 ] = 1 / double( ( *this )[ 2 ] ) ;
 	
 	return tmp ;
 }
@@ -326,6 +315,7 @@ const
 // Typedefs
 typedef Coord< double > Coord_D ;
 typedef Coord< int > Coord_I ;
+typedef Coord< unsigned int > Coord_UI ;
 
 
 

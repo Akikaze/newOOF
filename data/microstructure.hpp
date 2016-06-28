@@ -7,16 +7,16 @@ class Microstructure
 : public OOFOBJECT< Microstructure >
 {
 	public :
-		Microstructure( std::string &, const Coord< int > , const Coord< double > ) ;
+		Microstructure( std::string &, const Coord< unsigned int > , const Coord< unsigned double > ) ;
 	
 	protected :
 		
 	
 	private :
 		std::string name_ ;
-		Coord< int > size_pixel_ ;
-		Coord< double > size_real_ ;
-		Coord< double > pixel_dimension_ ;		
+		Coord< unsigned int > size_pixel_ ;
+		Coord< unsigned double > size_real_ ;
+		Coord< unsigned double > pixel_dimension_ ;		
 	
 } ;
 

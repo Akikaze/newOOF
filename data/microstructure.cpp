@@ -5,8 +5,8 @@
 Microstructure::Microstructure
 (
 	const std::string & name,
-	const Coord< int > & size_pixel,
-	const Coord< double > & size_real
+	const Coord< unsigned int > & size_pixel,
+	const Coord< unsigned double > & size_real
 )
 : name_( name )
 , size_pixel_( size_pixel )

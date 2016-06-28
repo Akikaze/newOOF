@@ -7,24 +7,20 @@ main
 	char ** argv
 )
 {	
-	PixelSet pst1 ;
-	pst1.push_back( Coord_D( 1.0, 1.0, 1.0 ) ) ;
-	pst1.push_back( Coord_D( 2.0, 1.0, 0.0 ) ) ;
-	std::cout << pst1 << std::endl ;
+	Coord< unsigned int > Cui( 2, 3, 4 ) ;
 	
-	PixelSet pst2( pst1 ) ;
-	std::cout << pst2 << std::endl ;
+	unsigned int pui[ 3 ] ;
+	pui[ 0 ] = 8 ;
+	pui[ 1 ] = 7 ;
+	pui[ 2 ] = 6 ;
 	
-	std::cout << PixelSet::_index_ << std::endl ;
+	BoolVector_3D bv1() ;
+	BoolVector_3D bv2( Cui ) ;
+	BoolVector_3D bv3( pui ) ;
 	
-	PixelSelection psl1( pst1 ) ;
-	std::cout << psl1 << std::endl ;
-	psl1.push_back( Coord_D( -1.0, -2.0, -3.0 ) ) ;
-	
-	PixelSelection psl2( psl1 ) ;
-	std::cout << psl2 << std::endl ;
-	
-	std::cout << PixelSet::_index_ << std::endl ;
+	std::cout << bv1 << std::endl ;
+	std::cout << bv2 << std::endl ;
+	std::cout << bv3 << std::endl ;
 	
 	return 0 ;
 }
