@@ -4,6 +4,10 @@
 #include <iostream>
 #include <vector>
 
+// --- prior definition ---
+
+template < typename T > class SubCommandParser ;
+
 // ===== OOF_LIST =====
 
 template < typename T >
@@ -34,11 +38,12 @@ template < typename T >
 OOF_LIST< T >::OOF_LIST
 ()
 {
-#if __DEBUG__
+#ifdef __DEBUG__
 	std::cout << "OOF_LIST construction" << std::endl ;
 #endif
-	
+
 	_list_.push_back( ( T* ) this ) ;
+	SubCommandParser< T >::get_instance() ;
 }
 
 // --- DESTRUCTORS ---
@@ -47,7 +52,7 @@ template < typename T >
 OOF_LIST< T >::~OOF_LIST
 ()
 {
-#if __DEBUG__
+#ifdef __DEBUG__
 	std::cout << "OOF_LIST destruction" << std::endl ;
 #endif
 
@@ -79,6 +84,7 @@ class OOF_SINGLETON
 	
 		// --- CONSTRUCTORS ---
 		OOF_SINGLETON() ;
+		OOF_SINGLETON( const OOF_SINGLETON & ) ;
 		
 		// --- ATTRIBUTES ---
 		static T * _instance_ ;
@@ -95,8 +101,19 @@ template < typename T >
 OOF_SINGLETON< T >::OOF_SINGLETON
 ()
 {
-#if __DEBUG__
+#ifdef __DEBUG__
 	std::cout << "OOF_SINGLETON construction" << std::endl ;
+#endif
+}
+
+template < typename T >
+OOF_SINGLETON< T >::OOF_SINGLETON
+(
+	const OOF_SINGLETON< T > &
+)
+{
+#ifdef __DEBUG__
+	std::cout << "OOF_SINGLETON copy construction" << std::endl ;
 #endif
 }
 
@@ -106,7 +123,7 @@ template < typename T >
 OOF_SINGLETON< T >::~OOF_SINGLETON
 ()
 {
-#if __DEBUG__
+#ifdef __DEBUG__
 	std::cout << "OOF_SINGLETON destruction" << std::endl ;
 #endif
 }

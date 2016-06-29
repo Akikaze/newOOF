@@ -2,56 +2,109 @@
 #define COMMAND_PARSER_HPP
 
 #include "oofobject.hpp"
+#include "std.hpp"
 
-// === CommandParser === (template)
 
-template < typename T >
-class CommandParser
-: public OOF_LIST< CommandParser< T > >
-, public OOF_SINGLETON< CommandParser< T > >
+// ===== ISubCommandParser =====
+
+/*
+ * The aim of this interface is just to be able to create a vector in
+ * MainCommandParser that contains all SubCommandParser
+ */
+
+class ISubCommandParser
 {
-	friend class OOF_SINGLETON< CommandParser< T > > ;
-	
-	public :
-		
-		// --- DESTRUCTORS ---
-		~CommandParser() ;
+	private :
 		
 		// --- METHODS ---
-		void parse( std::string ) ;
+		virtual void parse( const std::string & ) const = 0 ;
+} ;
+
+// ===== MainCommandParser =====
+
+class MainCommandParser
+: public OOF_SINGLETON< MainCommandParser >
+{
+	friend class OOF_SINGLETON< MainCommandParser > ;
+	template < typename T > friend class SubCommandParser ;
 	
-	protected :
+	public :
+	
+		// --- DESTRUCTORS ---
+		~MainCommandParser() ;
 		
+		// --- METHODS ---
+		void add_list( ISubCommandParser * ) ;
+		void display_list() const ;
+		void parse( const std::string & ) ;
 	
 	private :
 		
 		// --- CONSTRUCTORS ---
-		CommandParser() ;
+		MainCommandParser() ;
+		
+		// --- ATTRIBUTES ---
+		std::vector< ISubCommandParser * > _list_ ;
+	
+} ;
+
+// ===== SubCommandParser< T > =====
+
+template < typename T >
+class SubCommandParser
+: public OOF_SINGLETON< SubCommandParser< T > >
+, public ISubCommandParser
+{
+	friend class OOF_SINGLETON< SubCommandParser< T > > ;
+	
+	private :
+		
+		// --- CONSTRUCTORS ---
+		SubCommandParser() ;
+	
+		// --- DESTRUCTORS ---
+		~SubCommandParser() ;
+		
+		// --- METHODS ---
+		virtual void parse( const std::string & ) const ;
 	
 } ;
 
 // --- CONSTRUCTORS ---
 
 template < typename T >
-CommandParser< T >::CommandParser
+SubCommandParser< T >::SubCommandParser
 ()
 {
-#if __DEBUG__
-	std::cout << "CommandParser construction" << std::endl ;
+#ifdef __DEBUG__
+	std::cout << "SubCommandParser construction" << std::endl ;
 #endif
+
+	MainCommandParser::get_instance()->add_list( this ) ;
 }
 
 // --- DESTRUCTORS ---
 
 template < typename T >
-CommandParser< T >::~CommandParser
+SubCommandParser< T >::~SubCommandParser
 ()
 {
-#if __DEBUG__
-	std::cout << "CommandParser destruction" << std::endl ;
+#ifdef __DEBUG__
+	std::cout << "SubCommandParser destruction" << std::endl ;
 #endif
 }
 
+// --- METHODS ---
 
+template < typename T >
+void
+SubCommandParser< T >::parse
+(
+	const std::string & command
+)
+const
+{
+	std::cerr << "No parse method was defined for the type : " << std::endl ;
+}
 
 #endif // COMMAND_PARSER_HPP

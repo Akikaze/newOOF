@@ -6,16 +6,17 @@ main
 	int argc,
 	char ** argv
 )
-{
-	CommandParser< void > * cpV = CommandParser< void >::get_instance() ;
-	std::cout << CommandParser< void >::_list_ << std::endl ;
+{	
+	MainCommandParser * mcp = MainCommandParser::get_instance() ;
+	mcp->display_list() ;
 	
-	CommandParser< int > * cpI = CommandParser< int >::get_instance() ;
-	std::cout << CommandParser< void >::_list_ << std::endl ;
-	std::cout << CommandParser< int >::_list_ << std::endl ;
+	TEST_A() ;
+	mcp->display_list() ;
 	
-	delete cpI ;
-	delete cpV ;
+	TEST_B() ;
+	mcp->display_list() ;
+	
+	delete mcp ;
 	
 	return 0 ;
 }
