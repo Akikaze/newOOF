@@ -14,6 +14,8 @@
 
 class ISubCommandParser
 {
+	friend class MainCommandParser ; // parse
+	
 	private :
 		
 		// --- METHODS ---
@@ -25,8 +27,7 @@ class ISubCommandParser
 class MainCommandParser
 : public OOF_SINGLETON< MainCommandParser >
 {
-	friend class OOF_SINGLETON< MainCommandParser > ;
-	template < typename T > friend class SubCommandParser ;
+	friend class OOF_SINGLETON< MainCommandParser > ; // constructor
 	
 	public :
 	
@@ -55,7 +56,7 @@ class SubCommandParser
 : public OOF_SINGLETON< SubCommandParser< T > >
 , public ISubCommandParser
 {
-	friend class OOF_SINGLETON< SubCommandParser< T > > ;
+	friend class OOF_SINGLETON< SubCommandParser< T > > ; // constructor
 	
 	private :
 		
@@ -104,7 +105,7 @@ SubCommandParser< T >::parse
 )
 const
 {
-	std::cerr << "No parse method was defined for the type : " << std::endl ;
+	std::cerr << "No parse method was defined for the command: " << command << std::endl ;
 }
 
 #endif // COMMAND_PARSER_HPP

@@ -53,7 +53,30 @@ MainCommandParser::parse
 	const std::string & command
 )
 {
+	/*
+	 * Ths content is not the real definition of the MainCommandParser
+	 * main method. Normally, you need to choose which SubCommandParser
+	 * is going to receive the command.
+	 */
+	std::vector< ISubCommandParser * >::const_iterator cit ;
 	
+	for( cit = _list_.cbegin() ; cit != _list_.cend() ; ++cit )
+	{
+		( *cit )->parse( command ) ;
+	}
 }
 
 // ===== SubCommandParser (specialization) =====
+
+class TEST_B ; // prior definition
+
+template <>
+void
+SubCommandParser< TEST_B >::parse
+(
+	const std::string & command
+)
+const
+{
+	std::cerr << "TEST_B parsing: " << command << std::endl ;
+}

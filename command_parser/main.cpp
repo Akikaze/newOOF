@@ -16,6 +16,8 @@ main
 	TEST_B() ;
 	mcp->display_list() ;
 	
+	mcp->parse( "hi !" ) ;
+	
 	delete mcp ;
 	
 	return 0 ;

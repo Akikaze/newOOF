@@ -4,9 +4,7 @@
 #include <iostream>
 #include <vector>
 
-// --- prior definition ---
-
-template < typename T > class SubCommandParser ;
+template < typename T > class SubCommandParser ; // prior definition
 
 // ===== OOF_LIST =====
 
