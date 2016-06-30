@@ -58,6 +58,7 @@ MainCommandParser::parse
 	 * main method. Normally, you need to choose which SubCommandParser
 	 * is going to receive the command.
 	 */
+
 	std::vector< ISubCommandParser * >::const_iterator cit ;
 	
 	for( cit = _list_.cbegin() ; cit != _list_.cend() ; ++cit )

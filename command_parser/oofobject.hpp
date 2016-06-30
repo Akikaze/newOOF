@@ -1,10 +1,11 @@
 #ifndef OOFOBJECT_HPP
 #define OOFOBJECT_HPP
 
-#include <iostream>
-#include <vector>
+#include "std.hpp"
 
-template < typename T > class SubCommandParser ; // prior definition
+// ===== prior definition =====
+
+template < typename T > class SubCommandParser ;
 
 // ===== OOF_LIST =====
 

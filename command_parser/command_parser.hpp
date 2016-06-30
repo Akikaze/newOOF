@@ -4,7 +4,6 @@
 #include "oofobject.hpp"
 #include "std.hpp"
 
-
 // ===== ISubCommandParser =====
 
 /*
