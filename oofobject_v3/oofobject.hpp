@@ -8,6 +8,7 @@
 // ===== prior definition =====
 
 template < typename T > class SubCommandParser ;
+template < typename T > class ObjectStorage ;
 
 // ===== IOOF_SINGLETON =====
 
@@ -136,6 +137,7 @@ class IOOF_OBJ
 		virtual std::string get_typename() const = 0 ;
 		
 		// --- ATTRIBUTES ---
+		time_t time_ ;
 		
 		// --- static ---
 		static std::vector< IOOF_OBJ * > _list_list_ ;
@@ -148,6 +150,13 @@ class IOOF_OBJ
 		
 		// --- DESTRUCTORS ---
 		~IOOF_OBJ() ;
+		
+		// --- COMPARATOR ---
+		struct IOOF_OBJComparator {
+			bool operator()( const IOOF_OBJ * l, const IOOF_OBJ * r ) {
+				return ( l->time_ < r->time_ ) ;
+			}
+		} ;
 } ;
 
 // ===== OOF_OBJ =====
@@ -215,6 +224,7 @@ OOF_OBJ< T >::OOF_OBJ
 	_list_instance_.push_back( this_cast ) ;
 	
 	SubCommandParser< T >::get_instance() ;
+	ObjectStorage< T >::get_instance() ;
 }
 
 // --- DESTRUCTORS ---

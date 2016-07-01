@@ -2,6 +2,7 @@
 #define STD_HPP
 
 #include <array>
+#include <ctime>
 #include <iostream>
 #include <vector>
 

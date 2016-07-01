@@ -27,7 +27,9 @@ TEST_A::~TEST_A
 template <>
 void
 ObjectStorage< TEST_A >::load
-()
+(
+	const std::string & filename
+)
 const
 {
 	std::cout << "TEST_A load" << std::endl ;
@@ -36,7 +38,10 @@ const
 template <>
 void
 ObjectStorage< TEST_A >::save
-()
+(
+	const std::string & folder,
+	const time_t & save_time
+)
 const
 {
 	std::cout << "TEST_A save" << std::endl ;
