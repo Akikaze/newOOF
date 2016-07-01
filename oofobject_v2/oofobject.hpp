@@ -131,6 +131,9 @@ OOF_SINGLETON< T >::get_instance
 class IOOF_OBJ
 {
 	public :
+	
+		// --- GETTERS ---
+		virtual std::string get_typename() const = 0 ;
 		
 		// --- ATTRIBUTES ---
 		
@@ -165,6 +168,9 @@ class OOF_OBJ
 {
 	public :
 	
+		// --- GETTERS ---
+		virtual std::string get_typename() const = 0 ;
+		
 		// --- ATTRIBUTES ---
 		
 		// --- static ---
