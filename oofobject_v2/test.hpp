@@ -5,7 +5,7 @@
 
 /*
  * WARNING: oofobject.hpp needs to be include before command_parser.hpp
- * But command_parser.hpp needs to be include eve if there is no link
+ * But command_parser.hpp needs to be include even if there is no link
  * between test.hpp and command_parser.hpp
  */
  
@@ -13,7 +13,7 @@
 #include "command_parser.hpp"
 
 class TEST_A
-: public OOF_LIST< TEST_A >
+: public OOF_OBJ< TEST_A >
 {
 	public :
 		TEST_A() ;
@@ -21,7 +21,7 @@ class TEST_A
 } ;
 
 class TEST_B
-: public OOF_LIST< TEST_B >
+: public OOF_OBJ< TEST_B >
 {
 	public :
 		TEST_B() ;

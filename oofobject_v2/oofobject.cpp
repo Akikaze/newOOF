@@ -1,47 +1,10 @@
 #include "oofobject.hpp"
 
-// ===== IOOF_LIST =====
-
-// --- static ---
-
-std::vector< IOOF_LIST * > IOOF_LIST::_object_ = std::vector< IOOF_LIST * >() ;
-
-// --- CONSTRUCTORS ---
-
-IOOF_LIST::IOOF_LIST
-()
-{
-#ifdef __DEBUG__
-	std::cout << "IOOF_LIST construction" << std::endl ;
-#endif
-
-	_object_.push_back( this ) ;
-}
-
-// --- DESTRUCTORS ---
-
-IOOF_LIST::~IOOF_LIST
-()
-{
-#ifdef __DEBUG__
-	std::cout << "IOOF_LIST destruction" << std::endl ;
-#endif
-
-	std::vector< IOOF_LIST * >::const_iterator cit = _object_.cbegin() ;
-	
-	while( *cit != this )
-	{
-		++cit ;
-	}
-	
-	_object_.erase( cit ) ;
-}
-
 // ===== IOOF_SINGLETON =====
 
 // --- static ---
 
-std::vector< IOOF_SINGLETON * > IOOF_SINGLETON::_object_ = std::vector< IOOF_SINGLETON * >() ;
+std::vector< IOOF_SINGLETON * > IOOF_SINGLETON::_list_singleton_ = std::vector< IOOF_SINGLETON * >() ;
 
 // --- CONSTRUCTORS ---
 
@@ -52,7 +15,7 @@ IOOF_SINGLETON::IOOF_SINGLETON
 	std::cout << "IOOF_SINGLETON construction" << std::endl ;
 #endif
 
-	_object_.push_back( this ) ;
+	_list_singleton_.push_back( this ) ;
 }
 
 // --- DESTRUCTORS ---
@@ -64,12 +27,50 @@ IOOF_SINGLETON::~IOOF_SINGLETON
 	std::cout << "IOOF_SINGLETON destruction" << std::endl ;
 #endif
 
-	std::vector< IOOF_SINGLETON * >::const_iterator cit = _object_.cbegin() ;
+	std::vector< IOOF_SINGLETON * >::const_iterator cit = _list_singleton_.cbegin() ;
 	
 	while( *cit != this )
 	{
 		++cit ;
 	}
 	
-	_object_.erase( cit ) ;
+	_list_singleton_.erase( cit ) ;
+}
+
+// ===== IOOF_OBJ =====
+
+// --- static ---
+
+std::vector< IOOF_OBJ * > IOOF_OBJ::_list_list_ = std::vector< IOOF_OBJ * >() ;
+std::vector< IOOF_OBJ * > IOOF_OBJ::_list_type_ = std::vector< IOOF_OBJ * >() ;
+
+// --- CONSTRUCTORS ---
+
+IOOF_OBJ::IOOF_OBJ
+()
+{
+#ifdef __DEBUG__
+	std::cout << "IOOF_OBJ construction" << std::endl ;
+#endif
+
+	_list_list_.push_back( this ) ;
+}
+
+// --- DESTRUCTORS ---
+
+IOOF_OBJ::~IOOF_OBJ
+()
+{
+#ifdef __DEBUG__
+	std::cout << "IOOF_OBJ destruction" << std::endl ;
+#endif
+
+	std::vector< IOOF_OBJ * >::const_iterator cit = _list_list_.cbegin() ;
+	
+	while( *cit != this )
+	{
+		++cit ;
+	}
+	
+	_list_list_.erase( cit ) ;
 }

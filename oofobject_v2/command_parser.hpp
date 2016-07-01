@@ -1,6 +1,8 @@
 #ifndef COMMAND_PARSER_HPP
 #define COMMAND_PARSER_HPP
 
+// #define __DEBUG__
+
 #include "oofobject.hpp"
 #include "std.hpp"
 
@@ -61,7 +63,7 @@ class MainCommandParser
  * SubCommandParser is a Singleton class with a private destructor. It's 
  * a portion of the whole pattern Chain of Responsability. The only way
  * to destroy a SubCommandParser is to destroy the MainCommandParser.
- * Every OOF_LIST object has got his own SubCommandParser which is defined
+ * Every OOF_OBJ object has got his own SubCommandParser which is defined
  * when the typename is created.
  */
 

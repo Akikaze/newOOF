@@ -1,37 +1,13 @@
 #ifndef OOFOBJECT_HPP
 #define OOFOBJECT_HPP
 
+// #define __DEBUG__
+
 #include "std.hpp"
 
 // ===== prior definition =====
 
 template < typename T > class SubCommandParser ;
-
-// ===== IOOF_LIST =====
-
-/*
- * Interface for the OOF_LIST class: the aim is to keep trace of each 
- * typename which define a OOF_LIST in _object_. _object_ is accessible
- * from all object which inherit from OOF_LIST.
- */
-
-class IOOF_LIST
-{
-	public :
-		
-		// --- ATTRIBUTES ---
-		
-		// --- static ---
-		static std::vector< IOOF_LIST * > _object_ ;
-	
-	protected :
-		
-		// --- CONSTRUCTORS ---
-		IOOF_LIST() ;
-		
-		// --- DESTRUCTORS ---
-		virtual ~IOOF_LIST() = 0 ;
-} ;
 
 // ===== IOOF_SINGLETON =====
 
@@ -48,7 +24,7 @@ class IOOF_SINGLETON
 		// --- ATTRIBUTES ---
 		
 		// --- static ---
-		static std::vector< IOOF_SINGLETON * > _object_ ;
+		static std::vector< IOOF_SINGLETON * > _list_singleton_ ;
 	
 	protected :
 		
@@ -58,82 +34,6 @@ class IOOF_SINGLETON
 		// --- DESTRUCTORS ---
 		~IOOF_SINGLETON() ;
 } ;
-
-// ===== OOF_LIST =====
-
-/*
- * OOF_LIST is a template class which store any instance of an object of 
- * a specific typename.
- * For example : if you have three instance of CLASS_A and if CLASS_A inherit
- * from OOF_LIST< CLASS_A >, in this case, you can reach any instance with
- * OOF_LIST< CLASS_A >::_list_.
- * The construction of a object OOF_LIST create a SubCommandParser specific
- * for the typename.
- */
-
-template < typename T >
-class OOF_LIST
-: public IOOF_LIST
-{
-	public :
-	
-		// --- GETTERS ---
-		inline std::vector< T * > get_list()
-			{ return _list_ ; }
-	
-		// --- ATTRIBUTES ---
-		
-		// --- static ---
-		static std::vector< T * > _list_ ;
-		
-	protected :
-		
-		// --- CONSTRUCTORS ---
-		OOF_LIST() ;
-		
-		// --- DESTRUCTORS ---
-		~OOF_LIST() ;
-		
-} ;
-
-// --- static ---
-
-template < typename T > std::vector< T * > OOF_LIST< T >::_list_ = std::vector< T * >() ;
-
-// --- CONSTRUCTORS ---
-
-template < typename T >
-OOF_LIST< T >::OOF_LIST
-()
-{
-#ifdef __DEBUG__
-	std::cout << "OOF_LIST construction" << std::endl ;
-#endif
-
-	_list_.push_back( ( T* ) this ) ;
-	SubCommandParser< T >::get_instance() ;
-}
-
-// --- DESTRUCTORS ---
-
-template < typename T >
-OOF_LIST< T >::~OOF_LIST
-()
-{
-#ifdef __DEBUG__
-	std::cout << "OOF_LIST destruction" << std::endl ;
-#endif
-
-	typename std::vector< T * >::const_iterator cit = _list_.cbegin() ;
-	T * t = ( T* ) this ;
-	
-	while( *cit != t )
-	{
-		++cit ;
-	}
-	
-	_list_.erase( cit ) ;
-}
 
 // ===== OOF_SINGLETON =====
 
@@ -220,5 +120,142 @@ OOF_SINGLETON< T >::get_instance
 	return _instance_ ;
 }
 
+// ===== IOOF_OBJ =====
+
+/*
+ * Interface for the OOF_OBJ class: the aim is to keep trace of each 
+ * typename which define a OOF_OBJ in _object_. _object_ is accessible
+ * from all object which inherit from OOF_OBJ.
+ */
+
+class IOOF_OBJ
+{
+	public :
+		
+		// --- ATTRIBUTES ---
+		
+		// --- static ---
+		static std::vector< IOOF_OBJ * > _list_list_ ;
+		static std::vector< IOOF_OBJ * > _list_type_ ;
+	
+	protected :
+		
+		// --- CONSTRUCTORS ---
+		IOOF_OBJ() ;
+		
+		// --- DESTRUCTORS ---
+		virtual ~IOOF_OBJ() = 0 ;
+} ;
+
+// ===== OOF_OBJ =====
+
+/*
+ * OOF_OBJ is a template class which store any instance of an object of 
+ * a specific typename.
+ * For example : if you have three instance of CLASS_A and if CLASS_A inherit
+ * from OOF_OBJ< CLASS_A >, in this case, you can reach any instance with
+ * OOF_OBJ< CLASS_A >::_list_.
+ * The construction of a object OOF_OBJ create a SubCommandParser specific
+ * for the typename.
+ */
+
+template < typename T >
+class OOF_OBJ
+: public IOOF_OBJ
+{
+	public :
+	
+		// --- ATTRIBUTES ---
+		
+		// --- static ---
+		static std::vector< T * > _list_instance_ ;
+		static T * _type_instance_ ;
+		
+	protected :
+		
+		// --- CONSTRUCTORS ---
+		OOF_OBJ() ;
+		
+		// --- DESTRUCTORS ---
+		~OOF_OBJ() ;
+		
+} ;
+
+// --- static ---
+
+template < typename T > std::vector< T * > OOF_OBJ< T >::_list_instance_ = std::vector< T * >() ;
+template < typename T > T * OOF_OBJ< T >::_type_instance_ = NULL ;
+
+// --- CONSTRUCTORS ---
+
+template < typename T >
+OOF_OBJ< T >::OOF_OBJ
+()
+{
+#ifdef __DEBUG__
+	std::cout << "OOF_OBJ construction" << std::endl ;
+#endif
+
+	T * this_cast = ( T* ) this ;
+	
+	// if it's a new type, we add the instance in _list_type_
+	if( _list_instance_.empty() )
+	{
+		_type_instance_ = this_cast ;
+		_list_type_.push_back( _type_instance_ ) ;
+	}
+	
+	// we add the instance in _list_instance_
+	_list_instance_.push_back( this_cast ) ;
+	
+	SubCommandParser< T >::get_instance() ;
+}
+
+// --- DESTRUCTORS ---
+
+template < typename T >
+OOF_OBJ< T >::~OOF_OBJ
+()
+{
+#ifdef __DEBUG__
+	std::cout << "OOF_OBJ destruction" << std::endl ;
+#endif
+
+	typename std::vector< T * >::const_iterator cit = _list_instance_.cbegin() ;
+	T * cast_this = ( T* ) this ;
+	
+	while( *cit != cast_this )
+	{
+		++cit ;
+	}
+	
+	_list_instance_.erase( cit ) ;
+	
+	// if _type_instance_ is this instance, we need to change it there and in _list_type_
+	if( _type_instance_ == cast_this )
+	{
+		// iterator on the type in _list_type_
+		std::vector< IOOF_OBJ * >::iterator it = _list_type_.begin() ;
+		
+		while( *it != cast_this )
+		{
+			++it ;
+		}
+		
+		// if _list_instance_ is empty, we erase the type
+		if( _list_instance_.empty() )
+		{
+			_type_instance_ = NULL ;
+			_list_type_.erase( it ) ;
+		}
+		// else, we change the _type_instance_
+		else
+		{
+			_type_instance_ = _list_instance_[ 0 ] ;
+			( *it ) = _type_instance_ ;
+		}
+		
+	}
+}
 
 #endif // OOFOBJECT_HPP
