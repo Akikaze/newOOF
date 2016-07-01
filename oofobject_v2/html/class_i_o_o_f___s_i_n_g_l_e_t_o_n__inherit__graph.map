@@ -1,0 +1,7 @@
+<map id="IOOF_SINGLETON" name="IOOF_SINGLETON">
+<area shape="rect" id="node2" href="$class_o_o_f___s_i_n_g_l_e_t_o_n.html" title="OOF_SINGLETON\&lt; T \&gt;" alt="" coords="221,5,382,32"/>
+<area shape="rect" id="node3" href="$class_o_o_f___s_i_n_g_l_e_t_o_n.html" title="OOF_SINGLETON\&lt; MainCommand\lParser \&gt;" alt="" coords="187,57,416,98"/>
+<area shape="rect" id="node5" href="$class_o_o_f___s_i_n_g_l_e_t_o_n.html" title="OOF_SINGLETON\&lt; SubCommand\lParser\&lt; T \&gt; \&gt;" alt="" coords="189,122,413,163"/>
+<area shape="rect" id="node4" href="$class_main_command_parser.html" title="MainCommandParser" alt="" coords="477,64,624,91"/>
+<area shape="rect" id="node6" href="$class_sub_command_parser.html" title="SubCommandParser\&lt; T \&gt;" alt="" coords="464,129,637,156"/>
+</map>
