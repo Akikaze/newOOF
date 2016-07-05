@@ -6,8 +6,10 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <vector>
 
+// display any vector
 template < typename T >
 std::ostream &
 operator<<
@@ -29,6 +31,7 @@ operator<<
 	return os ;
 }
 
+// display any array
 template < typename T, size_t N >
 std::ostream &
 operator<<

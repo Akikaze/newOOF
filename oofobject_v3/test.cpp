@@ -30,7 +30,6 @@ ObjectStorage< TEST_A >::load
 (
 	const std::string & filename
 )
-const
 {
 	std::cout << "TEST_A load" << std::endl ;
 }

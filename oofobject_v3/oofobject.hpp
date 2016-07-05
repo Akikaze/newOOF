@@ -136,12 +136,24 @@ class IOOF_OBJ
 	public :
 	
 		// --- GETTERS ---
+		virtual std::string get_name() const
+			{ return name_ ; }
 		virtual std::string get_typename() const = 0 ;
 		
-		// --- COMPARATOR ---
-		struct IOOF_OBJComparator {
+		// --- COMPARATORS ---
+		struct IOOF_OBJComparatorName {
+			bool operator()( const IOOF_OBJ * l, const IOOF_OBJ * r ) {
+				return ( l->get_name() < r->get_name() ) ;
+			}
+		} ;
+		struct IOOF_OBJComparatorTime {
 			bool operator()( const IOOF_OBJ * l, const IOOF_OBJ * r ) {
 				return ( l->last_update_ < r->last_update_ ) ;
+			}
+		} ;
+		struct IOOF_OBJComparatorTypename {
+			bool operator()( const IOOF_OBJ * l, const IOOF_OBJ * r ) {
+				return ( l->get_typename() < r->get_typename() ) ;
 			}
 		} ;
 		
@@ -159,6 +171,10 @@ class IOOF_OBJ
 		
 		// --- DESTRUCTORS ---
 		~IOOF_OBJ() ;
+		
+		// --- ATTRIBUTES ---
+		std::map< std::string, std::string > dependencies_ ;
+		std::string name_ ;
 } ;
 
 // ===== OOF_OBJ =====
@@ -193,7 +209,6 @@ class OOF_OBJ
 		
 		// --- DESTRUCTORS ---
 		~OOF_OBJ() ;
-		
 } ;
 
 // --- static ---

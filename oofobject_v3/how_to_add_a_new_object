@@ -3,5 +3,5 @@ to facilitate the integration of this new object in the current architecture
 
 1 - the new object needs to inherit from OOF_OBJ< newObject >
 2 - you need to implement a specialization of CommandParser::parse
-3 - you need to implement a specialization of ObjectStorage::load and save
+3 - you need to implement a specialization of ObjectStorage::load, load_dependencies and save
 4 - you need to add a case for newObject extension in ProjectStorage::find_ObjectStorage

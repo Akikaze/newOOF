@@ -27,7 +27,6 @@ class TEST_A
 		// --- GETTERS ---
 		virtual inline std::string get_typename() const
 			{ return "TEST_A" ; }
-		
 } ;
 
 class TEST_B
