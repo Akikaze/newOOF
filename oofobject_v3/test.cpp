@@ -40,7 +40,7 @@ void
 ObjectStorage< TEST_A >::save
 (
 	const std::string & folder,
-	const time_t & save_time
+	const IOOF_OBJ * object
 )
 const
 {

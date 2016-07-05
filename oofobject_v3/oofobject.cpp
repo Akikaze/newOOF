@@ -54,6 +54,7 @@ IOOF_OBJ::IOOF_OBJ
 #endif
 
 	_list_list_.push_back( this ) ;
+	last_update_ = time( NULL ) ;
 }
 
 // --- DESTRUCTORS ---

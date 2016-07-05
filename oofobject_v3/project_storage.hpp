@@ -14,9 +14,12 @@ class IObjectStorage
 	
 	private :
 	
+		// --- GETTERS ---
+		virtual std::string get_typename() const = 0 ;
+	
 		// --- METHODS ---
 		virtual void load( const std::string & filename = "" ) const = 0 ;
-		virtual void save( const std::string & folder, const time_t & save_time = 0 ) const = 0 ;
+		virtual void save( const std::string & folder, const IOOF_OBJ * ) const = 0 ;
 } ;
 
 // ===== ProjectStorage =====
@@ -42,6 +45,9 @@ class ProjectStorage
 		// --- CONSTRUCTORS ---
 		ProjectStorage() ;
 		
+		// --- METHODS ---
+		IObjectStorage * find_ObjectStorage( const std::string & ) ;
+		
 		// --- ATTRIBUTES ---
 		std::vector< IObjectStorage * > list_storage_ ;
 		std::string project_name_ ;
@@ -65,9 +71,12 @@ class ObjectStorage
 		// --- DESTRUCTORS ---
 		~ObjectStorage() ;
 		
+		// --- GETTERS ---
+		std::string get_typename() const ;
+		
 		// --- METHODS ---
 		virtual void load( const std::string & ) const ;
-		virtual void save( const std::string &, const time_t & ) const ;
+		virtual void save( const std::string &, const IOOF_OBJ * ) const ;
 } ;
 
 // --- CONSTRUCTORS ---
@@ -94,6 +103,17 @@ ObjectStorage< T >::~ObjectStorage
 #endif
 }
 
+// --- GETTERS ---
+
+template < typename T >
+std::string
+ObjectStorage< T >::get_typename
+()
+const
+{
+	return ( OOF_OBJ< T >::_type_instance_ )->get_typename() ;
+}
+
 // --- METHODS ---
 
 template < typename T >
@@ -112,14 +132,11 @@ void
 ObjectStorage< T >::save
 (
 	const std::string & folder,
-	const time_t & save_time
+	const IOOF_OBJ * object
 )
 const
 {
 	std::cerr << "No save method for this type of object." << std::endl ;
-	
-	// need to sort the vector of instance thanks to time_t value
-	// save everything on the vector after the time_t value
 }
 
 #endif // PROJECT_STORAGE_HPP

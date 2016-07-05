@@ -3,6 +3,8 @@
 
 // #define __DEBUG__
 
+#include <ctime>
+
 #include "std.hpp"
 
 // ===== prior definition =====
@@ -136,8 +138,15 @@ class IOOF_OBJ
 		// --- GETTERS ---
 		virtual std::string get_typename() const = 0 ;
 		
+		// --- COMPARATOR ---
+		struct IOOF_OBJComparator {
+			bool operator()( const IOOF_OBJ * l, const IOOF_OBJ * r ) {
+				return ( l->last_update_ < r->last_update_ ) ;
+			}
+		} ;
+		
 		// --- ATTRIBUTES ---
-		time_t time_ ;
+		time_t last_update_ ;
 		
 		// --- static ---
 		static std::vector< IOOF_OBJ * > _list_list_ ;
@@ -150,13 +159,6 @@ class IOOF_OBJ
 		
 		// --- DESTRUCTORS ---
 		~IOOF_OBJ() ;
-		
-		// --- COMPARATOR ---
-		struct IOOF_OBJComparator {
-			bool operator()( const IOOF_OBJ * l, const IOOF_OBJ * r ) {
-				return ( l->time_ < r->time_ ) ;
-			}
-		} ;
 } ;
 
 // ===== OOF_OBJ =====
@@ -167,8 +169,8 @@ class IOOF_OBJ
  * For example : if you have three instance of CLASS_A and if CLASS_A inherit
  * from OOF_OBJ< CLASS_A >, in this case, you can reach any instance with
  * OOF_OBJ< CLASS_A >::_list_.
- * The construction of a object OOF_OBJ create a SubCommandParser specific
- * for the typename.
+ * The construction of a object OOF_OBJ create a SubCommandParser and a
+ * ObjectStorage specific.
  */
 
 template < typename T >
@@ -179,8 +181,6 @@ class OOF_OBJ
 	
 		// --- GETTERS ---
 		virtual std::string get_typename() const = 0 ;
-		
-		// --- ATTRIBUTES ---
 		
 		// --- static ---
 		static std::vector< T * > _list_instance_ ;

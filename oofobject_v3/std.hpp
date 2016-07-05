@@ -1,8 +1,10 @@
 #ifndef STD_HPP
 #define STD_HPP
 
+#include <algorithm>
 #include <array>
 #include <ctime>
+#include <fstream>
 #include <iostream>
 #include <vector>
 
@@ -47,17 +49,5 @@ operator<<
 	os << "---------" ;
 	return os ;
 }
-
-/*
-bool
-operator^=
-(
-	std::vector< bool >::reference ref,
-	bool b
-)
-{
-	return bool( ref ) ^ b ;
-}
-*/
 
 #endif // STD_HPP
