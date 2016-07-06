@@ -7,7 +7,7 @@ main
 	char ** argv
 )
 {	
-	/*Coord< unsigned int > Cui( 2, 3, 4 ) ;
+	Coord< unsigned int > Cui( 2, 3, 4 ) ;
 	
 	unsigned int pui[ 3 ] ;
 	pui[ 0 ] = 8 ;
@@ -20,8 +20,9 @@ main
 	
 	std::cout << bv1 << std::endl ;
 	std::cout << bv2 << std::endl ;
-	std::cout << bv3 << std::endl ;*/
+	std::cout << bv3 << std::endl ;
 	
+	/*
 	Microstructure * m1 = new Microstructure() ;
 	Microstructure * m2 = new Microstructure( "test" ) ;
 	Microstructure * m3 = new Microstructure() ;
@@ -35,6 +36,7 @@ main
 	// These destructions need to be done at the end of the program
 	delete CommandParser::get_instance() ;
 	delete ProjectStorage::get_instance() ;
+	*/
 	
 	return 0 ;
 }

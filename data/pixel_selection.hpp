@@ -17,7 +17,6 @@ class PixelSelection
 	
 	private :
 		
-	
 } ;
 
 #endif // PIXEL_SELECTION_HPP
