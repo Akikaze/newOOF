@@ -19,13 +19,8 @@ class Microstructure
 		
 		// --- GETTERS ---
 		virtual inline std::string get_typename() const
-			{ return _typename_ ; }
-		
-		// --- ATTRIBUTES ---
-		
-		// --- static ---
-		static const std::string _typename_ ;
-	
+			{ return "Microstructure" ; }
+			
 	protected :
 		
 	

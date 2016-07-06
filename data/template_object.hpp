@@ -17,12 +17,8 @@ class NewObject
 		
 		// --- GETTERS ---
 		virtual inline std::string get_typename() const
-			{ return _typename_ ; }
+			{ return "NewObject" ; }
 		
-		// --- ATTRIBUTES ---
-		
-		// --- static ---
-		static const std::string _typename_ ;
 	
 	protected :
 		

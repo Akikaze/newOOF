@@ -197,14 +197,13 @@ class OOF_OBJ
 	
 		// --- GETTERS ---
 		virtual std::string get_typename() const
-			{ return _typename_ ; }
+			{ return "OOF_OBJ< ? >" ; }
 		
 		// --- static ---
 		static std::vector< T * > _list_instance_ ;
 		static T * _type_instance_ ;
 		
 		static unsigned short _index_ ;
-		static const std::string _typename_ ;
 		
 	protected :
 		
@@ -223,7 +222,6 @@ class OOF_OBJ
 template < typename T > std::vector< T * > OOF_OBJ< T >::_list_instance_ = std::vector< T * >() ;
 template < typename T > T * OOF_OBJ< T >::_type_instance_ = NULL ;
 template < typename T > unsigned short OOF_OBJ< T >::_index_ = 0 ;
-template < typename T > const std::string OOF_OBJ< T >::_typename_ = "OOF_OBJ< ? >" ;
 
 // --- CONSTRUCTORS ---
 
@@ -234,7 +232,7 @@ OOF_OBJ< T >::OOF_OBJ
 )
 {
 #ifdef __DEBUG__
-	std::cout << _typename_ << " construction" << std::endl ;
+	std::cout << get_typename() << " construction" << std::endl ;
 #endif
 
 	T * this_cast = ( T* ) this ;
@@ -260,7 +258,7 @@ OOF_OBJ< T >::~OOF_OBJ
 ()
 {
 #ifdef __DEBUG__
-	std::cout << _typename_ << " destruction" << std::endl ;
+	std::cout << get_typename() << " destruction" << std::endl ;
 #endif
 
 	typename std::vector< T * >::const_iterator cit = _list_instance_.cbegin() ;
@@ -308,9 +306,11 @@ OOF_OBJ< T >::give_name
 (
 	const std::string & name
 )
-{	
+{
+	// signal
 	bool rename = false ;
 	
+	// no name -> rename
 	if( name.empty() )
 	{
 		rename = true ;
@@ -322,16 +322,19 @@ OOF_OBJ< T >::give_name
 						   _list_instance_.end(),
 						   [&name] (T * i) -> bool { return ( i->name_ == name ) ; } ) ;
 		
+		// name already used -> rename
 		if( it != _list_instance_.end() )
 		{
 			rename = true ;
 		}
 	}
 	
+	
 	if( rename == true )
 	{
+		// name is a combination of the type and 
 		_index_++ ;
-		name_ = T::_typename_ + "_" + std::to_string( _index_ ) ;
+		name_ = get_typename() + "_" + std::to_string( _index_ ) ;
 	}
 	else
 	{

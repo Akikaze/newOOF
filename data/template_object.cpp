@@ -2,10 +2,6 @@
 
 // ===== NEWOBJECT =====
 
-// --- static ---
-
-std::string NewObject::_typename_ = "NewObject" ;
-
 // --- CONSTRUCTORS ---
 
 NewObject::NewObject
@@ -15,7 +11,7 @@ NewObject::NewObject
 : name_( name )
 {
 #ifdef __DEBUG__
-	std::cout << _typename_ << " construction" << std::endl ;
+	std::cout << get_typename() << " construction" << std::endl ;
 #endif
 
 	// need to wait after the construction of OOF_OBJ to call give_name()
@@ -28,7 +24,7 @@ NewObject::~NewObject
 ()
 {
 #ifdef __DEBUG__
-	std::cout << _typename_ << " destruction" << std::endl ;
+	std::cout << get_typename() << " destruction" << std::endl ;
 #endif
 }
 
