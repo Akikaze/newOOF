@@ -1,10 +1,15 @@
 #ifndef STD_HPP
 #define STD_HPP
 
+#include <algorithm>
 #include <array>
+#include <ctime>
+#include <fstream>
 #include <iostream>
+#include <map>
 #include <vector>
 
+// display any vector
 template < typename T >
 std::ostream &
 operator<<
@@ -26,6 +31,7 @@ operator<<
 	return os ;
 }
 
+// display any array
 template < typename T, size_t N >
 std::ostream &
 operator<<
@@ -46,17 +52,5 @@ operator<<
 	os << "---------" ;
 	return os ;
 }
-
-/*
-bool
-operator^=
-(
-	std::vector< bool >::reference ref,
-	bool b
-)
-{
-	return bool( ref ) ^ b ;
-}
-*/
 
 #endif // STD_HPP

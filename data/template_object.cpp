@@ -1,17 +1,18 @@
-#include "microstructure.hpp"
+#include "template_object.hpp"
 
-// ===== MICROSTRUCTURE =====
+// ===== NEWOBJECT =====
 
 // --- static ---
 
-const std::string Microstructure::_typename_ = "Microstructure" ;
+std::string NewObject::_typename_ = "NewObject" ;
 
 // --- CONSTRUCTORS ---
 
-Microstructure::Microstructure
+NewObject::NewObject
 (
 	const std::string & name
 )
+: name_( name )
 {
 #ifdef __DEBUG__
 	std::cout << _typename_ << " construction" << std::endl ;
@@ -21,22 +22,9 @@ Microstructure::Microstructure
 	give_name( name ) ;
 }
 
-Microstructure::Microstructure
-(
-	const std::string & name,
-	const Coord< unsigned int > & size_in_pixel,
-	const Coord< double > & size_real
-)
-: Microstructure( name )
-{
-	size_in_pixel_ = size_in_pixel ;
-	size_real_ = size_real ;
-	pixel_dimension_ = size_real_.component_division( size_in_pixel_ ) ;
-}
-
 // --- DESTRUCTORS ---
 
-Microstructure::~Microstructure
+NewObject::~NewObject
 ()
 {
 #ifdef __DEBUG__
@@ -48,7 +36,7 @@ Microstructure::~Microstructure
 
 template <>
 void
-ObjectStorage< Microstructure >::load
+ObjectStorage< NewObject >::load
 (
 	const std::string & filename
 )
@@ -57,7 +45,7 @@ ObjectStorage< Microstructure >::load
 
 template <>
 void
-ObjectStorage< Microstructure >::save
+ObjectStorage< NewObject >::save
 (
 	const std::string & folder,
 	const IOOF_OBJ * object
@@ -70,7 +58,7 @@ const
 
 template <>
 void
-SubCommandParser< Microstructure >::parse
+SubCommandParser< NewObject >::parse
 (
 	const std::string & command
 )
