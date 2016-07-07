@@ -17,7 +17,7 @@ class ISubCommandParser
 {
 	friend class CommandParser ; // parse
 	
-	private :
+	protected :
 		
 		// --- METHODS ---
 		virtual void parse( const std::string & ) const = 0 ;
@@ -47,7 +47,7 @@ class CommandParser
 		void display_list() const ;
 		void parse( const std::string & ) ;
 	
-	private :
+	protected :
 		
 		// --- CONSTRUCTORS ---
 		CommandParser() ;
@@ -73,7 +73,7 @@ class SubCommandParser
 {
 	friend class OOF_SINGLETON< SubCommandParser< T > > ; // constructor
 	
-	private :
+	protected :
 		
 		// --- CONSTRUCTORS ---
 		SubCommandParser() ;

@@ -136,8 +136,9 @@ class IOOF_OBJ
 	public :
 	
 		// --- GETTERS ---
-		virtual std::string get_name() const
+		std::string get_name() const
 			{ return name_ ; }
+		
 		virtual std::string get_typename() const = 0 ;
 		
 		// --- COMPARATORS ---
@@ -173,7 +174,7 @@ class IOOF_OBJ
 		~IOOF_OBJ() ;
 		
 		// --- ATTRIBUTES ---
-		std::map< std::string, std::string > dependencies_ ;
+		std::map< std::string, std::string > dependencies_ ; // std::map< typename, filename >
 		std::string name_ ;
 } ;
 
@@ -199,10 +200,10 @@ class OOF_OBJ
 		virtual std::string get_typename() const
 			{ return "OOF_OBJ< ? >" ; }
 		
+		// --- ATTRIBUTES ---
+		
 		// --- static ---
 		static std::vector< T * > _list_instance_ ;
-		static T * _type_instance_ ;
-		
 		static unsigned short _index_ ;
 		
 	protected :
@@ -215,6 +216,11 @@ class OOF_OBJ
 		
 		// --- METHODS ---
 		void give_name( const std::string & ) ;
+		
+		// --- ATTRIBUTES ---
+		
+		// --- static ---
+		static T * _type_instance_ ;
 } ;
 
 // --- static ---

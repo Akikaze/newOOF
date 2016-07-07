@@ -20,8 +20,8 @@ BoolVector::toggle
 	const unsigned int & i
 )
 {
+	// invert the value of the boolean at index i
 	( *this )[ i ] = ( *this )[ i ] ^ true ;
-	//( *this )[ i ] ^= true ;
 }
 
 // ===== BOOL_VECTOR_3D =====

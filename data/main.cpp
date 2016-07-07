@@ -7,6 +7,7 @@ main
 	char ** argv
 )
 {	
+	
 	Coord< unsigned int > Cui( 2, 3, 4 ) ;
 	
 	unsigned int pui[ 3 ] ;

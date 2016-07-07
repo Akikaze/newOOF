@@ -12,7 +12,7 @@ class IObjectStorage
 {
 	friend class ProjectStorage ;
 	
-	private :
+	protected :
 	
 		// --- GETTERS ---
 		virtual std::string get_typename() const = 0 ;
@@ -44,7 +44,7 @@ class ProjectStorage
 		void load( const std::string & filename = "" ) ;
 		void save( const std::string & project_name = "", bool all = false ) ;
 		
-	private :
+	protected :
 		
 		// --- CONSTRUCTORS ---
 		ProjectStorage() ;
@@ -68,7 +68,7 @@ class ObjectStorage
 	friend class OOF_SINGLETON< ObjectStorage< T > > ; // constructor
 	friend T ;
 	
-	private :
+	protected :
 		
 		// --- CONSTRUCTORS ---
 		ObjectStorage() ;
@@ -77,7 +77,7 @@ class ObjectStorage
 		~ObjectStorage() ;
 		
 		// --- GETTERS ---
-		std::string get_typename() const ;
+		virtual std::string get_typename() const ;
 		
 		// --- METHODS ---
 		virtual void load( const std::string & ) ;
@@ -117,7 +117,14 @@ ObjectStorage< T >::get_typename
 ()
 const
 {
-	return ( OOF_OBJ< T >::_type_instance_ )->get_typename() ;
+	std::string result = "" ;
+	
+	if( !( OOF_OBJ< T >::_list_instance_.empty() ) )
+	{
+		result = ( OOF_OBJ< T >::_list_instance_[ 0 ] )->get_typename() ;
+	}
+	
+	return result ;
 }
 
 // --- METHODS ---

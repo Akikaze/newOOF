@@ -322,6 +322,4 @@ typedef Coord< double > Coord_D ;
 typedef Coord< int > Coord_I ;
 typedef Coord< unsigned int > Coord_UI ;
 
-
-
 #endif // COORD_HPP
