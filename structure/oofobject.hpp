@@ -388,4 +388,9 @@ OOF_OBJ< T >::give_name
 	}
 }
 
+// ===== ended includes =====
+
+#include "command_parser.hpp"
+#include "project_storage.hpp"
+
 #endif // OOFOBJECT_HPP

@@ -1,10 +1,10 @@
 # DEFINITION DES ACRONYMES
 CC 	= 	g++
 CFLAGS 	= 	-std=c++11
-SRC 	= 	command_parser.cpp \
+SRC 	= 	oofobject.cpp \
+			command_parser.cpp \
 			log_device.cpp \
 			project_storage.cpp \
-			oofobject.cpp \
 			core.cpp \
 			test.cpp \
 			main.cpp
