@@ -1,12 +1,13 @@
 # DEFINITION DES ACRONYMES
 CC 	= 	g++
 CFLAGS 	= 	-std=c++11
-SRC 	= 	main.cpp \
-			command_parser.cpp \
-			core.cpp \
-			oofobject.cpp \
+SRC 	= 	command_parser.cpp \
+			log_device.cpp \
 			project_storage.cpp \
-			test.cpp
+			oofobject.cpp \
+			core.cpp \
+			test.cpp \
+			main.cpp
 			
 OBJ 	= 	$(SRC:.cpp=.o)
 EXEC	=	prog

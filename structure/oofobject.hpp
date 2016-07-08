@@ -7,11 +7,6 @@
 
 #include "std.hpp"
 
-// ===== prior definition =====
-
-template < typename T > class SubCommandParser ;
-template < typename T > class ObjectStorage ;
-
 // ===== IOOF_SINGLETON =====
 
 /*
@@ -148,6 +143,19 @@ OOF_SINGLETON< T >::destroy
 	}
 }
 
+// ===== prior definition =====
+
+/*
+ * IOOF_OBJ required a instance of a singleton, but this singleton needs
+ * the definition of OOF_SINGLETON. In this case, we need to define the
+ * singleton, include the singleton file to explain to IOOF_OBJ that the
+ * singleton is a real singleton with get_instance, construct and destroy
+ * and after that, we can define IOOF_OBJ.
+ */
+ 
+#include "log_device.hpp"
+class LogDevice ;
+
 // ===== IOOF_OBJ =====
 
 /*
@@ -189,6 +197,7 @@ class IOOF_OBJ
 		// --- static ---
 		static std::vector< IOOF_OBJ * > _list_list_ ;
 		static std::vector< IOOF_OBJ * > _list_type_ ;
+		static LogDevice * _log_device_ ;
 	
 	protected :
 		
@@ -202,6 +211,11 @@ class IOOF_OBJ
 		std::map< std::string, std::string > dependencies_ ; // std::map< typename, filename >
 		std::string name_ ;
 } ;
+
+// ===== prior definition =====
+
+template < typename T > class ObjectStorage ;
+template < typename T > class SubCommandParser ;
 
 // ===== OOF_OBJ =====
 
@@ -278,8 +292,9 @@ OOF_OBJ< T >::OOF_OBJ
 	// we add the instance in _list_instance_
 	_list_instance_.push_back( this_cast ) ;
 	
-	SubCommandParser< T >::construct() ;
+	// construction of every singleton required
 	ObjectStorage< T >::construct() ;
+	SubCommandParser< T >::construct() ;
 }
 
 // --- DESTRUCTORS ---

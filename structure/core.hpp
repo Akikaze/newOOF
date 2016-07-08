@@ -3,7 +3,7 @@
 
 #include "oofobject.hpp"
 #include "command_parser.hpp"
-// #include "log_device.hpp"
+#include "log_device.hpp"
 #include "project_storage.hpp"
 
 class Core
@@ -18,7 +18,7 @@ class Core
 		
 		// --- ATTRIBUTES ---
 		CommandParser * command_parser_ ;
-		// LogDevice * log_device_ ;
+		LogDevice * log_device_ ;
 		ProjectStorage * project_storage_ ;
 		
 	protected :

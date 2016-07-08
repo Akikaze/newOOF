@@ -43,6 +43,7 @@ IOOF_SINGLETON::~IOOF_SINGLETON
 
 std::vector< IOOF_OBJ * > IOOF_OBJ::_list_list_ = std::vector< IOOF_OBJ * >() ;
 std::vector< IOOF_OBJ * > IOOF_OBJ::_list_type_ = std::vector< IOOF_OBJ * >() ;
+LogDevice * IOOF_OBJ::_log_device_ = NULL ;
 
 // --- CONSTRUCTORS ---
 
@@ -52,6 +53,11 @@ IOOF_OBJ::IOOF_OBJ
 #ifdef __DEBUG__
 	std::cout << "IOOF_OBJ construction" << std::endl ;
 #endif
+
+	if( _log_device_ == NULL )
+	{
+		_log_device_ = LogDevice::get_instance() ;
+	}
 
 	_list_list_.push_back( this ) ;
 	last_update_ = time( NULL ) ;
