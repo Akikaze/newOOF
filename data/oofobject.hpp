@@ -60,6 +60,10 @@ class OOF_SINGLETON
 		// --- GETTERS ---
 		static T * get_instance() ;
 		
+		// --- METHODS ---
+		static void construct() ;
+		static void destroy() ;
+		
 	protected :
 	
 		// --- CONSTRUCTORS ---
@@ -115,12 +119,33 @@ T *
 OOF_SINGLETON< T >::get_instance
 ()
 {
+	construct() ;
+	return _instance_ ;
+}
+
+// --- METHODS ---
+
+template < typename T >
+void
+OOF_SINGLETON< T >::construct
+()
+{
 	if( _instance_ == NULL )
 	{
 		_instance_ = new T() ;
 	}
-	
-	return _instance_ ;
+}
+
+template < typename T >
+void
+OOF_SINGLETON< T >::destroy
+()
+{
+	if( _instance_ != NULL )
+	{
+		delete _instance_ ;
+		_instance_ = NULL ;
+	}
 }
 
 // ===== IOOF_OBJ =====
@@ -253,8 +278,8 @@ OOF_OBJ< T >::OOF_OBJ
 	// we add the instance in _list_instance_
 	_list_instance_.push_back( this_cast ) ;
 	
-	SubCommandParser< T >::get_instance() ;
-	ObjectStorage< T >::get_instance() ;
+	SubCommandParser< T >::construct() ;
+	ObjectStorage< T >::construct() ;
 }
 
 // --- DESTRUCTORS ---
