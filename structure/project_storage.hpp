@@ -14,6 +14,9 @@ class IObjectStorage
 	
 	protected :
 	
+		// --- DESTRUCTORS ---
+		virtual ~IObjectStorage() ;
+	
 		// --- GETTERS ---
 		virtual std::string get_typename() const = 0 ;
 	

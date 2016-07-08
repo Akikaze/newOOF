@@ -14,7 +14,7 @@ class TEST_A
 		TEST_A() ;
 		
 		// --- DESTRUCTORS ---
-		~TEST_A() ;
+		virtual ~TEST_A() ;
 	
 		// --- GETTERS ---
 		virtual inline std::string get_typename() const
@@ -30,7 +30,7 @@ class TEST_B
 		TEST_B() ;
 		
 		// --- DESTRUCTORS ---
-		~TEST_B() ;
+		virtual ~TEST_B() ;
 		
 		// --- GETTERS ---
 		virtual inline std::string get_typename() const

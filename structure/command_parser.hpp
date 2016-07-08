@@ -19,6 +19,9 @@ class ISubCommandParser
 	
 	protected :
 		
+		// --- DESTRUCTORS ---
+		virtual ~ISubCommandParser() ;
+		
 		// --- METHODS ---
 		virtual void parse( const std::string & ) const = 0 ;
 } ;

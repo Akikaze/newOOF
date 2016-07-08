@@ -1,6 +1,6 @@
 # DEFINITION DES ACRONYMES
 CC 	= 	g++
-CFLAGS 	= 	-std=c++11
+CFLAGS 	= 	-std=c++11 -Wall
 SRC 	= 	oofobject.cpp \
 			command_parser.cpp \
 			log_device.cpp \
@@ -27,14 +27,17 @@ $(EXEC): $(OBJ)
 clean :
 	rm -rf $(OBJ)
 
-# CLEAN_
-clean_ : clean
+# DELETE
+delete :
 	rm -rf $(EXEC)
 
-# CLEAR
-clear : clean_
+# RESET
+reset :
+	rm -rf $(OBJ)
+	rm -rf $(EXEC)
 	reset
 
 # REPEAT
-repeat : clear
+repeat : reset
 	make
+	rm -rf $(OBJ)

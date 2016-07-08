@@ -1,5 +1,14 @@
 #include "command_parser.hpp"
 
+// ===== ISubCommandParser =====
+
+// --- DESTRUCTORS ---
+
+ISubCommandParser::~ISubCommandParser
+()
+{	
+}
+
 // ===== CommandParser =====
 
 // --- CONSTRUCTORS ---

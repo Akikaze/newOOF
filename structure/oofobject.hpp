@@ -165,7 +165,7 @@ class LogDevice ;
  */
 
 class IOOF_OBJ
-{
+{	
 	public :
 	
 		// --- GETTERS ---
@@ -195,7 +195,7 @@ class IOOF_OBJ
 		time_t last_update_ ;
 		
 		// --- static ---
-		static std::vector< IOOF_OBJ * > _list_list_ ;
+		static std::vector< IOOF_OBJ * > _list_obj_ ;
 		static std::vector< IOOF_OBJ * > _list_type_ ;
 		static LogDevice * _log_device_ ;
 	

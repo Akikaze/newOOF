@@ -11,7 +11,7 @@ class NewObject
 		NewObject( const std::string & ) ;
 		
 		// --- DESTRUCTORS ---
-		~NewObject() ;
+		virtual ~NewObject() ;
 		
 		// --- GETTERS ---
 		virtual inline std::string get_typename() const

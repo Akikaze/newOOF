@@ -1,5 +1,14 @@
 #include "project_storage.hpp"
 
+// ===== IObjectStorage =====
+
+// --- DESTRUCTORS ---
+
+IObjectStorage::~IObjectStorage
+()
+{
+}
+
 // ===== ProjectStorage =====
 
 // --- CONSTRUCTORS ---
@@ -167,7 +176,7 @@ ProjectStorage::save
 		}
 		
 		// list all instances and sort by last_update_ time
-		std::vector< IOOF_OBJ * > objects = IOOF_OBJ::_list_list_ ;
+		std::vector< IOOF_OBJ * > objects = IOOF_OBJ::_list_obj_ ;
 		std::sort( objects.begin(), objects.end(), IOOF_OBJ::IOOF_OBJComparatorTime() ) ;
 		std::vector< IOOF_OBJ * >::const_iterator cit = objects.cbegin() ;
 		
@@ -182,7 +191,7 @@ ProjectStorage::save
 		
 		// this for loop could be parallize
 		std::vector< IObjectStorage * >::const_iterator citOS ;
-		for( cit ; cit != objects.cend() ; ++cit )
+		for( ; cit != objects.cend() ; ++cit )
 		{
 			// find the perfect ObjectStorage to save
 			citOS = list_storage_.cbegin() ;
