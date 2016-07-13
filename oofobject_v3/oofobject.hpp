@@ -3,8 +3,6 @@
 
 // #define __DEBUG__
 
-#include <ctime>
-
 #include "std.hpp"
 
 // ===== prior definition =====
