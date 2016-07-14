@@ -1,0 +1,31 @@
+# DEFINITION DES ACRONYMES 
+CXXFLAGS = -std=c++11
+LDFLAGS =  -g
+LDLIBS  =  -ldl
+ 
+SRC     =   oof_object.cpp \
+			instance_manager.cpp \
+			log_device.cpp \
+			command_parser.cpp \
+			project_storage.cpp \
+			core.cpp \
+			main.cpp \
+			test.cpp \
+  
+OBJ     =   $(SRC:.cpp=.o)
+EXEC    =   prog
+  
+# EXECUTION
+all: $(EXEC)
+  
+# FABRICATION DES OBJETS (.o)
+$(EXEC): $(OBJ)
+	$(LINK.cc)  $(LOADLIBES) $(LDLIBS) -o $@ $^
+  
+# FABRICATION DES (.o) A PARTIR DES (.cpp)
+#%.o: src/%.cpp
+%.o: core/%.cpp
+	$(COMPILE.cc) $<
+
+%.o: %.cpp
+	$(COMPILE.cc) $<

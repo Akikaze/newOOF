@@ -1,4 +1,4 @@
-#include "core.hpp"
+#include "core/core.hpp"
 #include "test.hpp"
 
 
@@ -8,7 +8,7 @@ main
 	int argc,
 	char ** argv
 )
-{
+{	
 	Core::construct() ;
 	
 	

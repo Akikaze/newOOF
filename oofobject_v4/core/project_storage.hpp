@@ -5,12 +5,12 @@
 
 // ===== StorageDependency =====
 
-typedef struct StorageDependency_t
+struct StorageDependency
 {
 	std::string to ; // which object need the dependency
 	std::string where ; // which variable is going to use the dependency
 	std::string from ; // which object is the dependency
-} StorageDependency ;
+} ;
 
 // ===== IObjectStorage =====
 
@@ -29,7 +29,7 @@ class IObjectStorage
 		virtual void save( const std::string & folder, const IOOF_OBJECT * ) const = 0 ;
 		
 		// --- ATTRIBUTES ---
-		std::vector< StorageDependency * > dependencies_ ;
+		std::vector< StorageDependency > dependencies_ ;
 } ;
 
 // ===== ProjectStorage =====
