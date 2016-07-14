@@ -7,12 +7,10 @@ class InstanceManager
 : public OOF_SINGLETON< InstanceManager >
 , public std::multimap< std::string, IOOF_OBJECT * >
 {
-	friend OOF_SINGLETON< InstanceManager > ;
+	friend OOF_SINGLETON< InstanceManager > ; // constructor
+	friend class Core ; // destructor
 	
 	public :
-		
-		// --- DESTRUCTORS ---
-		~InstanceManager() ;
 		
 		// --- METHODS ---
 		void add( IOOF_OBJECT * instance ) ;
@@ -21,6 +19,9 @@ class InstanceManager
 	
 	protected :
 	
+		// --- DESTRUCTORS ---
+		~InstanceManager() ;
+		
 		// --- CONSTRUCTORS ---
 		InstanceManager() ;
 } ;

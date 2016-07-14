@@ -7,17 +7,18 @@
 class LogDevice
 : public OOF_SINGLETON< LogDevice >
 {
-	friend class OOF_SINGLETON< LogDevice > ;
+	friend class OOF_SINGLETON< LogDevice > ; // constructor
+	friend class Core ; // destructor
 	
 	public :
-		
-		// --- DESTRUCTORS ---
-		~LogDevice() ;
 		
 	protected :
 	
 		// --- CONSTRUCTORS ---
 		LogDevice() ;
+		
+		// --- DESTRUCTORS ---
+		~LogDevice() ;
 		
 } ;
 

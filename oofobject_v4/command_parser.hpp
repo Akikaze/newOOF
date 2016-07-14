@@ -36,6 +36,7 @@ class CommandParser
 : public OOF_SINGLETON< CommandParser >
 {
 	friend class OOF_SINGLETON< CommandParser > ; // constructor
+	friend class Core ; // destructor
 	
 	public :
 	

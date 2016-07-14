@@ -4,6 +4,15 @@
 #include "oof_object.hpp"
 #include "instance_manager.hpp"
 
+// ===== StorageDependency =====
+
+typedef struct StorageDependency_t
+{
+	std::string to ; // which object need the dependency
+	std::string where ; // which variable is going to use the dependency
+	std::string from ; // which object is the dependency
+} StorageDependency ;
+
 // ===== IObjectStorage =====
 
 class IObjectStorage
@@ -21,7 +30,7 @@ class IObjectStorage
 		virtual void save( const std::string & folder, const IOOF_OBJECT * ) const = 0 ;
 		
 		// --- ATTRIBUTES ---
-		// std::vector< IOOF_OBJECT * > dependencies_ ;
+		std::vector< StorageDependency * > dependencies_ ;
 } ;
 
 // ===== ProjectStorage =====
@@ -30,12 +39,10 @@ class ProjectStorage
 : public OOF_SINGLETON< ProjectStorage >
 {
 	friend class OOF_SINGLETON< ProjectStorage > ; // constructor
+	friend class Core ; // destructor
 	
 	public :
 	
-		// --- DESTRUCTORS ---
-		~ProjectStorage() ;
-		
 		// --- METHODS ---
 		void add_list( const std::string &, IObjectStorage * ) ;
 		void display_list() const ;
@@ -46,7 +53,10 @@ class ProjectStorage
 		
 		// --- CONSTRUCTORS ---
 		ProjectStorage() ;
-				
+		
+		// --- DESTRUCTORS ---
+		~ProjectStorage() ;
+		
 		// --- ATTRIBUTES ---
 		InstanceManager * im_ ;
 		std::map< std::string, IObjectStorage * > map_storage_ ;

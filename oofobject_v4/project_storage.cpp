@@ -74,7 +74,7 @@ ProjectStorage::load
 		std::getline( project_file, line ) ; // empty line
 		
 		std::map< std::string, std::string > objects_list ;
-		//         typename      address
+		//          typename     address
 		size_t pos = 0 ;
 		while( std::getline( project_file, line ) ) // filename
 		{
@@ -96,17 +96,15 @@ ProjectStorage::load
 		}
 		
 		// this for loop could be parallize
-		/*
-		std::vector< IObjectStorage * >::const_iterator citOS ;
-		for( citOS = map_storage_.cbegin() ; citOS != map_storage_.cend() ; ++citOS )
+		std::map< std::string, IObjectStorage * >::const_iterator map_cit ;
+		for( map_cit = map_storage_.cbegin() ; map_cit != map_storage_.cend() ; ++map_cit )
 		{
 			// if there are dependencies, call the load_dependencies method
-			if( !( ( *citOS )->dependencies_.empty() ) )
+			if( !( ( ( *map_cit ).second )->dependencies_.empty() ) )
 			{
-				( *citOS )->load_dependencies() ;
+				( ( *map_cit ).second )->load_dependencies() ;
 			}
 		}
-		*/
 	}
 	else
 	{
