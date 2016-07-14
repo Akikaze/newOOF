@@ -2,10 +2,6 @@
 #define CORE_HPP
 
 #include "oof_object.hpp"
-#include "command_parser.hpp"
-#include "instance_manager.hpp"
-#include "log_device.hpp"
-#include "project_storage.hpp"
 
 class Core
 : public OOF_SINGLETON< Core >

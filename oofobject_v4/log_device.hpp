@@ -2,7 +2,6 @@
 #define LOG_DEVICE_HPP
 
 #include "oof_object.hpp"
-#include "std.hpp"
 
 class LogDevice
 : public OOF_SINGLETON< LogDevice >

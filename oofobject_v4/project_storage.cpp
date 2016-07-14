@@ -150,7 +150,7 @@ ProjectStorage::save
 		for( ioof_cit = objects.cbegin() ; ioof_cit != objects.cend() ; ++ioof_cit )
 		{
 			IObjectStorage * ios = map_storage_[ ( *ioof_cit )->get_typename() ] ;
-			// ios->save( folder ) ;
+			// ios->save( folder, *ioof_cit ) ;
 		}
 	
 		// save the project file
