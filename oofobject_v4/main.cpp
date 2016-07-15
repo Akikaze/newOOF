@@ -27,6 +27,7 @@ main
 	CommandParser::get_instance()->parse( "Test.new_test" ) ;
 	
 	
+	Core::get_instance()->display_logs() ;
 	
 	Core::destroy() ;
 	

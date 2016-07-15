@@ -1,188 +1,17 @@
 #ifndef OOF_OBJECT_HPP
 #define OOF_OBJECT_HPP
 
-#include "global.hpp"
-#include "std.hpp"
-
-// ===== IOOF_OBJECT =====
-
-/*
- * 
- */
-
-// ----- prior definition -----
-
-class InstanceManager ;
-class LogDevice ;
-
-// ----- class -----
-
-class IOOF_OBJECT
-{
-	public :
-		
-		// --- DESTRUCTORS ---
-		virtual ~IOOF_OBJECT() ;
-		
-		// --- GETTERS ---
-		std::string get_name() const
-			{ return name_ ; }
-		virtual std::string get_typename() const = 0 ;
-		
-		// --- COMPARATORS ---
-		struct ComparatorName {
-			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
-				return ( l->get_name() < r->get_name() ) ;
-			}
-		} ;
-		struct ComparatorTime {
-			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
-				return ( l->last_update_ < r->last_update_ ) ;
-			}
-		} ;
-		struct ComparatorTypename {
-			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
-				return ( l->get_typename() < r->get_typename() ) ;
-			}
-		} ;
-		
-		// --- ATTRIBUTES ---
-		time_t last_update_ ;
-		static LogDevice * _ld_ ;
-		static InstanceManager * _im_ ;
-		
-	protected :
-		
-		// --- CONSTRUCTORS ---
-		IOOF_OBJECT() ;
-		
-		// --- METHODS ---
-		void add( IOOF_OBJECT * ) const ;
-		std::vector< IOOF_OBJECT * > extract( const std::string & ) const ;
-		
-		// --- ATTRIBUTES ---
-		std::string name_ ;
-} ;
-
-// ===== OOF_SINGLETON =====
-
-/*
- * OOF_SINGLETON is a template class which store the pattern Singleton.
- * For creating a Singleton from CLASS_B, you need three steps :
- * 1 - your class must inherit from OOF_SINGLETON< CLASS_B >
- * 2 - define that OOF_SINGLETON< CLASS_B > is a friend of CLASS_B
- * 3 - make the CLASS_B constructor private
- */
-
-// ----- class -----
-
-template < class T >
-class OOF_SINGLETON
-{
-	public :
-		
-		// --- GETTERS ---
-		static T * get_instance() ;
-		
-		// --- METHODS ---
-		static void construct() ;
-		static void destroy() ;
-		
-	protected :
-		
-		// --- CONSTRUCTORS ---
-		OOF_SINGLETON() ;
-		OOF_SINGLETON( const OOF_SINGLETON & ) ;
-		
-		// --- DESTRUCTORS ---
-		virtual ~OOF_SINGLETON() ;
-		
-		// --- ATTRIBUTES ---
-		static T * _instance_ ;
-} ;
-
-// --- ATTRIBUTES ---
-
-template < class T >
-T * OOF_SINGLETON< T >::_instance_ = nullptr ;
-
-// --- CONSTRUCTORS ---
-
-template < class T >
-OOF_SINGLETON< T >::OOF_SINGLETON
-()
-{
-}
-
-template < class T >
-OOF_SINGLETON< T >::OOF_SINGLETON
-(
-	const OOF_SINGLETON< T > &
-)
-{
-}
-
-// --- DESTRUCTORS ---
-
-template < class T >
-OOF_SINGLETON< T >::~OOF_SINGLETON
-()
-{
-}
-
-// --- GETTERS ---
-
-template < class T >
-T *
-OOF_SINGLETON< T >::get_instance
-()
-{
-	construct() ;
-	return _instance_ ;
-}
-
-// --- METHODS ---
-
-template < class T >
-void
-OOF_SINGLETON< T >::construct
-()
-{
-	if( _instance_ == nullptr )
-	{
-		_instance_ = new T() ;
-	}
-}
-
-template < class T >
-void
-OOF_SINGLETON< T >::destroy
-()
-{
-	if( _instance_ != nullptr )
-	{
-		delete _instance_ ;
-		_instance_ = nullptr ;
-	}
-}
-
-// ===== IOOF_OBJECT ======
-
-// ----- late includes -----
-
+#include "ioof_object.hpp"
+#include "command_parser.hpp"
 #include "instance_manager.hpp"
 #include "log_device.hpp"
+#include "project_storage.hpp"
 
 // ===== OOF_OBJECT =====
 
 /*
  * 
  */
-
-// ----- prior definition -----
-
-template < class T > class ObjectStorage ;
-template < class T > class SubCommandParser ;
 
 // ----- class -----
 
@@ -194,7 +23,7 @@ class OOF_OBJECT
 	
 		// --- GETTERS ---
 		virtual std::string get_typename() const ;
-		
+				
 		// --- ATTRIBUTES ---
 		static unsigned short _index_ ;
 	
@@ -212,11 +41,6 @@ class OOF_OBJECT
 		// --- ATTRIBUTES ---
 		static std::string _typename_ ;
 } ;
-
-// ----- late includes -----
-
-#include "command_parser.hpp"
-#include "project_storage.hpp"
 
 // --- ATTRIBUTES ---
 
@@ -238,6 +62,8 @@ OOF_OBJECT< T >::OOF_OBJECT
 	add( this ) ;
 	give_name( name ) ;
 	
+	_ld_->log( "Construction of a " + T::_typename_ + " object named " + name_, LOG_FLAG::REPORT ) ;
+	
 	ObjectStorage< T >::construct() ;
 	SubCommandParser< T >::construct() ;
 }
@@ -248,6 +74,7 @@ template < class T >
 OOF_OBJECT< T >::~OOF_OBJECT
 ()
 {
+	_ld_->log( "Destruction of a " + T::_typename_ + " object named " + name_, LOG_FLAG::REPORT ) ;
 }
 
 // --- GETTERS ---

@@ -1,7 +1,8 @@
 #ifndef LOG_DEVICE_HPP
 #define LOG_DEVICE_HPP
 
-#include "oof_object.hpp"
+#include "oof_singleton.hpp"
+#include "std.hpp"
 
 // ===== LOG_FLAG =====
 
@@ -70,6 +71,9 @@ class LogDevice
 		
 		// --- DESTRUCTORS ---
 		~LogDevice() ;
+		
+		// --- OPERATORS ---
+		friend std::ostream & operator<<( std::ostream &, const LogDevice & ) ;
 		
 		// --- METHODS ---
 		std::vector< Log > extract( int ) const ; // override for several flags

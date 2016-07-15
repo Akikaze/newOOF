@@ -1,7 +1,8 @@
 #ifndef PROJECT_STORAGE_HPP
 #define PROJECT_STORAGE_HPP
 
-#include "oof_object.hpp"
+#include "oof_singleton.hpp"
+#include "ioof_object.hpp"
 
 // ===== StorageDependency =====
 

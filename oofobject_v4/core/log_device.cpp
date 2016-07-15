@@ -71,6 +71,25 @@ LogDevice::~LogDevice
 {
 }
 
+// --- OPERATORS ---
+
+std::ostream &
+operator<<
+(
+	std::ostream & os,
+	const LogDevice & ld
+)
+{
+	std::vector< Log >::const_iterator cit ;
+	
+	for( cit = ld.logs_.cbegin() ; cit != ld.logs_.cend() ; ++cit )
+	{
+		os << *cit << std::endl ;
+	}
+	
+	return os ;
+}
+
 // --- METHODS ---
 
 std::vector< Log >
@@ -175,8 +194,16 @@ LogDevice::save_flag
 {
 	std::vector< Log > logs = extract( flag ) ;
 	std::vector< Log >::const_iterator cit ;
+	std::string filename ;
 	
-	std::string filename = /* tmp subdirectory + */ filename_ + "_" + flag_to_string( flag ) ;
+	if( flag & LOG_FLAG::SCRIPT )
+	{
+		filename = /* project directory + */ "SCRIPT" ;
+	}
+	else
+	{
+		filename = /* tmp subdirectory + */ filename_ + "_" + flag_to_string( flag ) ;
+	}
 	
 	std::ofstream file( filename.c_str(), std::ios::out | std::ios::trunc ) ;
 	

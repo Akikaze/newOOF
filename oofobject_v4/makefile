@@ -4,7 +4,7 @@ LDFLAGS =  -g
 LDLIBS  =  -ldl
  
 SRC     =   std.cpp \
-			oof_object.cpp \
+			ioof_object.cpp \
 			instance_manager.cpp \
 			log_device.cpp \
 			command_parser.cpp \

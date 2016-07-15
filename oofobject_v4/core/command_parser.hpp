@@ -1,7 +1,8 @@
 #ifndef COMMAND_PARSER_HPP
 #define COMMAND_PARSER_HPP
 
-#include "oof_object.hpp"
+#include "oof_singleton.hpp"
+#include "std.hpp"
 
 // ===== ISubCommandParser =====
 

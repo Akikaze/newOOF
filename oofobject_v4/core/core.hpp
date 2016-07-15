@@ -1,7 +1,7 @@
 #ifndef CORE_HPP
 #define CORE_HPP
 
-#include "oof_object.hpp"
+#include "ioof_object.hpp"
 
 class Core
 : public OOF_SINGLETON< Core >
@@ -12,6 +12,9 @@ class Core
 		
 		// --- DESTRUCTORS ---
 		~Core() ;
+		
+		// --- METHODS ---
+		void display_logs() const ;
 		
 		// --- ATTRIBUTES ---
 		CommandParser * cp_ ;

@@ -23,3 +23,13 @@ Core::~Core
 	delete ld_ ;
 	delete ps_ ;
 }
+
+// --- METHODS ---
+
+void
+Core::display_logs
+()
+const
+{
+	std::cout << *ld_ ;
+}

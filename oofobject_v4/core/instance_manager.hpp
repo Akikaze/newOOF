@@ -1,7 +1,8 @@
 #ifndef INSTANCE_MANAGER_HPP
 #define INSTANCE_MANAGER_HPP
 
-#include "oof_object.hpp"
+#include "oof_singleton.hpp"
+#include "ioof_object.hpp"
 
 class InstanceManager
 : public OOF_SINGLETON< InstanceManager >
