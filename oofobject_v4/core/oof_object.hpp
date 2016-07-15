@@ -3,8 +3,6 @@
 
 #include "ioof_object.hpp"
 #include "command_parser.hpp"
-#include "instance_manager.hpp"
-#include "log_device.hpp"
 #include "project_storage.hpp"
 
 // ===== OOF_OBJECT =====

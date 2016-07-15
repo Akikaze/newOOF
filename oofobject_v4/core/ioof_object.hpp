@@ -64,4 +64,9 @@ class IOOF_OBJECT
 		std::string name_ ;
 } ;
 
+// ----- late includes -----
+
+#include "instance_manager.hpp"
+#include "log_device.hpp"
+
 #endif // IOOF_OBJECT_HPP
