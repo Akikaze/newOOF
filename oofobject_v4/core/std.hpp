@@ -9,6 +9,9 @@
 #include <map>
 #include <vector>
 
+// display any time
+std::string display( time_t ) ;
+
 // display any array
 template < typename T, size_t N >
 std::ostream &

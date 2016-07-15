@@ -1,6 +1,7 @@
 #ifndef OOF_OBJECT_HPP
 #define OOF_OBJECT_HPP
 
+#include "global.hpp"
 #include "std.hpp"
 
 // ===== IOOF_OBJECT =====

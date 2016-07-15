@@ -3,7 +3,8 @@ CXXFLAGS = -std=c++11
 LDFLAGS =  -g
 LDLIBS  =  -ldl
  
-SRC     =   oof_object.cpp \
+SRC     =   std.cpp \
+			oof_object.cpp \
 			instance_manager.cpp \
 			log_device.cpp \
 			command_parser.cpp \
@@ -29,3 +30,7 @@ $(EXEC): $(OBJ)
 
 %.o: %.cpp
 	$(COMPILE.cc) $<
+
+# CLEAN
+clean :
+	rm *.o
