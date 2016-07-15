@@ -14,7 +14,7 @@ SRC     =   std.cpp \
 			test.cpp \
   
 OBJ     =   $(SRC:.cpp=.o)
-EXEC    =   prog
+EXEC    =   ../prog
   
 # EXECUTION
 all: $(EXEC)
@@ -25,10 +25,10 @@ $(EXEC): $(OBJ)
   
 # FABRICATION DES (.o) A PARTIR DES (.cpp)
 #%.o: src/%.cpp
-%.o: core/%.cpp
+%.o: ../core/%.cpp
 	$(COMPILE.cc) $<
 
-%.o: %.cpp
+%.o: ../%.cpp
 	$(COMPILE.cc) $<
 
 # CLEAN
