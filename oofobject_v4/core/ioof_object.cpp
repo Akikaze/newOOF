@@ -53,3 +53,13 @@ const
 {
 	return _im_->extract( type ) ;
 }
+
+void
+IOOF_OBJECT::remove
+(
+	IOOF_OBJECT * instance
+)
+const
+{
+	_im_->remove( instance ) ;
+}

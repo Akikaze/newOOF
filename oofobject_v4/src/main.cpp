@@ -1,4 +1,4 @@
-#include "core/core.hpp"
+#include "../core/core.hpp"
 #include "test.hpp"
 
 
@@ -26,6 +26,7 @@ main
 	std::cout << *( InstanceManager::get_instance() ) << std::endl ;
 	CommandParser::get_instance()->parse( "Test.new_test" ) ;
 	
+	delete t ;
 	
 	Core::get_instance()->display_logs() ;
 	

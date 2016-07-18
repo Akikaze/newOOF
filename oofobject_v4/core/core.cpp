@@ -18,6 +18,12 @@ Core::Core
 Core::~Core
 ()
 {
+	/*
+	 * because it is the last destructor called, maybe we need to save
+	 * every logs before ending the process.
+	 */
+	ld_->save() ;
+	
 	delete cp_ ;
 	delete im_ ;
 	delete ld_ ;

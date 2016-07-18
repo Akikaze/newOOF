@@ -24,13 +24,17 @@ $(EXEC): $(OBJ)
 	$(LINK.cc)  $(LOADLIBES) $(LDLIBS) -o $@ $^
   
 # FABRICATION DES (.o) A PARTIR DES (.cpp)
-#%.o: src/%.cpp
 %.o: ../core/%.cpp
 	$(COMPILE.cc) $<
 
-%.o: ../%.cpp
+%.o: ../src/%.cpp
 	$(COMPILE.cc) $<
 
 # CLEAN
 clean :
 	rm *.o
+
+# RESTART
+restart :
+	rm -r ../.logs ;
+	rm -r ../projects ;

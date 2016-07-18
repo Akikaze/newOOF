@@ -59,6 +59,7 @@ class IOOF_OBJECT
 		// --- METHODS ---
 		void add( IOOF_OBJECT * ) const ;
 		std::vector< IOOF_OBJECT * > extract( const std::string & ) const ;
+		void remove( IOOF_OBJECT * ) const ;
 		
 		// --- ATTRIBUTES ---
 		std::string name_ ;

@@ -15,7 +15,7 @@ InstanceManager::~InstanceManager
 	while( ! empty() )
 	{
 		delete ( * ( begin() ) ).second ;
-		erase( begin() ) ;
+		// no need to erase here because it is erased in the object destructor
 	}
 }
 
@@ -78,4 +78,24 @@ const
 	}
 	
 	return result ;
+}
+
+/* 
+ * This method is used to remove an instance from the multimap.
+ * It is called at each destruction of an object.
+ */
+void
+InstanceManager::remove
+(
+	IOOF_OBJECT * instance
+)
+{
+	InstanceManager::iterator it = begin() ;
+		
+	while( ( *it ).second != instance )
+	{
+		++it ;
+	}
+	
+	erase( it ) ;
 }

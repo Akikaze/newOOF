@@ -1,5 +1,7 @@
 #include "log_device.hpp"
-#include "std.hpp"
+
+#include "global.hpp"
+#include "project_storage.hpp"
 
 // ===== LOG_FLAG =====
 
@@ -156,10 +158,16 @@ LogDevice::log
 	LOG_FLAG flags
 )
 {
+	// create a log object and store info in it
 	Log tmp ;
 	tmp.flags = flags ;
 	tmp.message = message ;
 	tmp.date = time( NULL ) ;
+	
+	if( __DEBUG__ )
+	{
+		std::cout << tmp << std::endl ;
+	}
 	
 	logs_.push_back( tmp ) ;
 }
@@ -179,11 +187,12 @@ LogDevice::save
 	LOG_FLAG flags
 )
 {
-	if( flags & LOG_FLAG::ERROR ) { save_flag( LOG_FLAG::ERROR ) ; }
-	if( flags & LOG_FLAG::QUERY ) { save_flag( LOG_FLAG::QUERY ) ; }
-	if( flags & LOG_FLAG::REPORT ) { save_flag( LOG_FLAG::REPORT ) ; }
-	if( flags & LOG_FLAG::WARNING ) { save_flag( LOG_FLAG::WARNING ) ; }
+	// reverse order because SCRIPT is  likely able to log some REPORTS and ERRORS
 	if( flags & LOG_FLAG::SCRIPT ) { save_flag( LOG_FLAG::SCRIPT ) ; }
+	if( flags & LOG_FLAG::WARNING ) { save_flag( LOG_FLAG::WARNING ) ; }
+	if( flags & LOG_FLAG::REPORT ) { save_flag( LOG_FLAG::REPORT ) ; }
+	if( flags & LOG_FLAG::QUERY ) { save_flag( LOG_FLAG::QUERY ) ; }
+	if( flags & LOG_FLAG::ERROR ) { save_flag( LOG_FLAG::ERROR ) ; }
 }
 
 void
@@ -193,39 +202,81 @@ LogDevice::save_flag
 )
 {
 	std::vector< Log > logs = extract( flag ) ;
-	std::vector< Log >::const_iterator cit ;
-	std::string filename ;
 	
-	if( flag & LOG_FLAG::SCRIPT )
+	// it is useless to save logs if they are empty
+	if( !( logs.empty() ) )
 	{
-		filename = /* project directory + */ "SCRIPT" ;
-	}
-	else
-	{
-		filename = /* tmp subdirectory + */ filename_ + "_" + flag_to_string( flag ) ;
-	}
-	
-	std::ofstream file( filename.c_str(), std::ios::out | std::ios::trunc ) ;
-	
-	if( file )
-	{
-		for( cit = logs.cbegin() ; cit != logs.cend() ; ++cit )
+		std::vector< Log >::const_iterator cit ;
+		std::string filename ;
+		
+		// if it's for the script, we need to save it in the project folder
+		if( flag & LOG_FLAG::SCRIPT )
 		{
-			file << display( ( *cit ).date ) << " : " << ( *cit ).message ;
+			std::string project_name = ProjectStorage::get_instance()->get_project_name() ;
 			
-			if( flag ^ ( *cit ).flags )
+			// if the project name is not defined, we need to find an other name
+			if( project_name.empty() )
 			{
-				file << " ( also : " << flag_to_string( flag ^ ( *cit ).flags ) << " )" ;
+				log( "The project doesn't have a real name. The script will be save in a temporary folder called : " + filename_, LOG_FLAG::REPORT ) ;
+				
+				// we are going to use the log filename
+				project_name = filename_ ;
 			}
 			
-			file << std::endl ;
+			filename = __DIR__ ;
+			filename += "/" + std::string( __PROJECT__ ) ;
+			
+			// test the directory
+			test_directory( filename ) ;
+		
+			filename += project_name + "/" ;
+			
+			// test the subdirectory
+			test_directory( filename ) ;
+			
+			filename += "SCRIPT" ;
+		}
+		else
+		{
+			filename = __DIR__ ;
+			filename += "/" + std::string( __LOG__ ) ;
+			
+			// test the directory
+			test_directory( filename ) ;
+			
+			filename += filename_ + "/" ;
+			
+			// test the subdirectory
+			test_directory( filename ) ;
+			
+			filename += flag_to_string( flag ) ;
 		}
 		
-		file.close() ;
-	}
-	else
-	{
-		log( "Impossible to save log " + flag_to_string( flag ), LOG_FLAG::ERROR ) ;
-		log( "Impossible to open " + filename + " in write mode", LOG_FLAG::REPORT ) ;
+		// clear the file everytime
+		std::ofstream file( filename.c_str(), std::ios::out | std::ios::trunc ) ;
+		
+		if( file )
+		{
+			// save every logs
+			for( cit = logs.cbegin() ; cit != logs.cend() ; ++cit )
+			{
+				file << display( ( *cit ).date ) << " : " << ( *cit ).message ;
+				
+				// if the log is shared by several flag, we add the info
+				if( flag ^ ( *cit ).flags )
+				{
+					file << " ( also : " << flag_to_string( flag ^ ( *cit ).flags ) << " )" ;
+				}
+				
+				file << std::endl ;
+			}
+			
+			file.close() ;
+		}
+		else
+		{
+			log( "Impossible to save log " + flag_to_string( flag ), LOG_FLAG::ERROR ) ;
+			log( "Impossible to open " + filename + " in write mode", LOG_FLAG::REPORT ) ;
+		}
 	}
 }

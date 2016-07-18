@@ -17,6 +17,10 @@ ProjectStorage::ProjectStorage
 ()
 {
 	im_ = InstanceManager::get_instance() ;
+	ld_ = LogDevice::get_instance() ;
+	
+	project_name_ = "" ;
+	project_path_ = "" ;
 }
 
 // --- DESTRUCTORS ---
@@ -54,29 +58,29 @@ const
 void
 ProjectStorage::load
 (
-	const std::string & filename
+	const std::string & project_path
 )
 {
-	std::ifstream project_file( filename.c_str(), std::ios::in ) ;
+	std::ifstream file( project_path.c_str(), std::ios::in ) ;
 	
-	if( project_file )
+	if( file )
 	{
 		// read Project info
 		std::string line ;
-		std::getline( project_file, line ) ; // ===== INFO =====
-		std::getline( project_file, line ) ; // empty line
+		std::getline( file, line ) ; // ===== INFO =====
+		std::getline( file, line ) ; // empty line
 		
-		std::getline( project_file, line ) ; // project_name_ - ???
+		std::getline( file, line ) ; // project_name_ - ???
 		project_name_ = line.substr( 16, line.length() - 16 ) ;
 		
-		std::getline( project_file, line ) ; // empty line
-		std::getline( project_file, line ) ; // ===== FILES =====
-		std::getline( project_file, line ) ; // empty line
+		std::getline( file, line ) ; // empty line
+		std::getline( file, line ) ; // ===== FILES =====
+		std::getline( file, line ) ; // empty line
 		
 		std::map< std::string, std::string > objects_list ;
 		//          typename     address
 		size_t pos = 0 ;
-		while( std::getline( project_file, line ) ) // filename
+		while( std::getline( file, line ) ) // filename
 		{
 			if( !( line.empty() ) )
 			{
@@ -85,7 +89,7 @@ ProjectStorage::load
 			}
 		}
 		
-		project_file.close() ;
+		file.close() ;
 		
 		// this for loop could be parallize with extract method (cf InstanceManager::extract)
 		std::map< std::string, std::string >::const_iterator cit ;
@@ -105,13 +109,14 @@ ProjectStorage::load
 				( ( *map_cit ).second )->load_dependencies() ;
 			}
 		}
+		last_save_ = time( NULL ) ;
 	}
 	else
 	{
-		std::cerr << "Impossible to open the project file." << std::endl ;
+		ld_->log( "Impossible to load a project", LOG_FLAG::ERROR ) ;
+		ld_->log( "Impossible to open " + project_path + " in read mode", LOG_FLAG::REPORT ) ;
 	}
 	
-	last_save_ = time( NULL ) ;
 }
 
 void
@@ -122,7 +127,7 @@ ProjectStorage::save
 )
 {
 	bool project_exist = true ;
-	
+		
 	// if there is no project at the start
 	if( project_name_.empty() )
 	{
@@ -130,17 +135,34 @@ ProjectStorage::save
 		project_exist = false ;
 		project_name_ = project_name ;
 	}
+	else if( !( project_name.empty() ) && project_name_ != project_name )
+	{
+		// we need to test the new path
+		project_exist = false ;
+		project_name_ = project_name ;
+	}
 	
 	// if the project name is still missing, it's a problem
 	if( project_name_.empty() )
 	{
-		std::cerr << "The project doesn't have a name." << std::endl ;
+		ld_->log( "The project doesn't have a name.", LOG_FLAG::ERROR ) ;
+		ld_->log( "At the first save, you need to give a name for the project.",LOG_FLAG::REPORT ) ;
 	}
 	else
 	{
 		if( project_exist == false )
 		{
-			// create the project folder
+			// test __DIR__
+			project_path_ = __DIR__ ;
+			test_directory( project_path_ ) ;
+			
+			// test __DIR__/__PROJECT__
+			project_path_ += "/" + std::string( __PROJECT__ ) ;
+			test_directory( project_path_ ) ;
+			
+			// test __DIR__/__PROJECT__/project_name_
+			project_path_ += project_name_ ;
+			test_directory( project_path_ ) ;
 		}
 		
 		// Sort instances by last_update_ time
@@ -150,13 +172,38 @@ ProjectStorage::save
 		for( ioof_cit = objects.cbegin() ; ioof_cit != objects.cend() ; ++ioof_cit )
 		{
 			IObjectStorage * ios = map_storage_[ ( *ioof_cit )->get_typename() ] ;
-			// ios->save( folder, *ioof_cit ) ;
+			ios->save( project_path_, *ioof_cit ) ;
 		}
-	
-		// save the project file
-		// type file_address
-		// don't forget to add all im links in the file in map reverse order in order to boost the load
 		
-		last_save_ = time( NULL ) ;
+		std::string project_file = std::string( __DIR__ ) ;
+		project_file += "/" + std::string( __PROJECT__ ) ;
+		project_file += project_name_ + ".project" ;
+		
+		// clear the file everytime
+		std::ofstream file( project_file.c_str(), std::ios::out | std::ios::trunc ) ;
+		
+		if( file )
+		{
+			/*
+			 * We use the reverse order to simplify the load. At each new
+			 * object, the system is going to load it at the beginning of
+			 * the map. A lot of comparison will be avoid.
+			 */
+			InstanceManager::const_reverse_iterator crit ;
+			
+			for( crit = im_->crbegin() ; crit != im_->crend() ; ++crit )
+			{
+				file << ( *crit ).first << " " << ( *crit ).second << std::endl ;
+			}
+			
+			file.close() ;
+			last_save_ = time( NULL ) ;
+		}
+		else
+		{
+			ld_->log( "Impossible to save the project", LOG_FLAG::ERROR ) ;
+			ld_->log( "Impossible to open " + project_file + " in write mode", LOG_FLAG::REPORT ) ;
+		}
+		
 	}
 }

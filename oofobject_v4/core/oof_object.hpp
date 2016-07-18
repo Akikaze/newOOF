@@ -72,6 +72,8 @@ template < class T >
 OOF_OBJECT< T >::~OOF_OBJECT
 ()
 {
+	remove( this ) ;
+	
 	_ld_->log( "Destruction of a " + T::_typename_ + " object named " + name_, LOG_FLAG::REPORT ) ;
 }
 

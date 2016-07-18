@@ -43,6 +43,10 @@ class ProjectStorage
 	
 	public :
 	
+		// --- GETTERS ---
+		inline std::string get_project_name()
+			{ return project_name_ ; }
+	
 		// --- METHODS ---
 		void add_list( const std::string &, IObjectStorage * ) ;
 		void display_list() const ;
@@ -59,8 +63,10 @@ class ProjectStorage
 		
 		// --- ATTRIBUTES ---
 		InstanceManager * im_ ;
+		LogDevice * ld_ ;
 		std::map< std::string, IObjectStorage * > map_storage_ ;
 		std::string project_name_ ;
+		std::string project_path_ ;
 		time_t last_save_ ;
 } ;
 
@@ -86,6 +92,10 @@ class ObjectStorage
 		virtual void load( const std::string & ) ;
 		virtual void load_dependencies() ;
 		virtual void save( const std::string &, const IOOF_OBJECT * ) const ;
+		
+		// --- ATTRIBUTES ---
+		InstanceManager * im_ ;
+		LogDevice * ld_ ;
 } ;
 
 // --- CONSTRUCTORS ---
@@ -95,6 +105,9 @@ ObjectStorage< T >::ObjectStorage
 ()
 {
 	ProjectStorage::get_instance()->add_list( T::_typename_, this ) ;
+	
+	im_ = InstanceManager::get_instance() ;
+	ld_ = LogDevice::get_instance() ;
 }
 
 // --- DESTRUCTORS ---
@@ -124,7 +137,7 @@ ObjectStorage< T >::load
 	 * objects which need to call load_dependencies in dependencies_
 	 */
 	
-	std::cerr << "No load method for this type of file: " << filename << std::endl ;
+	ld_->log( "No load method for this type of file: " + filename, LOG_FLAG::REPORT ) ;
 }
 
 template < class T >
@@ -135,13 +148,11 @@ ObjectStorage< T >::load_dependencies
 	/*
 	 * The load_dependencies method is called after the creation of objects.
 	 * First of all, it reads the vector which contains every object concerned
-	 * by the problem of dependency.
-	 * After that, it extracts the dependencies vector for each file which
-	 * has attribute's name for key and object's name for value. It links
-	 * both of them.
+	 * by the problem of dependency linked with dependency name and variable.
+	 * Just need to put each dependency in the right variable.
 	 */
 	
-	std::cerr << "No load_dependencies method for this type of object." << std::endl ;
+	ld_->log( "No load_dependencies method for this type of object.", LOG_FLAG::REPORT ) ;
 }
 
 template < class T >
@@ -161,7 +172,7 @@ const
 	 * Of course, if the attribute is a vector, several value will have the same attribute
 	 */
 	
-	std::cerr << "No save method for this type of object." << std::endl ;
+	ld_->log( "No save method for this type of object.", LOG_FLAG::REPORT ) ;
 }
 
 #endif // PROJECT_STORAGE_HPP
