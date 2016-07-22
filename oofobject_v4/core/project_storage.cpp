@@ -49,6 +49,8 @@ ProjectStorage::ProjectStorage
 	ld_ = LogDevice::get_instance() ;
 	
 	project_code_ = ld_->get_time_code() ;
+	project_name_ = "" ;
+	project_path_ = "" ;
 }
 
 // --- DESTRUCTORS ---
@@ -350,7 +352,7 @@ ProjectStorage::save
 		{
 			project_name_ = Config::__SESSION__ ;
 			
-			ld_->log( "Project doesn't possess a name", LOG_FLAG::WARNING ) ;
+			ld_->log( "Project doesn't have a name", LOG_FLAG::WARNING ) ;
 			ld_->log( "The project is going to be named : " + project_name_, LOG_FLAG::REPORT ) ;
 		}
 		else

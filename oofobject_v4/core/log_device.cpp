@@ -214,29 +214,31 @@ LogDevice::save_flag
 		// if it's for the script, we need to save it in the project folder
 		if( flag & LOG_FLAG::SCRIPT )
 		{
-			/*std::string project_name = ProjectStorage::get_instance()->get_project_name() ;
+			std::string project_name = ProjectStorage::get_instance()->get_project_name() ;
 			
-			// if the project name is not defined, we need to find an other name
+			// if the project is not defined
 			if( project_name.empty() )
 			{
-				log( "The project doesn't have a real name. The script will be save in a temporary folder called : " + time_code_, LOG_FLAG::REPORT ) ;
+				log( "The project is not defined, script is going to be saved in the log directory", LOG_FLAG::REPORT ) ;
 				
-				// we are going to use the log filename
-				project_name = time_code_ ;
+				filename = Config::__DIR__ ;
+				filename += "/" + Config::__LOG__ ;
+				
+				// test the directory
+				test &= test_directory( filename ) ;
+				
+				filename += time_code_ + "/" ;
+				
+				// test the subdirectory
+				test &= test_directory( filename ) ;				
+			}
+			else
+			{
+				log( "The script is going to be saved in the project directory", LOG_FLAG::REPORT ) ;
+				filename = ProjectStorage::get_instance()->get_project_path() ;
 			}
 			
-			filename = Config::__DIR__ ;
-			filename += "/" + Config::__PROJECT__ ;
-			
-			// test the directory
-			test &= test_directory( filename ) ;
-		
-			filename += project_name + "/" ;
-			
-			// test the subdirectory
-			test &= test_directory( filename ) ;
-			
-			filename += "SCRIPT" ;*/
+			filename += "SCRIPT" ;
 		}
 		else
 		{

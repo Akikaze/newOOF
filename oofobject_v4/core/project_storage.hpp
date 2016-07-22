@@ -63,6 +63,10 @@ class ProjectStorage
 		// --- GETTER ---
 		inline std::string get_project_code()
 			{ return project_code_ ; }
+		inline std::string get_project_name()
+			{ return project_name_ ; }
+		inline std::string get_project_path()
+			{ return project_path_ ; }
 	
 		// --- METHODS ---
 		void add_map( const Type &, IObjectStorage * ) ;
