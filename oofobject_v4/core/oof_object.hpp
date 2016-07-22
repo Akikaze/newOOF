@@ -16,7 +16,7 @@
 template < class T >
 class OOF_OBJECT
 : public IOOF_OBJECT
-{
+{	
 	public :
 	
 		// --- GETTERS ---
