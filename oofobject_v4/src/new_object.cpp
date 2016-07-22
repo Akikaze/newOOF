@@ -4,13 +4,17 @@
 
 // --- ATTRIBUTES ---
 
+std::string NewObject::_extension_ = ".oof_nObj" ;
 std::string NewObject::_typename_ = "NewObject" ;
 
 // --- CONSTRUCTORS ---
 
 NewObject::NewObject
-( const std::string & name )
-: OOF_OBJECT< NewObject >( name )
+(
+	const std::string & name,
+	const std::string & code
+)
+: OOF_OBJECT< NewObject >( name, code )
 {
 }
 
@@ -23,6 +27,7 @@ NewObject::~NewObject
 
 // --- ObjectStorage ---
 
+/*
 template <>
 void
 ObjectStorage< NewObject >::load
@@ -52,6 +57,7 @@ const
 {
 	
 }
+*/
 
 // --- SubCommandParser ---
 

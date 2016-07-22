@@ -25,11 +25,19 @@ class IOOF_OBJECT
 		virtual ~IOOF_OBJECT() ;
 		
 		// --- GETTERS ---
-		std::string get_name() const
+		inline std::string get_code() const
+			{ return code_ ; }
+		inline std::string get_name() const
 			{ return name_ ; }
+		virtual std::string get_extension() const = 0 ;
 		virtual std::string get_typename() const = 0 ;
 		
 		// --- COMPARATORS ---
+		struct ComparatorCode {
+			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
+				return ( l->get_code() < r->get_code() ) ;
+			}
+		} ;
 		struct ComparatorName {
 			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
 				return ( l->get_name() < r->get_name() ) ;
@@ -62,6 +70,8 @@ class IOOF_OBJECT
 		void remove( IOOF_OBJECT * ) const ;
 		
 		// --- ATTRIBUTES ---
+		bool loaded_ ;
+		std::string code_ ;
 		std::string name_ ;
 } ;
 

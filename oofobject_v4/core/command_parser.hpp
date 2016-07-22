@@ -1,8 +1,8 @@
 #ifndef COMMAND_PARSER_HPP
 #define COMMAND_PARSER_HPP
 
-#include "oof_singleton.hpp"
-#include "std.hpp"
+#include "instance_manager.hpp"
+#include "log_device.hpp"
 
 // ===== ISubCommandParser =====
 
@@ -18,7 +18,7 @@ class ISubCommandParser
 	protected :
 		
 		// --- DESTRUCTORS ---
-		virtual ~ISubCommandParser() ;
+		inline virtual ~ISubCommandParser() {}
 		
 		// --- METHODS ---
 		virtual void parse( const std::string & ) const = 0 ;
@@ -45,8 +45,8 @@ class CommandParser
 		~CommandParser() ;
 		
 		// --- METHODS ---
-		void add_list( const std::string &, ISubCommandParser * ) ;
-		void display_list() const ;
+		void add_map( const std::string &, ISubCommandParser * ) ;
+		void display_map() const ;
 		void parse( const std::string & ) ;
 	
 	protected :
@@ -55,6 +55,7 @@ class CommandParser
 		CommandParser() ;
 		
 		// --- ATTRIBUTES ---
+		LogDevice * ld_ ;
 		std::map< std::string, ISubCommandParser * > map_parser_ ;
 } ;
 
@@ -85,6 +86,10 @@ class SubCommandParser
 		
 		// --- METHODS ---
 		virtual void parse( const std::string & ) const ;
+		
+		// --- ATTRIBUTES ---
+		InstanceManager * im_ ;
+		LogDevice * ld_ ;
 } ;
 
 // --- CONSTRUCTORS ---
@@ -93,7 +98,10 @@ template < class T >
 SubCommandParser< T >::SubCommandParser
 ()
 {
-	CommandParser::get_instance()->add_list( T::_typename_, this ) ;
+	CommandParser::get_instance()->add_map( T::_typename_, this ) ;
+	
+	im_ = InstanceManager::get_instance() ;
+	ld_ = LogDevice::get_instance() ;
 }
 
 // --- DESTRUCTORS ---
@@ -114,7 +122,7 @@ SubCommandParser< T >::parse
 )
 const
 {
-	std::cerr << "No parse method was defined for the command: " << command << std::endl ;
+	ld_->log( "No parse method was defined for the command: " + command, LOG_FLAG::REPORT ) ;
 }
 
 #endif // COMMAND_PARSER_HPP

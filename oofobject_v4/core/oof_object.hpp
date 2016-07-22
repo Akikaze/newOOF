@@ -20,6 +20,7 @@ class OOF_OBJECT
 	public :
 	
 		// --- GETTERS ---
+		virtual std::string get_extension() const ;
 		virtual std::string get_typename() const ;
 				
 		// --- ATTRIBUTES ---
@@ -28,15 +29,17 @@ class OOF_OBJECT
 	protected :
 		
 		// --- CONSTRUCTORS ---
-		OOF_OBJECT( const std::string & name = "" ) ;
+		OOF_OBJECT( const std::string & name = "", const std::string & code = "" ) ;
 		
 		// --- DESTRUCTORS ---
 		~OOF_OBJECT() ;
 		
 		// --- METHODS ---
 		void give_name( const std::string & ) ;
+		void update() ;
 		
 		// --- ATTRIBUTES ---
+		static std::string _extension_ ;
 		static std::string _typename_ ;
 } ;
 
@@ -46,6 +49,9 @@ template < class T >
 unsigned short OOF_OBJECT< T >::_index_ = 0 ;
 
 template < class T >
+std::string OOF_OBJECT< T >::_extension_ = ".oof_????" ;
+
+template < class T >
 std::string OOF_OBJECT< T >::_typename_ = "OOF_OBJECT<?>" ;
 
 // --- CONSTRUCTORS ---
@@ -53,12 +59,23 @@ std::string OOF_OBJECT< T >::_typename_ = "OOF_OBJECT<?>" ;
 template < class T >
 OOF_OBJECT< T >::OOF_OBJECT
 (
-	const std::string & name
+	const std::string & name,
+	const std::string & code
 )
 : IOOF_OBJECT()
 {
 	add( this ) ;
 	give_name( name ) ;
+	
+	loaded_ = !( code.empty() ) ;
+	if( loaded_ )
+	{
+		code_ = code ;
+	}
+	else
+	{
+		code_ = "[" + Config::__SESSION__ + "]" + name_ ;
+	}
 	
 	_ld_->log( "Construction of a " + T::_typename_ + " object named " + name_, LOG_FLAG::REPORT ) ;
 	
@@ -78,6 +95,15 @@ OOF_OBJECT< T >::~OOF_OBJECT
 }
 
 // --- GETTERS ---
+
+template < class T >
+std::string
+OOF_OBJECT< T >::get_extension
+()
+const
+{
+	return T::_extension_ ;
+}
 
 template < class T >
 std::string
@@ -121,7 +147,6 @@ OOF_OBJECT< T >::give_name
 		}
 	}
 	
-	
 	if( rename == true )
 	{
 		// name is a combination of the type and 
@@ -131,6 +156,20 @@ OOF_OBJECT< T >::give_name
 	else
 	{
 		name_ = name ;
+	}
+}
+
+template < class T >
+void
+OOF_OBJECT< T >::update
+()
+{
+	last_update_ = time( NULL ) ;
+	
+	if( loaded_ )
+	{
+		code_ = "[" + Config::__SESSION__ + "]" + name_ ;
+		loaded_ = false ;
 	}
 }
 

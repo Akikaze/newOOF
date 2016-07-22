@@ -32,6 +32,25 @@ InstanceManager::add
 
 std::vector< IOOF_OBJECT * >
 InstanceManager::extract
+()
+const
+{
+	std::vector< IOOF_OBJECT * > result ;
+	
+	InstanceManager::const_iterator cit ;
+	InstanceManager::const_iterator cit_begin = cbegin() ;
+	InstanceManager::const_iterator cit_end = cend() ;
+	
+	for( cit = cit_begin ; cit != cit_end ; ++cit )
+	{
+		result.push_back( ( *cit ).second ) ;
+	}
+
+	return result ;
+}
+
+std::vector< IOOF_OBJECT * >
+InstanceManager::extract
 (
 	const std::string & type
 )
@@ -76,7 +95,7 @@ const
 			result.push_back( ptr ) ;
 		}
 	}
-	
+
 	return result ;
 }
 

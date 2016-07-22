@@ -2,30 +2,11 @@
 #define GLOBAL_HPP
 
 #include <iostream> // cerr
-#include <cstdlib> // getenv
-#include <cstring> // strcat
-
 #include <sys/stat.h> // mkdir
 #include <dirent.h> // opendir
 #include <errno.h> // errno
 #include <cstring> // strerrno
 #include <string> // operator+
-
-
-// ===== GLOBAL VALUES =====
-
-const bool __DEBUG__ = 1 ;
-const bool __OPENMP__ = 0 ;
-
-// ===== GLOBAL DIRECTORIES =====
-
-const char * const __DIR__ = std::getenv( "PWD" ) ;
-const char * const __PROJECT__ = "projects/" ;
-const char * const __LOG__ = ".logs/" ;
-
-// ===== GLOBAL FILES =====
-
-
 
 // ===== GLOBAL FUNCTIONS =====
 
@@ -35,6 +16,7 @@ test_directory
 	const std::string & directory
 )
 {
+	bool result = true ;
 	DIR * test = opendir( directory.c_str() ) ;
 	
 	// if the directory is not here, we create it.
@@ -46,10 +28,13 @@ test_directory
 		{
 			// the most common error is to try save in a forbidden place
 			std::cerr << "Impossible to create " + directory + " : " + std::string( strerror( errno ) ) << std::endl ;
+			
+			result = false ;
 		}
 	}
 	
 	closedir( test ) ;
+	return result ;
 }
 
 #endif // GLOBAL_HPP

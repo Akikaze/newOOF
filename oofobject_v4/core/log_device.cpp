@@ -63,7 +63,8 @@ operator<<
 LogDevice::LogDevice
 ()
 {
-	filename_ = std::to_string( time( NULL ) ) ;
+	time_code_ = std::to_string( time( NULL ) ) ;
+	Config::__SESSION__ = time_code_ ;
 }
 
 // --- DESTRUCTORS ---
@@ -164,7 +165,7 @@ LogDevice::log
 	tmp.message = message ;
 	tmp.date = time( NULL ) ;
 	
-	if( __DEBUG__ )
+	if( Config::__DEBUG__ )
 	{
 		std::cout << tmp << std::endl ;
 	}
@@ -201,6 +202,7 @@ LogDevice::save_flag
 	LOG_FLAG flag
 )
 {
+	bool test = true ;
 	std::vector< Log > logs = extract( flag ) ;
 	
 	// it is useless to save logs if they are empty
@@ -212,71 +214,78 @@ LogDevice::save_flag
 		// if it's for the script, we need to save it in the project folder
 		if( flag & LOG_FLAG::SCRIPT )
 		{
-			std::string project_name = ProjectStorage::get_instance()->get_project_name() ;
+			/*std::string project_name = ProjectStorage::get_instance()->get_project_name() ;
 			
 			// if the project name is not defined, we need to find an other name
 			if( project_name.empty() )
 			{
-				log( "The project doesn't have a real name. The script will be save in a temporary folder called : " + filename_, LOG_FLAG::REPORT ) ;
+				log( "The project doesn't have a real name. The script will be save in a temporary folder called : " + time_code_, LOG_FLAG::REPORT ) ;
 				
 				// we are going to use the log filename
-				project_name = filename_ ;
+				project_name = time_code_ ;
 			}
 			
-			filename = __DIR__ ;
-			filename += "/" + std::string( __PROJECT__ ) ;
+			filename = Config::__DIR__ ;
+			filename += "/" + Config::__PROJECT__ ;
 			
 			// test the directory
-			test_directory( filename ) ;
+			test &= test_directory( filename ) ;
 		
 			filename += project_name + "/" ;
 			
 			// test the subdirectory
-			test_directory( filename ) ;
+			test &= test_directory( filename ) ;
 			
-			filename += "SCRIPT" ;
+			filename += "SCRIPT" ;*/
 		}
 		else
 		{
-			filename = __DIR__ ;
-			filename += "/" + std::string( __LOG__ ) ;
+			filename = Config::__DIR__ ;
+			filename += "/" + Config::__LOG__ ;
 			
 			// test the directory
-			test_directory( filename ) ;
+			test &= test_directory( filename ) ;
 			
-			filename += filename_ + "/" ;
+			filename += time_code_ + "/" ;
 			
 			// test the subdirectory
-			test_directory( filename ) ;
+			test &= test_directory( filename ) ;
 			
 			filename += flag_to_string( flag ) ;
 		}
 		
-		// clear the file everytime
-		std::ofstream file( filename.c_str(), std::ios::out | std::ios::trunc ) ;
-		
-		if( file )
+		if( test == true )
 		{
-			// save every logs
-			for( cit = logs.cbegin() ; cit != logs.cend() ; ++cit )
+			// clear the file everytime
+			std::ofstream file( filename.c_str(), std::ios::out | std::ios::trunc ) ;
+			
+			if( file )
 			{
-				file << display( ( *cit ).date ) << " : " << ( *cit ).message ;
-				
-				// if the log is shared by several flag, we add the info
-				if( flag ^ ( *cit ).flags )
+				// save every logs
+				for( cit = logs.cbegin() ; cit != logs.cend() ; ++cit )
 				{
-					file << " ( also : " << flag_to_string( flag ^ ( *cit ).flags ) << " )" ;
+					file << display( ( *cit ).date ) << " : " << ( *cit ).message ;
+					
+					// if the log is shared by several flag, we add the info
+					if( flag ^ ( *cit ).flags )
+					{
+						file << " ( also : " << flag_to_string( flag ^ ( *cit ).flags ) << " )" ;
+					}
+					
+					file << std::endl ;
 				}
 				
-				file << std::endl ;
+				file.close() ;
 			}
-			
-			file.close() ;
+			else
+			{
+				log( "Impossible to save log " + flag_to_string( flag ), LOG_FLAG::ERROR ) ;
+				log( "Impossible to open " + filename + " in write mode", LOG_FLAG::REPORT ) ;
+			}
 		}
 		else
 		{
-			log( "Impossible to save log " + flag_to_string( flag ), LOG_FLAG::ERROR ) ;
-			log( "Impossible to open " + filename + " in write mode", LOG_FLAG::REPORT ) ;
+			log( "Impossible to create directories for the log system", LOG_FLAG::ERROR ) ;
 		}
 	}
 }

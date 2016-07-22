@@ -15,7 +15,8 @@ class InstanceManager
 		
 		// --- METHODS ---
 		void add( IOOF_OBJECT * instance ) ;
-		std::vector< IOOF_OBJECT * > extract( const std::string & type = "" ) const ;
+		std::vector< IOOF_OBJECT * > extract() const ;
+		std::vector< IOOF_OBJECT * > extract( const std::string & type ) const ;
 		std::vector< IOOF_OBJECT * > extract( const time_t & date ) const ;
 		void remove( IOOF_OBJECT * instance ) ;
 	

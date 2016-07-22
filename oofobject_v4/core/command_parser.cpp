@@ -1,14 +1,5 @@
 #include "command_parser.hpp"
 
-// ===== ISubCommandParser =====
-
-// --- DESTRUCTORS ---
-
-ISubCommandParser::~ISubCommandParser
-()
-{	
-}
-
 // ===== CommandParser =====
 
 // --- CONSTRUCTORS ---
@@ -16,6 +7,7 @@ ISubCommandParser::~ISubCommandParser
 CommandParser::CommandParser
 ()
 {
+	ld_ = LogDevice::get_instance() ;
 }
 
 // --- DESTRUCTORS ---
@@ -33,7 +25,7 @@ CommandParser::~CommandParser
 // --- METHODS ---
 
 void
-CommandParser::add_list
+CommandParser::add_map
 (
 	const std::string & type,
 	ISubCommandParser * command_parser
@@ -43,7 +35,7 @@ CommandParser::add_list
 }
 
 void
-CommandParser::display_list
+CommandParser::display_map
 ()
 const
 {
@@ -60,5 +52,13 @@ CommandParser::parse
 	std::string prefix = command.substr( 0, pos ) ;
 	
 	ISubCommandParser * iscp = map_parser_[prefix] ;
-	iscp->parse( command.substr( pos + 1 ) ) ;
+	
+	if( iscp == nullptr )
+	{
+		ld_->log( "Command " + command + " doesn't have a valid prefix", LOG_FLAG::ERROR ) ;
+	}
+	else
+	{
+		iscp->parse( command.substr( pos + 1 ) ) ;
+	}
 }

@@ -4,6 +4,7 @@ LDFLAGS =  -g
 LDLIBS  =  -ldl
  
 SRC     =   std.cpp \
+			config.cpp \
 			ioof_object.cpp \
 			instance_manager.cpp \
 			log_device.cpp \
@@ -38,3 +39,7 @@ clean :
 restart :
 	rm -r ../.logs ;
 	rm -r ../projects ;
+
+# RESET
+reset : $(EXEC)
+	reset

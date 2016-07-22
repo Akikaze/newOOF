@@ -1,6 +1,7 @@
 #ifndef LOG_DEVICE_HPP
 #define LOG_DEVICE_HPP
 
+#include "config.hpp"
 #include "oof_singleton.hpp"
 #include "std.hpp"
 
@@ -54,6 +55,10 @@ class LogDevice
 	friend class Core ; // destructor, ...
 	
 	public :
+	
+		// --- GETTERS ---
+		inline std::string get_time_code()
+			{ return time_code_ ; }
 		
 		// --- METHODS ---
 		void log( const std::string &, int ) ; // override for several flags
@@ -82,7 +87,7 @@ class LogDevice
 		std::string format_date( const std::string & ) const ;
 		
 		// --- ATTRIBUTES ---
-		std::string filename_ ;
+		std::string time_code_ ;
 		std::vector< Log > logs_ ;
 } ;
 

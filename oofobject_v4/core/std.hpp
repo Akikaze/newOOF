@@ -37,15 +37,15 @@ operator<<
 }
 
 // display any map
-template < typename V >
+template < typename T1, typename T2 >
 std::ostream &
 operator<<
 (
 	std::ostream & os,
-	const std::map< std::string, V > & map
+	const std::map< T1, T2 > & map
 )
 {
-	typename std::map< std::string, V >::const_iterator cit ;
+	typename std::map< T1, T2 >::const_iterator cit ;
 	
 	os << "---------" << std::endl ;
 	
@@ -58,16 +58,45 @@ operator<<
 	return os ;
 }
 
+// extract vector from map
+template < typename T >
+std::vector< T >
+extract
+(
+	const std::map< std::string, T > & map,
+	const std::string & key = ""
+)
+{
+	typename std::vector< T > result ;
+	
+	typename std::map< std::string, T >::const_iterator cit ;
+	typename std::map< std::string, T >::const_iterator cit_begin = map.cbegin() ;
+	typename std::map< std::string, T >::const_iterator cit_end = map.cend() ;
+	
+	if( !( key.empty() ) )
+	{
+		cit_begin = map.lower_bound( key ) ;
+		cit_end = map.upper_bound( key ) ;
+	}
+	
+	for( cit = cit_begin ; cit != cit_end ; ++cit )
+	{
+		result.push_back( ( *cit ).second ) ;
+	}
+
+	return result ;
+}
+
 // display any multimap
-template < typename V >
+template < typename T1, typename T2 >
 std::ostream &
 operator<<
 (
 	std::ostream & os,
-	const std::multimap< std::string, V > & multimap
+	const std::multimap< T1, T2 > & multimap
 )
 {
-	typename std::multimap< std::string, V >::const_iterator cit ;
+	typename std::multimap< T1, T2 >::const_iterator cit ;
 	
 	os << "---------" << std::endl ;
 	
