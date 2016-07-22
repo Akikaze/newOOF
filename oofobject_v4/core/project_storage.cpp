@@ -48,6 +48,7 @@ ProjectStorage::ProjectStorage
 	im_ = InstanceManager::get_instance() ;
 	ld_ = LogDevice::get_instance() ;
 	
+	// initialize project info
 	project_code_ = ld_->get_time_code() ;
 	project_name_ = "" ;
 	project_path_ = "" ;
@@ -74,6 +75,7 @@ ProjectStorage::add_map
 	IObjectStorage * project_storage
 )
 {
+	// add the type in the vector and the ObjectStorage in the map
 	types_.push_back( type ) ;
 	map_storage_.insert( std::make_pair( type.name_, project_storage ) ) ;
 }
@@ -96,6 +98,7 @@ const
 	std::string result = "" ;
 	std::vector< Type >::const_iterator cit ;
 	
+	// look for the type and return the extension
 	cit = std::find_if( types_.cbegin(), types_.cend(),
 						[&type] (const Type & t) -> bool { return t.name_ == type ; } ) ;
 	
@@ -112,10 +115,13 @@ const
 {
 	std::string result = "" ;
 	std::vector< Type >::const_iterator cit ;
+	
+	// look for the extension and return the type
 	cit = std::find( types_.cbegin(), types_.cend(), extension ) ;
 	
 	if( cit == types_.cend() )
 	{
+		// Project is not a real type so we need to check the extension manually
 		if( extension == ".oof_proj" )
 		{
 			result = "Project" ;
@@ -164,6 +170,7 @@ const
 	std::vector< IObjectStorage * > os = extract( map_storage_ ) ;
 	std::vector< IObjectStorage * >::iterator it ;
 	
+	// call the load_dependenceis for each ObjectStorage
 	for( it = os.begin() ; it != os.end() ; ++it )
 	{
 		( *it )->load_dependencies() ;
@@ -189,6 +196,7 @@ ProjectStorage::load_file
 		tmp = type ;
 	}
 	
+	// find the right ObjectStorage
 	IObjectStorage * ios = map_storage_[ tmp ] ;
 	
 	if( ios == nullptr )
@@ -212,9 +220,11 @@ ProjectStorage::load_files
 	
 	for( cit = files.cbegin() ; cit != files.cend() ; ++cit )
 	{
+		// call the load_file function for each file of the project
 		load_file( ( *cit ).second, ( *cit ).first ) ;
 	}
 	
+	// create dependencies if it's possible
 	load_all_dependencies() ;
 }
 
@@ -228,9 +238,11 @@ ProjectStorage::load_files
 	
 	for( cit = files.cbegin() ; cit != files.cend() ; ++cit )
 	{
+		// call the load_file function for each file
 		load_file( *cit ) ;
 	}
 	
+	// create dependencies if it's possible
 	load_all_dependencies() ;
 }
 
@@ -244,10 +256,12 @@ ProjectStorage::load_project
 	
 	if( file )
 	{
+		// return true if InstanceManager is empty
 		bool nothing_stored_before = read_project_info( file ) ;
 		
 		if( nothing_stored_before )
 		{
+			// update of project info in order to continue
 			size_t pos = address.find_last_of( "/" ) ;
 			project_path_ = address.substr( 0, pos + 1 ) ;
 		}
@@ -259,6 +273,7 @@ ProjectStorage::load_project
 		
 		if( nothing_stored_before )
 		{
+			// update last_save_ in order to avoid a useless save
 			last_save_ = time( NULL ) ;
 		}
 	}
@@ -291,6 +306,7 @@ ProjectStorage::read_project_files
 		{
 			pos = line.find( " " ) ;
 			
+			// extract the type and the address
 			type = line.substr( 0, pos ) ;
 			address = project_path_ + line.substr( pos + 1 ) + find_extension( type ) ;
 			
@@ -401,17 +417,21 @@ ProjectStorage::save
 				objects = im_->extract() ;
 			}
 			
-			std::vector< IOOF_OBJECT * >::const_iterator cit ;
-			
-			// call ObjectStorage< T >::save for each object
-			for( cit = objects.cbegin() ; cit != objects.cend() ; ++cit )
+			// if nothing is new, we don't need to save anything
+			if( !( objects.empty() ) )
 			{
-				IObjectStorage * ios = map_storage_[ ( *cit )->get_typename() ] ;
-				ios->save( project_path_, ( *cit ) ) ;
+				std::vector< IOOF_OBJECT * >::const_iterator cit ;
+				
+				// call ObjectStorage< T >::save for each object
+				for( cit = objects.cbegin() ; cit != objects.cend() ; ++cit )
+				{
+					IObjectStorage * ios = map_storage_[ ( *cit )->get_typename() ] ;
+					ios->save( project_path_, ( *cit ) ) ;
+				}
+				
+				// save the project file
+				save_project( file ) ;
 			}
-			
-			// save the project file
-			save_project( file ) ;
 			file.close() ;
 			
 			// update
@@ -427,6 +447,23 @@ ProjectStorage::save
 	{
 		ld_->log( "Impossible to create directories for the log system", LOG_FLAG::ERROR ) ;
 	}
+}
+
+void
+ProjectStorage::save_object
+(
+	const IOOF_OBJECT * object
+)
+{
+	std::string path = project_path_ ;
+	
+	if( path.empty() )
+	{
+		path = Config::__DIR__ ;
+	}
+	
+	IObjectStorage * ios = map_storage_[ object->get_typename() ] ;
+	ios->save( path, object ) ;
 }
 
 void
@@ -448,6 +485,7 @@ const
 	
 	InstanceManager::const_reverse_iterator crit ;
 	
+	// we use the reverse order in order to simplify the add in the map when we are going to load
 	for( crit = im_->crbegin() ; crit != im_->crend() ; ++crit )
 	{
 		file << ( *crit ).first << " " << ( *crit ).second->get_code() << std::endl ;

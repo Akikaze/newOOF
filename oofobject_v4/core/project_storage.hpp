@@ -75,6 +75,7 @@ class ProjectStorage
 		void load_files( const std::vector< std::string > & ) ;
 		
 		void save( const std::string & project_name = "", bool all = false ) ;
+		void save_object( const IOOF_OBJECT * ) ;
 		void save_project( std::ofstream & ) const ;
 	
 	protected :
