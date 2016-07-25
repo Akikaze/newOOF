@@ -16,26 +16,54 @@ class Core
 	public :
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		~Core() ;
 		
 		// --- METHODS ---
+		
+		///
+		/// \brief Display logs
+		/// \note for test
+		///
 		void display_logs() const ;
+		
+		///
+		/// \brief Load objects
+		/// \note for test
+		///
 		void load() const ;
+		
+		///
+		/// \brief Save objects
+		/// \note for test
+		///
 		void save() const ;
 		
 		// --- ATTRIBUTES ---
-		CommandParser * cp_ ;
-		InstanceManager * im_ ;
-		LogDevice * ld_ ;
-		ProjectStorage * ps_ ;
+		CommandParser * cp_ ; ///< Pointer to the CommandParser
+		InstanceManager * im_ ; ///< Pointer to the InstanceManager
+		LogDevice * ld_ ; ///< Pointer to the LogDevice
+		ProjectStorage * ps_ ; ///< Pointer to the ProjectStorage
 		
 	protected :
 	
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		Core() ;
 		
 		// --- METHODS ---
-		template < class T > void prepare( T * ) const ;
+		
+		///
+		/// \brief Prepare the system for specific object
+		/// \param useless Empty pointer unused in the method, only the type is important
+		///
+		template < class T > void prepare( T * useless ) const ;
 } ;
 
 #endif // CORE_HPP

@@ -20,27 +20,56 @@ class OOF_OBJECT
 	public :
 	
 		// --- GETTERS ---
+		
+		///
+		/// \brief Get the extension of the object
+		/// \return The extension in a string
+		///
 		virtual std::string get_extension() const ;
+		
+		///
+		/// \brief Get the type of the object
+		/// \return The type in a string
+		///
 		virtual std::string get_typename() const ;
 				
 		// --- ATTRIBUTES ---
-		static unsigned short _index_ ;
+		static unsigned short _index_ ; ///< Index in order to give names
 	
 	protected :
 		
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor with parameter
+		/// \param name Name of the object
+		/// \param code Code of the object
+		///
 		OOF_OBJECT( const std::string & name = "", const std::string & code = "" ) ;
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		~OOF_OBJECT() ;
 		
 		// --- METHODS ---
-		void give_name( const std::string & ) ;
+		
+		///
+		/// \brief Give a name to the object
+		/// \param Name choose by the user
+		///
+		void give_name( const std::string & name ) ;
+		
+		///
+		/// \brief Signal an update of the object
+		///
 		void update() ;
 		
 		// --- ATTRIBUTES ---
-		static std::string _extension_ ;
-		static std::string _typename_ ;
+		static std::string _extension_ ; ///< Extension of the type
+		static std::string _typename_ ; ///< Name of the type
 } ;
 
 // --- ATTRIBUTES ---

@@ -25,15 +25,34 @@ class IObjectStorage
 	protected :
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		inline virtual ~IObjectStorage() {}
 		
 		// --- METHODS ---
-		virtual void load( const std::string & adress = "" ) = 0 ;
+		
+		///
+		/// \brief Load a file
+		/// \param address Address of the file
+		///
+		virtual void load( const std::string & address = "" ) = 0 ;
+		
+		///
+		/// \brief Load the dependencies
+		///
 		virtual void load_dependencies() = 0 ;
-		virtual void save( const std::string &, const IOOF_OBJECT * ) = 0 ;
+		
+		///
+		/// \brief Save a file
+		/// \param folder Directory where it is going to save the file
+		/// \param object Object which needs to be saved
+		///
+		virtual void save( const std::string & folder, const IOOF_OBJECT * object ) = 0 ;
 		
 		// --- ATTRIBUTES ---
-		std::vector< StorageDependency > dependencies_ ;
+		std::vector< StorageDependency > dependencies_ ; ///< List of dependencies between objects
 } ;
 
 // ===== Type =====
@@ -44,10 +63,16 @@ class Type
 	public :
 		
 		// --- CONSTRUCTORS ---
-		Type( const std::string &, const std::string & );
+		
+		///
+		/// \brief Constructor with parameter
+		/// \param extension Extension of the type
+		/// \param name Name of the type
+		///
+		Type( const std::string & extension, const std::string & type) ;
 		
 		// --- ATTRIBUTES ---
-		std::string name_ ;
+		std::string name_ ; ///< Name of the type
 } ;
 
 // ===== ProjectStorage =====
@@ -61,53 +86,154 @@ class ProjectStorage
 	public :
 	
 		// --- GETTER ---
+		
+		///
+		/// \brief Get the code of the project
+		/// \return The code in a string
+		///
 		inline std::string get_project_code()
 			{ return project_code_ ; }
+		
+		///
+		/// \brief Get the name of the project
+		/// \return The name in a string
+		///
 		inline std::string get_project_name()
 			{ return project_name_ ; }
+		
+		///
+		/// \brief Get the path of the project
+		/// \return The path in a string
+		///
 		inline std::string get_project_path()
 			{ return project_path_ ; }
 	
 		// --- METHODS ---
-		void add_map( const Type &, IObjectStorage * ) ;
-		void display_map() const ;
-		void load( const std::string & address = "" ) ;
-		void load_files( const std::vector< std::string > & ) ;
 		
+		///
+		/// \brief Add a ObjectStorage in the map
+		/// \param type Specialization of ObjectStorage
+		/// \param project_storage Pointer to the ObjectStorage
+		///
+		void add_map( const Type & type, IObjectStorage * project_storage ) ;
+		
+		///
+		/// \brief Display the map of ObjectStorage
+		///
+		void display_map() const ;
+		
+		///
+		/// \brief Load a file
+		/// \param address Address of the file
+		///
+		void load( const std::string & address = "" ) ;
+		
+		///
+		/// \brief Load several files
+		/// \param files Vector which contains every files
+		///
+		void load_files( const std::vector< std::string > & files ) ;
+		
+		///
+		/// \brief Save a project
+		/// \param project_name Name of the project
+		/// \param all Save every objects, even if they were not modified since the last save
+		///
 		void save( const std::string & project_name = "", bool all = false ) ;
-		void save_object( const IOOF_OBJECT * ) ;
+		
+		///
+		/// \brief Save an object
+		/// \param object Pointer to the object
+		///
+		void save_object( const IOOF_OBJECT * object ) ;
+		
+		///
+		/// \brief Save the project
+		///
 		void save_project( std::ofstream & ) const ;
 	
 	protected :
 	
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		ProjectStorage() ;
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		~ProjectStorage() ;
 		
 		// --- METHODS ---
-		std::string find_extension( const std::string & ) const ;
-		std::string find_type( const std::string & ) const ;
+		
+		///
+		/// \brief Find the extension thanks to the typename
+		/// \param type Typename
+		/// \return Extension of the type in a string
+		///
+		std::string find_extension( const std::string & type ) const ;
+		
+		///
+		/// \brief Find the typename thanks to the extension
+		/// \param extension Extension
+		/// \return Type linked to the extension in a string
+		///
+		std::string find_type( const std::string & extension ) const ;
+		
+		///
+		/// \brief Load all dependencies stored during the construction
+		///
 		void load_all_dependencies() const ;
-		void load_file( const std::string & path = "", const std::string & type = "" ) ;
-		void load_files( const std::map< std::string, std::string > & ) ;
-		void load_project( const std::string & ) ;
-		std::map< std::string, std::string > read_project_files( std::ifstream & ) ;
-		bool read_project_info( std::ifstream & ) ;
+		
+		///
+		/// \brief Load a file
+		/// \param address Address of the file
+		/// \param type Type of the file
+		///
+		void load_file( const std::string & address, const std::string & type = "" ) ;
+		
+		///
+		/// \brief Load files from a project file
+		/// \param files Map which contains address and type of each files in a project
+		///
+		void load_files( const std::map< std::string, std::string > & files ) ;
+		
+		///
+		/// \brief Load a project
+		/// \param address Address of the project file
+		///
+		void load_project( const std::string & address ) ;
+		
+		///
+		/// \brief Read files stored in a project files
+		/// \param file Stream which point the position of files in the project file
+		/// \return Map which contains address and type of each files in the project
+		///
+		std::map< std::string, std::string > read_project_files( std::ifstream & file ) ;
+		
+		///
+		/// \brief Read the project header
+		/// \param file Stream which point the header of the project file
+		/// \return true if there is no object before the load of this project
+		///
+		bool read_project_info( std::ifstream & file ) ;
 	
 		// --- ATTRIBUTES ---
-		InstanceManager * im_ ;
-		LogDevice * ld_ ;
+		InstanceManager * im_ ; ///< Pointer to the InstanceManager
+		LogDevice * ld_ ; ///< Pointer to the LogDevice
 		
-		std::map< std::string, IObjectStorage * > map_storage_ ;
-		std::vector< Type > types_ ;
+		std::map< std::string, IObjectStorage * > map_storage_ ; ///< Map of ObjectStorage
+		std::vector< Type > types_ ; ///< List of type
 		
-		std::string project_code_ ;
-		std::string project_name_ ;
-		std::string project_path_ ;
+		std::string project_code_ ; ///< Code of the project
+		std::string project_name_ ; ///< Name of the project
+		std::string project_path_ ; ///< Path of the project
 		
-		time_t last_save_ ;
+		time_t last_save_ ; ///< Time of the last save
 } ;
 
 // ===== ObjectStorage =====
@@ -122,32 +248,110 @@ class ObjectStorage
 	protected :
 	
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		ObjectStorage() ;
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		~ObjectStorage() ;
 		
 		// --- METHODS ---
-		void create_dependency( const std::string &, T * ) ;
-		IOOF_OBJECT * find_dependency( const std::vector< IOOF_OBJECT * > &, const std::string & ) const ;
-		void load( const std::string & ) ;
+		
+		///
+		/// \brief Create a dependency 
+		/// \param where Name of the variable
+		/// \param from Pointer to the target of the dependency
+		///
+		void create_dependency( const std::string & where, T * from ) ;
+		
+		///
+		/// \brief Find a dependency
+		/// \param objects List of all object in the session
+		/// \param code Code of the dependency's target
+		///
+		IOOF_OBJECT * find_dependency( const std::vector< IOOF_OBJECT * > & objects, const std::string & code ) const ;
+		
+		///
+		/// \brief Load a file
+		/// \param address Address of the file
+		///
+		void load( const std::string & address ) ;
+		
+		///
+		/// \brief Load each dependency
+		///
 		void load_dependencies() ;
-		void read_dependencies( std::ifstream &, T * ) ;
-		void save( const std::string &, const IOOF_OBJECT * ) ;
-		void write_dependencies( std::ofstream & ) ;
+		
+		///
+		/// \brief Read the dependencies of a object
+		/// \param file Stream which point the location of the dependencies
+		/// \param object Object which need the dependencies
+		///
+		void read_dependencies( std::ifstream & file, T * object ) ;
+		
+		///
+		/// \brief Save an object
+		/// \param folder Directory where the file is going to be saved
+		/// \param object Pointer to the object
+		///
+		void save( const std::string & folder, const IOOF_OBJECT * object ) ;
+		
+		///
+		/// \brief Write the dependencies in a file
+		/// \param file Stream which point the location where writing the dependencies
+		///
+		void write_dependencies( std::ofstream & file ) ;
 		
 		// could work without override
-		virtual T * read_info( std::ifstream & ) const ;
-		virtual void write_info( std::ofstream &, const T * ) const ;
+		
+		///
+		/// \brief Read the header of the file
+		/// \param file Stream which point the header of the file
+		/// \return Pointer to a new object created thanks to the info
+		///
+		virtual T * read_info( std::ifstream & file ) const ;
+		
+		///
+		/// \brief Write header of the file
+		/// \param file Stream which point the location where writing info
+		/// \param object Pointer ot the object
+		///
+		virtual void write_info( std::ofstream & file, const T * object ) const ;
 		
 		// defined by user
-		virtual void link_dependency( T *, std::string, IOOF_OBJECT * ) const ;
-		virtual void read_data( std::ifstream &, T * ) const ;
-		virtual void write_data( std::ofstream &, const T * ) ;
+		
+		///
+		/// \brief Recreate the dependency
+		/// \param to Pointer on the object which will receive the dependency
+		/// \param where Name of the variable
+		/// \param from Pointer to the dependency's target
+		///
+		virtual void link_dependency( T * to, std::string where, IOOF_OBJECT * from ) const ;
+		
+		///
+		/// \brief Read data of a file
+		/// \param file Stream which point the position of data
+		/// \param object Pointer on the object
+		///
+		virtual void read_data( std::ifstream & file, T * object ) const ;
+		
+		///
+		/// \brief Write attribute of the object
+		/// \param file Stream which point the position where writing the data
+		/// \param object Pointer on the object
+		///
+		virtual void write_data( std::ofstream & file, const T * object ) ;
 		
 		// --- ATTRIBUTES ---
-		InstanceManager * im_ ;
-		LogDevice * ld_ ;
+		
+		InstanceManager * im_ ; ///< Pointer on the InstanceManager
+		LogDevice * ld_ ; ///< Pointer on the LogDevice
 } ;
 
 // --- CONSTRUCTORS ---

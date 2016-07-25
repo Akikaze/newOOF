@@ -18,10 +18,19 @@ class ISubCommandParser
 	protected :
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		inline virtual ~ISubCommandParser() {}
 		
 		// --- METHODS ---
-		virtual void parse( const std::string & ) const = 0 ;
+		
+		///
+		/// \brief Parsing method
+		/// \param command Command which need to be parse
+		///
+		virtual void parse( const std::string & command ) const = 0 ;
 } ;
 
 // ===== CommandParser =====
@@ -42,21 +51,44 @@ class CommandParser
 	public :
 	
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		~CommandParser() ;
 		
 		// --- METHODS ---
-		void add_map( const std::string &, ISubCommandParser * ) ;
+		
+		///
+		/// \brief Add a SubCommandParser to the map
+		/// \param type Specialization of the SubCommandParser
+		/// \param command_parser Pointer on the SubCommandParser
+		///
+		void add_map( const std::string & type, ISubCommandParser * command_parser ) ;
+		
+		///
+		/// \brief Display the map of SubCommandParser
+		///
 		void display_map() const ;
+		
+		///
+		/// \brief Parsing method
+		/// \param command Command which need to be parse
+		///
 		void parse( const std::string & ) ;
 	
 	protected :
 		
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		CommandParser() ;
 		
 		// --- ATTRIBUTES ---
-		LogDevice * ld_ ;
-		std::map< std::string, ISubCommandParser * > map_parser_ ;
+		LogDevice * ld_ ; ///< Pointer to the LogDevice
+		std::map< std::string, ISubCommandParser * > map_parser_ ; ///< Map of type and SubCommandParser
 } ;
 
 // ===== SubCommandParser =====
@@ -79,17 +111,30 @@ class SubCommandParser
 	protected :
 		
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		SubCommandParser() ;
 	
 		// --- DESTRUCTORS ---
+		
+		///
+		///\ \brief Destructor
+		///
 		~SubCommandParser() ;
 		
 		// --- METHODS ---
+		
+		///
+		/// \brief Parsing method
+		/// \param command Command which need to be parse
+		///
 		virtual void parse( const std::string & ) const ;
 		
 		// --- ATTRIBUTES ---
-		InstanceManager * im_ ;
-		LogDevice * ld_ ;
+		InstanceManager * im_ ; ///< Pointer to the InstanceManager
+		LogDevice * ld_ ; ///< Pointer to the LogDevice
 } ;
 
 // --- CONSTRUCTORS ---

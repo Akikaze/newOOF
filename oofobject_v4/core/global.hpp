@@ -10,6 +10,11 @@
 
 // ===== GLOBAL FUNCTIONS =====
 
+///
+/// \brief Check if a directory exist and try to create it if it doesn't
+/// \param directory Path to the directory which needs to be check
+/// \return true if the file exist, false otherwise
+///
 inline bool
 test_directory
 (

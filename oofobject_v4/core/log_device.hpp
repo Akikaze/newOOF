@@ -26,9 +26,27 @@ enum LOG_FLAG
 	ALL			= 0x1F
 } ;
 
-std::string flag_to_string( int ) ; // override for several flags
-std::string flag_to_string( LOG_FLAG ) ; // return flag in a string
-std::ostream & operator<<( std::ostream &, LOG_FLAG ) ;
+///
+/// \brief Transform several flags into string
+/// \param flags Several LOG_FLAG
+/// \return String
+///
+std::string flag_to_string( int flags ) ;
+
+///
+/// \brief Transform LOG_FLAG into string
+/// \param flags LOG_FLAG
+/// \return String
+///
+std::string flag_to_string( LOG_FLAG flags ) ;
+
+///
+/// \brief Display a LOG_FLAG
+/// \param os Stream for the display
+/// \param flags Flags which needs to be displayed
+/// \return Stream with the LOG_FLAG displayed in it
+///
+std::ostream & operator<<( std::ostream & os, LOG_FLAG flags ) ;
 
 // ===== Log =====
 
@@ -39,7 +57,13 @@ struct Log
 	time_t date ;
 } ;
 
-std::ostream & operator<<( std::ostream &, Log ) ;
+///
+/// \brief Display a log
+/// \param os Stream for the display
+/// \param l Log which needs to be displayed
+/// \return Stream with the log displayed in it
+///
+std::ostream & operator<<( std::ostream & os, Log l ) ;
 
 // ===== LogDevice =====
 
@@ -57,38 +81,100 @@ class LogDevice
 	public :
 	
 		// --- GETTERS ---
+		
+		///
+		/// \brief Get the time code
+		/// \return The time code in a string
+		///
 		inline std::string get_time_code()
 			{ return time_code_ ; }
 		
 		// --- METHODS ---
-		void log( const std::string &, int ) ; // override for several flags
-		void log( const std::string &, LOG_FLAG ) ; // log something
 		
-		void save( int flags ) ; // override for several flags
-		void save( LOG_FLAG flags = LOG_FLAG::ALL ) ; // save logs
+		///
+		/// \brief Store a log message
+		/// \param message Message of the log
+		/// \param flags Several LOG_FLAG
+		///
+		void log( const std::string & message, int flags ) ;
 		
-		void save_flag( LOG_FLAG ) ; // save only one flag
+		///
+		/// \brief Store a log message
+		/// \param message Message of the log
+		/// \param flags LOG_FLAG
+		///
+		void log( const std::string & message, LOG_FLAG flags ) ;
+		
+		///
+		/// \brief Save a log
+		/// \param flags Several LOG_FLAG
+		///
+		void save( int flags ) ;
+		
+		///
+		/// \brief Save a log
+		/// \param flags LOG_FLAG
+		///
+		void save( LOG_FLAG flags = LOG_FLAG::ALL ) ;
+		
+		///
+		/// \brief Save a a specific type of LOG_FLAG
+		/// \param flags LOG_FLAG
+		///
+		void save_flag( LOG_FLAG ) ; 
 	
 	protected :
 	
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		LogDevice() ;
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		~LogDevice() ;
 		
 		// --- OPERATORS ---
-		friend std::ostream & operator<<( std::ostream &, const LogDevice & ) ;
+		
+		///
+		/// \brief Display every logs
+		/// \param os Stream for the display
+		/// \param ld LogDevice
+		/// \return Stream with logs displayed in it
+		///
+		friend std::ostream & operator<<( std::ostream & os, const LogDevice & ld ) ;
 		
 		// --- METHODS ---
-		std::vector< Log > extract( int ) const ; // override for several flags
+		
+		///
+		/// \brief Extract specific logs
+		/// \param flags Several LOG_FLAG
+		/// \param Vector which contains logs
+		///
+		std::vector< Log > extract( int flags ) const ;
+		
+		///
+		/// \brief Extract specific logs
+		/// \param flags LOG_FLAG
+		/// \param Vector which contains logs
+		///
 		std::vector< Log > extract( LOG_FLAG flags = LOG_FLAG::ALL ) const ; // extract a specific flag
 		
-		std::string format_date( const std::string & ) const ;
+		///
+		/// \brief Transform a number of seconds into a date
+		/// \param seconds String which represents the number of seconds
+		/// \return String which represents the date
+		///
+		std::string format_date( const std::string & seconds ) const ;
 		
 		// --- ATTRIBUTES ---
-		std::string time_code_ ;
-		std::vector< Log > logs_ ;
+		std::string time_code_ ; ///< Time code of the LogDevice
+		std::vector< Log > logs_ ; ///< Vector of logs
 } ;
 
 #endif // LOG_DEVICE_HPP

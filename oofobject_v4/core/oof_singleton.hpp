@@ -19,23 +19,49 @@ class OOF_SINGLETON
 	public :
 		
 		// --- GETTERS ---
+		
+		///
+		/// \brief Get the instance of the singleton
+		/// \return Instance of the singleton
+		///
 		static T * get_instance() ;
 		
 		// --- METHODS ---
+		
+		///
+		/// \brief Construct the unique instance
+		///
 		static void construct() ;
+		
+		///
+		/// \brief Destroy the unique instance
+		///
 		static void destroy() ;
 		
 	protected :
 		
 		// --- CONSTRUCTORS ---
+		
+		///
+		/// \brief Constructor
+		///
 		OOF_SINGLETON() ;
-		OOF_SINGLETON( const OOF_SINGLETON & ) ;
+		
+		///
+		/// \brief Copy constructor
+		/// \param o_s Singleton
+		///
+		OOF_SINGLETON( const OOF_SINGLETON & o_s ) ;
 		
 		// --- DESTRUCTORS ---
+		
+		///
+		/// \brief Destructor
+		///
 		virtual ~OOF_SINGLETON() ;
 		
 		// --- ATTRIBUTES ---
-		static T * _instance_ ;
+		static T * _instance_ ; ///< Instance of the singleton
 } ;
 
 // --- ATTRIBUTES ---
