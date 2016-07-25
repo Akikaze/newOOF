@@ -13,6 +13,7 @@ Core::Core
 {
 	Config::construct() ;
 	
+	// construct everything
 	cp_ = CommandParser::get_instance() ;
 	im_ = InstanceManager::get_instance() ;
 	ld_ = LogDevice::get_instance() ;

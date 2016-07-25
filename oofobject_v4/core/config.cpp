@@ -51,6 +51,7 @@ bool
 Config::read_config
 ()
 {
+	// signal if one data is not present in the config file
 	bool result = true ;
 	std::ifstream file( "config", std::ios::in ) ;
 	
@@ -63,39 +64,42 @@ Config::read_config
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
+		result &= !( line.empty() ) ; // false if empty
 		__DEBUG__ = std::stoi( line ) ;
 		
 		// __OPENMP__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
+		result &= !( line.empty() ) ; // false if empty
 		__OPENMP__ = std::stoi( line ) ;
 		
 		// __DIR__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
-		result &= !( line.empty() ) ;
+		result &= !( line.empty() ) ; // false if empty
 		__DIR__ = line ;
 		
 		// __LOG__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
-		result &= !( line.empty() ) ;
+		result &= !( line.empty() ) ; // false if empty
 		__LOG__ = line ;
 		
 		// __PROJECT__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
-		result &= !( line.empty() ) ;
+		result &= !( line.empty() ) ; // false if empty
 		__PROJECT__ = line ;
 		
 		file.close() ;
 		
 		if( result == false )
 		{
+			// it is going to use the default configuration
 			std::cerr << "Invalid config file." << std::endl ;
 		}
 	}

@@ -40,12 +40,9 @@ InstanceManager::extract
 const
 {
 	std::vector< IOOF_OBJECT * > result ;
-	
 	InstanceManager::const_iterator cit ;
-	InstanceManager::const_iterator cit_begin = cbegin() ;
-	InstanceManager::const_iterator cit_end = cend() ;
 	
-	for( cit = cit_begin ; cit != cit_end ; ++cit )
+	for( cit = cbegin ; cit != cend ; ++cit )
 	{
 		result.push_back( ( *cit ).second ) ;
 	}
@@ -101,6 +98,7 @@ const
 	{
 		IOOF_OBJECT * ptr = ( *cit ).second ;
 		
+		// check last_update_ attribute
 		if( ptr->last_update_ > date )
 		{
 			result.push_back( ptr ) ;
@@ -121,7 +119,7 @@ InstanceManager::remove
 )
 {
 	InstanceManager::iterator it = begin() ;
-		
+	
 	while( ( *it ).second != instance )
 	{
 		++it ;

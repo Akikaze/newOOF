@@ -35,21 +35,25 @@ class IOOF_OBJECT
 		// --- COMPARATORS ---
 		struct ComparatorCode {
 			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
+				// compare by code
 				return ( l->get_code() < r->get_code() ) ;
 			}
 		} ;
 		struct ComparatorName {
 			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
+				// compare by name
 				return ( l->get_name() < r->get_name() ) ;
 			}
 		} ;
 		struct ComparatorTime {
 			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
+				// compare by date
 				return ( l->last_update_ < r->last_update_ ) ;
 			}
 		} ;
 		struct ComparatorTypename {
 			bool operator()( const IOOF_OBJECT * l, const IOOF_OBJECT * r ) {
+				// compare by type
 				return ( l->get_typename() < r->get_typename() ) ;
 			}
 		} ;

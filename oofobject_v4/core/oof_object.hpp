@@ -45,6 +45,7 @@ class OOF_OBJECT
 
 // --- ATTRIBUTES ---
 
+// in order to rename an object if it already exist in the system
 template < class T >
 unsigned short OOF_OBJECT< T >::_index_ = 0 ;
 
@@ -134,7 +135,7 @@ OOF_OBJECT< T >::give_name
 	bool rename = false ;
 	
 	// no name -> rename
-	if( name.empty() )
+	if( name.empty() || name.find( get_typename() + "_" ) != name.npos )
 	{
 		rename = true ;
 	}

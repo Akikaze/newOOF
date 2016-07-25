@@ -158,6 +158,7 @@ ObjectStorage< T >::ObjectStorage
 {
 	ProjectStorage::get_instance()->add_map( Type( T::_extension_, T::_typename_ ), this ) ;
 	
+	// get pointers to InstanceManager and LogDevice
 	im_ = InstanceManager::get_instance() ;
 	ld_ = LogDevice::get_instance() ;
 }
@@ -180,6 +181,7 @@ ObjectStorage< T >::create_dependency
 	T * from
 )
 {
+	// create a dependency without using to because it's useless
 	StorageDependency sd ;
 	sd.to = nullptr ;
 	sd.where = where ;
@@ -198,6 +200,8 @@ ObjectStorage< T >::find_dependency
 const
 {
 	std::vector< IOOF_OBJECT * >::const_iterator cit ;
+	
+	// find the object with the right code
 	cit = std::find_if( objects.cbegin(), objects.cend(),
 						[&code](IOOF_OBJECT * o) -> bool
 													{
@@ -205,10 +209,10 @@ const
 													} ) ;
 	
 	IOOF_OBJECT * dependency = nullptr ;
+	
 	if( cit == objects.cend() )
 	{
-		dependency = nullptr ;
-		
+		// if the object doesn't exist		
 		ld_->log( "Unable to make the dependency", LOG_FLAG::ERROR ) ;
 		ld_->log( "The object coded " + code + " was not found in the list of object", LOG_FLAG::REPORT ) ;
 	}
@@ -252,8 +256,11 @@ ObjectStorage< T >::load
 	
 	if( file )
 	{
+		// read header of the file with name and code
 		T * object = read_info( file ) ;
+		// read attributes of the object
 		read_data( file, object ) ;
+		//read dependencies, find them and link them
 		read_dependencies( file, object ) ;
 	}
 	else
@@ -267,11 +274,10 @@ template < class T >
 void
 ObjectStorage< T >::load_dependencies
 ()
-{	
+{
+	// if there are dependencies
 	if( !( dependencies_.empty() ) )
 	{
-		std::cout << dependencies_ << std::endl ;
-		
 		std::vector< StorageDependency >::const_iterator cit ;
 		cit = dependencies_.cbegin() ;
 		
@@ -376,6 +382,7 @@ ObjectStorage< T >::read_dependencies
 	
 	while( std::getline( file, line ) ) // variable code_of_the_object
 	{
+		// create the dependency thanks to the line
 		pos = line.find( ' ' ) ;
 		
 		StorageDependency sd ;
@@ -383,6 +390,7 @@ ObjectStorage< T >::read_dependencies
 		sd.where = line.substr( 0, pos ) ;
 		sd.from = line.substr( pos + 1 ) ;
 		
+		// save the dependency
 		dependencies_.push_back( sd ) ;
 	}
 }
@@ -402,8 +410,11 @@ ObjectStorage< T >::save
 	
 	if( file )
 	{
+		// save header (name, code, ...)
 		write_info( file, object ) ;
+		// save every attributes which are not pointers
 		write_data( file, object ) ;
+		// save pointers into dependencies
 		write_dependencies( file ) ;
 	}
 	else

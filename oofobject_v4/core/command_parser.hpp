@@ -100,7 +100,10 @@ SubCommandParser< T >::SubCommandParser
 {
 	CommandParser::get_instance()->add_map( T::_typename_, this ) ;
 	
+	// get pointer to the InstanceManager
 	im_ = InstanceManager::get_instance() ;
+	
+	// get pointer to the LogDevice
 	ld_ = LogDevice::get_instance() ;
 }
 

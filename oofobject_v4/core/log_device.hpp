@@ -26,8 +26,8 @@ enum LOG_FLAG
 	ALL			= 0x1F
 } ;
 
-std::string flag_to_string( int ) ;
-std::string flag_to_string( LOG_FLAG ) ;
+std::string flag_to_string( int ) ; // override for several flags
+std::string flag_to_string( LOG_FLAG ) ; // return flag in a string
 std::ostream & operator<<( std::ostream &, LOG_FLAG ) ;
 
 // ===== Log =====

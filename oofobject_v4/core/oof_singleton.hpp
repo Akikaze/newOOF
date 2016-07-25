@@ -74,6 +74,7 @@ T *
 OOF_SINGLETON< T >::get_instance
 ()
 {
+	// create the object and return the instance
 	construct() ;
 	return _instance_ ;
 }
@@ -85,6 +86,7 @@ void
 OOF_SINGLETON< T >::construct
 ()
 {
+	// create the object
 	if( _instance_ == nullptr )
 	{
 		_instance_ = new T() ;
@@ -96,6 +98,7 @@ void
 OOF_SINGLETON< T >::destroy
 ()
 {
+	// destroy the object and the instance
 	if( _instance_ != nullptr )
 	{
 		delete _instance_ ;

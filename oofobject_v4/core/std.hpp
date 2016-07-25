@@ -28,6 +28,7 @@ operator<<
 	os << *( list.cbegin() ) ;
 	for( cit = list.cbegin() + 1 ; cit != list.cend() ; ++cit )
 	{
+		// display single value
 		os << " - " << *cit ;
 	}
 	os << std::endl ;
@@ -51,6 +52,7 @@ operator<<
 	
 	for( cit = map.cbegin() ; cit != map.cend() ; ++cit )
 	{
+		// display single value
 		os << ( *cit ).first << " - " << ( *cit ).second << std::endl ;
 	}
 	
@@ -102,6 +104,7 @@ operator<<
 	
 	for( cit = multimap.cbegin() ; cit != multimap.cend() ; ++cit )
 	{
+		// display single value
 		os << ( *cit ).first << " - " << ( *cit ).second << std::endl ;
 	}
 	
@@ -124,6 +127,7 @@ operator<<
 	
 	for( cit = list.cbegin() ; cit != list.cend() ; ++cit )
 	{
+		// display single value
 		os << *cit << std::endl ;
 	}
 	

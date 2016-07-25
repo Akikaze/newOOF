@@ -23,7 +23,10 @@ Type::Type
 	const std::string & name
 )
 {
+	// put the extension in this
 	* static_cast< std::string * > ( this ) = extension ;
+	
+	// add the name in the attribute
 	name_ = name ;
 }
 
@@ -153,6 +156,7 @@ ProjectStorage::load
 	
 	if( !( type.empty() ) )
 	{
+		// check if the file is a project file or not
 		if( type == "Project" )
 		{
 			load_project( address ) ;
@@ -268,9 +272,12 @@ ProjectStorage::load_project
 			project_path_ = address.substr( 0, pos + 1 ) ;
 		}
 		
+		// get all objects from the project file
 		std::map< std::string, std::string > objects_list = read_project_files( file ) ;
+		
 		file.close() ;
 		
+		// load every objects
 		load_files( objects_list ) ;
 		
 		if( nothing_stored_before )
@@ -366,6 +373,8 @@ ProjectStorage::save
 	
 	if( project_name_.empty() )
 	{
+		// it needs to create a name for the project
+		
 		if( project_name.empty() )
 		{
 			project_name_ = Config::__SESSION__ ;

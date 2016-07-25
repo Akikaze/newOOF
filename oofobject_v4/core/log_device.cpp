@@ -145,7 +145,10 @@ const
 	struct tm date ;
 	char buffer[ 100 ] ;
 	
+	// fullfil the structure
 	strptime( seconds.c_str(), "%s", &date ) ;	
+	
+	// return date
 	strftime( buffer, 100, "%F-%T", &date ) ;
 	
 	return std::string( buffer ) ;
