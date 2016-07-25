@@ -4,20 +4,22 @@
 
 // --- ATTRIBUTES ---
 
-bool Config::__DEBUG__ = 0 ;
-bool Config::__OPENMP__ = 0 ;
-std::string Config::__DIR__ = "" ;
-std::string Config::__LOG__ = "" ;
-std::string Config::__PROJECT__ = "" ;
-std::string Config::__SESSION__ = "" ;
+bool Config::__DEBUG__ = 0 ; // 1 -> DEBUG mode
+bool Config::__OPENMP__ = 0 ; // 1 -> parallelization with OPENMP
+std::string Config::__DIR__ = "" ; // main directory
+std::string Config::__LOG__ = "" ; // log directory in __DIR__
+std::string Config::__PROJECT__ = "" ; // project directory in __DIR__
+std::string Config::__SESSION__ = "" ; // time code for the SESSION
 
 // --- CONSTRUCTORS ---
 
 Config::Config
 ()
 {
+	// try to read the config file
 	if( read_config() == false )
 	{
+		// read the default config if the config file is not right
 		default_config() ;
 	}
 }
@@ -38,11 +40,11 @@ Config::default_config
 {
 	std::cerr << "Use of default config." << std::endl ;
 	
-	__DEBUG__ = 0 ;
-	__OPENMP__ = 0 ;
-	__DIR__ = std::string( std::getenv( "PWD" ) ) ;
-	__LOG__ = ".logs/" ;
-	__PROJECT__ = "projects/" ;
+	__DEBUG__ = 0 ; // no debug
+	__OPENMP__ = 0 ; // no parallelization
+	__DIR__ = std::string( std::getenv( "PWD" ) ) ; // $PWD
+	__LOG__ = ".logs/" ; // $PWD/.logs/
+	__PROJECT__ = "projects/" ; // $PWD/projects/
 }
 
 bool
@@ -57,28 +59,33 @@ Config::read_config
 		std::string line ;
 		size_t pos ;
 		
+		// __DEBUG__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
 		__DEBUG__ = std::stoi( line ) ;
 		
+		// __OPENMP__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
 		__OPENMP__ = std::stoi( line ) ;
 		
+		// __DIR__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
 		result &= !( line.empty() ) ;
 		__DIR__ = line ;
 		
+		// __LOG__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;
 		result &= !( line.empty() ) ;
 		__LOG__ = line ;
 		
+		// __PROJECT__
 		std::getline( file, line ) ;
 		pos = line.find( " " ) ;
 		line = line.substr( pos + 1 ) ;

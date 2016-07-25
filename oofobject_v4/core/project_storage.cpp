@@ -45,6 +45,7 @@ operator<<
 ProjectStorage::ProjectStorage
 ()
 {
+	// get pointers to the InstanceManager and the LogDevice
 	im_ = InstanceManager::get_instance() ;
 	ld_ = LogDevice::get_instance() ;
 	
@@ -59,6 +60,7 @@ ProjectStorage::ProjectStorage
 ProjectStorage::~ProjectStorage
 ()
 {
+	// delete every ObjectStorage
 	while( !( map_storage_.empty() ) )
 	{
 		delete ( *( map_storage_.begin() ) ).second ;
@@ -455,14 +457,18 @@ ProjectStorage::save_object
 	const IOOF_OBJECT * object
 )
 {
+	// if the project_path is not defined
 	std::string path = project_path_ ;
 	
 	if( path.empty() )
 	{
+		// put the object on __DIR__
 		path = Config::__DIR__ ;
 	}
 	
 	IObjectStorage * ios = map_storage_[ object->get_typename() ] ;
+	
+	// no need to check the validity of the ObjectStorage
 	ios->save( path, object ) ;
 }
 

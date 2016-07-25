@@ -14,11 +14,13 @@ IOOF_OBJECT::IOOF_OBJECT
 {
 	if( _im_ == NULL )
 	{
+		// get pointer to InstanceManager
 		_im_ = InstanceManager::get_instance() ;
 	}
 	
 	if( _ld_ == NULL )
 	{
+		// get pointer to LogDevice
 		_ld_ = LogDevice::get_instance() ;
 	}
 	
@@ -41,6 +43,7 @@ IOOF_OBJECT::add
 )
 const
 {
+	// add itself to the InstanceManager
 	_im_->add( instance ) ;
 }
 
@@ -61,5 +64,6 @@ IOOF_OBJECT::remove
 )
 const
 {
+	// remove itself
 	_im_->remove( instance ) ;
 }

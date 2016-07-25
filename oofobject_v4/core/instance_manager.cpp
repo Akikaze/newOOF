@@ -27,9 +27,13 @@ InstanceManager::add
 	IOOF_OBJECT * instance
 )
 {
+	// add a instance in the map of instance
 	insert( make_pair( instance->get_typename(), instance ) ) ;
 }
 
+/*
+ * Extract all instance as a vector of instance
+ */
 std::vector< IOOF_OBJECT * >
 InstanceManager::extract
 ()
@@ -49,6 +53,9 @@ const
 	return result ;
 }
 
+/*
+ * Extract all instance which are a specific type
+ */
 std::vector< IOOF_OBJECT * >
 InstanceManager::extract
 (
@@ -62,6 +69,7 @@ const
 	InstanceManager::const_iterator cit_begin = cbegin() ;
 	InstanceManager::const_iterator cit_end = cend() ;
 	
+	// if type is empty, we extract everything
 	if( !( type.empty() ) )
 	{
 		cit_begin = lower_bound( type ) ;
@@ -76,6 +84,9 @@ const
 	return result ;
 }
 
+/*
+ * Extract all instance which were modified after the date
+ */
 std::vector< IOOF_OBJECT * >
 InstanceManager::extract
 (

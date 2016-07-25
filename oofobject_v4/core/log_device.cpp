@@ -11,6 +11,7 @@ flag_to_string
 	int flags
 )
 {
+	// flag_to_string for several flags
 	return flag_to_string( LOG_FLAG( flags ) ) ;
 }
 
@@ -20,6 +21,7 @@ flag_to_string
 	LOG_FLAG flags
 )
 {
+	// add is used for several flags
 	bool add = false ;
 	std::string result ;
 	
@@ -63,6 +65,7 @@ operator<<
 LogDevice::LogDevice
 ()
 {
+	// get the time_code and store it in __SESSION__
 	time_code_ = std::to_string( time( NULL ) ) ;
 	Config::__SESSION__ = time_code_ ;
 }
@@ -102,6 +105,7 @@ LogDevice::extract
 )
 const
 {
+	// extract for several flags
 	return extract( LOG_FLAG( flags ) ) ;
 }
 
@@ -115,8 +119,10 @@ const
 	std::vector< Log > result ;
 	std::vector< Log >::const_iterator cit ;
 	
+	// for every logs saved
 	for( cit = logs_.cbegin() ; cit != logs_.cend() ; ++cit )
 	{
+		// if this log shared a flag with the parameter
 		if( ( *cit ).flags & flags )
 		{
 			result.push_back( *cit ) ;
@@ -126,6 +132,9 @@ const
 	return result ;
 }
 
+/*
+ * Transform a number of seconds into a date
+ */
 std::string
 LogDevice::format_date
 (
@@ -149,6 +158,7 @@ LogDevice::log
 	int flags
 )
 {
+	// log for several flags
 	log( message, LOG_FLAG( flags ) ) ;
 }
 
@@ -167,6 +177,7 @@ LogDevice::log
 	
 	if( Config::__DEBUG__ )
 	{
+		// if debug mode, display the log before save it
 		std::cout << tmp << std::endl ;
 	}
 	
@@ -179,6 +190,7 @@ LogDevice::save
 	int flags
 )
 {
+	// save for several flags
 	save( LOG_FLAG( flags ) ) ;
 }
 
@@ -188,7 +200,7 @@ LogDevice::save
 	LOG_FLAG flags
 )
 {
-	// reverse order because SCRIPT is  likely able to log some REPORTS and ERRORS
+	// reverse order because SCRIPT is likely able to log some REPORTS and ERRORS
 	if( flags & LOG_FLAG::SCRIPT ) { save_flag( LOG_FLAG::SCRIPT ) ; }
 	if( flags & LOG_FLAG::WARNING ) { save_flag( LOG_FLAG::WARNING ) ; }
 	if( flags & LOG_FLAG::REPORT ) { save_flag( LOG_FLAG::REPORT ) ; }
@@ -196,6 +208,9 @@ LogDevice::save
 	if( flags & LOG_FLAG::ERROR ) { save_flag( LOG_FLAG::ERROR ) ; }
 }
 
+/*
+ * This method is called by the save method and stored only one type of log.
+ */
 void
 LogDevice::save_flag
 (

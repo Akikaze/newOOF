@@ -64,21 +64,27 @@ OOF_OBJECT< T >::OOF_OBJECT
 )
 : IOOF_OBJECT()
 {
+	// tell to InstanceManager that it exists
 	add( this ) ;
+	
+	// find a unique name for the session 
 	give_name( name ) ;
 	
 	loaded_ = !( code.empty() ) ;
 	if( loaded_ )
 	{
+		// if it is loaded, it already have its code
 		code_ = code ;
 	}
 	else
 	{
+		// it creates its code thanks to the session time code
 		code_ = "[" + Config::__SESSION__ + "]" + name_ ;
 	}
 	
 	_ld_->log( "Construction of a " + T::_typename_ + " object named " + name_, LOG_FLAG::REPORT ) ;
 	
+	// in a normal case, those are useless. But to be safe, it's better to keep it
 	ObjectStorage< T >::construct() ;
 	SubCommandParser< T >::construct() ;
 }
@@ -89,6 +95,7 @@ template < class T >
 OOF_OBJECT< T >::~OOF_OBJECT
 ()
 {
+	// tell to the InstanceManager to remove the pointer
 	remove( this ) ;
 	
 	_ld_->log( "Destruction of a " + T::_typename_ + " object named " + name_, LOG_FLAG::REPORT ) ;
@@ -166,8 +173,10 @@ OOF_OBJECT< T >::update
 {
 	last_update_ = time( NULL ) ;
 	
+	// it the object was loaded and modified after
 	if( loaded_ )
 	{
+		// create a new code (because it is not the same object)
 		code_ = "[" + Config::__SESSION__ + "]" + name_ ;
 		loaded_ = false ;
 	}
