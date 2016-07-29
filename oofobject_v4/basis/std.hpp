@@ -34,7 +34,10 @@ operator<<
 	
 	os << "---------" << std::endl ;
 	
+	// display first value
 	os << *( array.cbegin() ) ;
+	
+	// for each value in the array after the first one
 	for( cit = array.cbegin() + 1 ; cit != array.cend() ; ++cit )
 	{
 		// display single value
@@ -64,6 +67,7 @@ operator<<
 	
 	os << "---------" << std::endl ;
 	
+	// for each value in the map
 	for( cit = map.cbegin() ; cit != map.cend() ; ++cit )
 	{
 		// display single value
@@ -100,6 +104,7 @@ extract
 		cit_end = map.upper_bound( key ) ;
 	}
 	
+	// for each value between the bounds
 	for( cit = cit_begin ; cit != cit_end ; ++cit )
 	{
 		result.push_back( ( *cit ).second ) ;
@@ -126,6 +131,7 @@ operator<<
 	
 	os << "---------" << std::endl ;
 	
+	// for each value in the multimap
 	for( cit = multimap.cbegin() ; cit != multimap.cend() ; ++cit )
 	{
 		// display single value
@@ -154,6 +160,7 @@ operator<<
 	
 	os << "---------" << std::endl ;
 	
+	// for each value in the vector
 	for( cit = vector.cbegin() ; cit != vector.cend() ; ++cit )
 	{
 		// display single value

@@ -25,7 +25,7 @@ $(EXEC): $(OBJ)
 	$(LINK.cc)  $(LOADLIBES) $(LDLIBS) -o $@ $^
   
 # FABRICATION DES (.o) A PARTIR DES (.cpp)
-%.o: ../core/%.cpp
+%.o: ../basis/%.cpp
 	$(COMPILE.cc) $<
 
 %.o: ../src/%.cpp

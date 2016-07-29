@@ -339,10 +339,16 @@ ProjectStorage::read_project_info
 	std::getline( file, line ) ; // empty line
 	
 	std::getline( file, line ) ; // project_code_ - __________
+	
+	// if nothing was stored before, the session is going to continue the previous project
 	if( nothing_stored_before )
 	{
 		ld_->log( "The current session is going to continue the project", LOG_FLAG::REPORT ) ;
+		
+		// get the project code
 		project_code_ = line.substr( 16, line.length() - 16 ) ;
+		
+		// modify the session code
 		Config::__SESSION__ = project_code_ ;
 	}
 	else
@@ -351,8 +357,11 @@ ProjectStorage::read_project_info
 	}
 	
 	std::getline( file, line ) ; // project_name_ - ???
+	
+	
 	if( nothing_stored_before )
 	{
+		// get the project name
 		project_name_ = line.substr( 16, line.length() - 16 ) ;
 	}
 	
@@ -377,6 +386,7 @@ ProjectStorage::save
 		
 		if( project_name.empty() )
 		{
+			// by default, it is using the session code
 			project_name_ = Config::__SESSION__ ;
 			
 			ld_->log( "Project doesn't have a name", LOG_FLAG::WARNING ) ;
@@ -394,6 +404,7 @@ ProjectStorage::save
 	
 	if( create_project )
 	{
+		// __DIR__/__PROJECT__
 		project_path_ = Config::__DIR__ ;
 		project_path_ += "/" + Config::__PROJECT__ ;
 		
@@ -488,6 +499,7 @@ ProjectStorage::save_project
 )
 const
 {
+	// save project info
 	file << "===== INFO =====" << std::endl ;
 	file << std::endl ;
 	
@@ -495,6 +507,7 @@ const
 	file << "project_name_ - " << project_name_ << std::endl ;
 	
 	file << std::endl ;
+	// save files in the project
 	file << "===== FILES =====" << std::endl ;
 	file << std::endl ;
 	
