@@ -42,7 +42,7 @@ const
 	std::vector< IOOF_OBJECT * > result ;
 	InstanceManager::const_iterator cit ;
 	
-	for( cit = cbegin ; cit != cend ; ++cit )
+	for( cit = cbegin() ; cit != cend() ; ++cit )
 	{
 		result.push_back( ( *cit ).second ) ;
 	}
