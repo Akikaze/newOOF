@@ -2,7 +2,8 @@
 
 /* includes for preparation */
 
-#include "../src/test.hpp"
+// #include "../src/???/???.hpp"
+#include "../src/test/test.hpp"
 
 // ===== Core =====
 
@@ -23,6 +24,7 @@ Core::Core
 	void * useless = nullptr ;
 	
 	// it is important to prepare the core for each OOF_OBJECT
+	// prepare( static_cast< ??? * >( useless ) ) ;
 	prepare( static_cast< Test * >( useless ) ) ;
 }
 
@@ -70,9 +72,7 @@ const
  * 
  * It is important to make the preparation : it means create an ObjectStorage
  * and a SubCommandParser for each object implemented. It's the aim of this
- * method.
- * 
- * Just by using the type of an useless pointer, it creates what is needed.
+ * method. Just by using the type of an useless pointer, it creates what is needed.
  */
 template < class T >
 void

@@ -7,7 +7,9 @@
 // ===== IOOF_OBJECT =====
 
 /*
- * 
+ * Interface for the OOF_OBJECT class: the aim is to define a common class
+ * in order to be saved by the Instance Manager. It also describes some
+ * attributes like the name or the code.
  */
 
 // ----- prior definition -----

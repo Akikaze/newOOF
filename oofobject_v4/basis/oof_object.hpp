@@ -8,7 +8,9 @@
 // ===== OOF_OBJECT =====
 
 /*
- * 
+ * OOF_OBJECT class : template class for every OOF's objects. Each
+ * specialization will become the mother class of a specfic type of object.
+ * For example, Microstructure will inherit from OOF_OBJECT< Microstructure >
  */
 
 // ----- class -----

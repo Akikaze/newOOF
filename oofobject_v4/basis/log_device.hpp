@@ -117,12 +117,6 @@ class LogDevice
 		///
 		void save( LOG_FLAG flags = LOG_FLAG::ALL ) ;
 		
-		///
-		/// \brief Save a a specific type of LOG_FLAG
-		/// \param flags LOG_FLAG
-		///
-		void save_flag( LOG_FLAG ) ; 
-	
 	protected :
 	
 		// --- CONSTRUCTORS ---
@@ -171,6 +165,12 @@ class LogDevice
 		/// \return String which represents the date
 		///
 		std::string format_date( const std::string & seconds ) const ;
+		
+		///
+		/// \brief Save a a specific type of LOG_FLAG
+		/// \param flags LOG_FLAG
+		///
+		void save_flag( LOG_FLAG ) ; 
 		
 		// --- ATTRIBUTES ---
 		std::string time_code_ ; ///< Time code of the LogDevice

@@ -1,7 +1,7 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
-#include "../basis/oof_object.hpp"
+#include "../../basis/oof_object.hpp"
 
 class Test
 : public OOF_OBJECT< Test >

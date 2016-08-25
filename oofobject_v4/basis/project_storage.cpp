@@ -358,7 +358,6 @@ ProjectStorage::read_project_info
 	
 	std::getline( file, line ) ; // project_name_ - ???
 	
-	
 	if( nothing_stored_before )
 	{
 		// get the project name
