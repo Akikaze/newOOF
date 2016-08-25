@@ -460,6 +460,14 @@ ObjectStorage< T >::load
 	
 	if( file )
 	{
+		/*
+		 * maybe a mistake, if the object is already loaded, we are going to
+		 * have two objects with the same code but with different name.
+		 * 
+		 * Maybe we must forbid the possibility to have two objects with
+		 * the same code loaded.
+		 */
+		
 		// read header of the file with name and code
 		T * object = read_info( file ) ;
 		// read attributes of the object

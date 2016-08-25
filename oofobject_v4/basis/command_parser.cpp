@@ -55,6 +55,17 @@ CommandParser::parse
 	size_t pos = command.find( "." ) ;
 	std::string prefix = command.substr( 0, pos ) ;
 	
+	// check if the command belongs to the old version
+	if( prefix == "OOF" )
+	{
+		ld_->log( "The command belongs to the previous version.", LOG_FLAG::WARNING ) ;
+		
+		// withdraw OOF word and get the new prefix
+		command = command.substr( pos + 1 ) ;
+		pos = command.find( ".") .
+		prefix = command.substr( 0, pos ) ;
+	}
+	
 	// choose the right SubCommandParser thanks to the prefix
 	ISubCommandParser * iscp = map_parser_[prefix] ;
 	

@@ -157,7 +157,7 @@ class LogDevice
 		/// \param flags LOG_FLAG
 		/// \param Vector which contains logs
 		///
-		std::vector< Log > extract( LOG_FLAG flags = LOG_FLAG::ALL ) const ; // extract a specific flag
+		std::vector< Log > extract( LOG_FLAG flags = LOG_FLAG::ALL ) const ;
 		
 		///
 		/// \brief Transform a number of seconds into a date
