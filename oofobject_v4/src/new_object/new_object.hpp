@@ -1,7 +1,7 @@
 #ifndef NEW_OBJECT_HPP
 #define NEW_OBJECT_HPP
 
-#include "../../basis/oof_object.hpp"
+#include "../basis/oof_object.hpp"
 
 class NewObject
 : public OOF_OBJECT< NewObject >

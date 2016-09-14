@@ -15,7 +15,7 @@ SRC     =   std.cpp \
 			test.cpp \
   
 OBJ     =   $(SRC:.cpp=.o)
-EXEC    =   ../prog
+EXEC    =   ../newOOF
   
 # EXECUTION
 all: $(EXEC)
@@ -25,10 +25,10 @@ $(EXEC): $(OBJ)
 	$(LINK.cc)  $(LOADLIBES) $(LDLIBS) -o $@ $^
   
 # FABRICATION DES (.o) A PARTIR DES (.cpp)
-%.o: ../basis/%.cpp
+%.o: ../src/%.cpp
 	$(COMPILE.cc) $<
 
-%.o: ../src/%.cpp
+%.o: ../src/*/%.cpp
 	$(COMPILE.cc) $<
 
 # CLEAN

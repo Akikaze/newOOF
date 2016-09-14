@@ -10,6 +10,7 @@ std::string Config::__DIR__ = "" ; // main directory
 std::string Config::__LOG__ = "" ; // log directory in __DIR__
 std::string Config::__PROJECT__ = "" ; // project directory in __DIR__
 std::string Config::__SESSION__ = "" ; // time code for the SESSION
+unsigned int Config::__DIMENSION__ = 0 ; // dimension for the project
 
 // --- CONSTRUCTORS ---
 
@@ -45,6 +46,7 @@ Config::default_config
 	__DIR__ = std::string( std::getenv( "PWD" ) ) ; // $PWD
 	__LOG__ = ".logs/" ; // $PWD/.logs/
 	__PROJECT__ = "projects/" ; // $PWD/projects/
+	__DIMENSION__ = 3 ; // 3D by default
 }
 
 bool
@@ -94,6 +96,13 @@ Config::read_config
 		line = line.substr( pos + 1 ) ;
 		result &= !( line.empty() ) ; // false if empty
 		__PROJECT__ = line ;
+		
+		// __DIMENSION__
+		std::getline( file, line ) ;
+		pos = line.find( " " ) ;
+		line = line.substr( pos + 1 ) ;
+		result &= !( line.empty() ) ; // false if empty
+		__DIMENSION__ = std::stoi( line ) ;
 		
 		file.close() ;
 		

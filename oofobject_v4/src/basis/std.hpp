@@ -4,8 +4,10 @@
 #include <algorithm>
 #include <array>
 #include <ctime>
+#include <deque>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <map>
 #include <vector>
 

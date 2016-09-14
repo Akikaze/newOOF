@@ -1,7 +1,5 @@
-#include "../basis/core.hpp"
-#include "test.hpp"
-
-#include <cstring>
+#include "basis/core.hpp"
+#include "test/test.hpp"
 
 int
 main
@@ -11,7 +9,6 @@ main
 )
 {
 	Core::construct() ;
-	
 	
 	Core::get_instance()->load() ;
 	

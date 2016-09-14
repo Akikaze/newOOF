@@ -13,18 +13,20 @@ class Config
 	public :
 		
 		// --- ATTRIBUTES ---
+		
 		static bool __DEBUG__ ; ///< Debug mode
 		static bool __OPENMP__ ; ///< Parallelization mode
 		static std::string __DIR__ ; ///< Path to the main directory
 		static std::string __LOG__ ; ///< Name of the directory for logs
 		static std::string __PROJECT__ ; ///< Name of the directory for the project
 		static std::string __SESSION__ ; ///< Time code for the session
+		static unsigned int __DIMENSION__ ; ///< Dimension (2D or 3D)
 		
 		///
 		/// \brief Change the value of the debug mode
 		///
 		inline void toggle_DEBUG()
-			{ __DEBUG__ = !( __DEBUG__ ) ; }	
+			{ __DEBUG__ = !( __DEBUG__ ) ; }
 		
 	protected :
 		

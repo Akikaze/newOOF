@@ -51,9 +51,12 @@ CommandParser::parse
 	const std::string & command
 )
 {
+	// work on a non-const variable
+	std::string com = command ;
+	
 	// take the prefix of the command
-	size_t pos = command.find( "." ) ;
-	std::string prefix = command.substr( 0, pos ) ;
+	size_t pos = com.find( "." ) ;
+	std::string prefix = com.substr( 0, pos ) ;
 	
 	// check if the command belongs to the old version
 	if( prefix == "OOF" )
@@ -61,9 +64,9 @@ CommandParser::parse
 		ld_->log( "The command belongs to the previous version.", LOG_FLAG::WARNING ) ;
 		
 		// withdraw OOF word and get the new prefix
-		command = command.substr( pos + 1 ) ;
-		pos = command.find( ".") .
-		prefix = command.substr( 0, pos ) ;
+		com = com.substr( pos + 1 ) ;
+		pos = com.find( ".") ;
+		prefix = com.substr( 0, pos ) ;
 	}
 	
 	// choose the right SubCommandParser thanks to the prefix
@@ -72,11 +75,11 @@ CommandParser::parse
 	if( iscp == nullptr )
 	{
 		// invalid prefix
-		ld_->log( "Command " + command + " doesn't have a valid prefix", LOG_FLAG::ERROR ) ;
+		ld_->log( "Command " + com + " doesn't have a valid prefix", LOG_FLAG::ERROR ) ;
 	}
 	else
 	{
 		// transfer the rest of the command to the SubCommandParser
-		iscp->parse( command.substr( pos + 1 ) ) ;
+		iscp->parse( com.substr( pos + 1 ) ) ;
 	}
 }
